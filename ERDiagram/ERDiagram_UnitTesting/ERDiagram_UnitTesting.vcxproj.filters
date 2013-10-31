@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\CommandPatternTest">
+      <UniqueIdentifier>{11db4950-2326-42e5-8e73-39b1aa9fb7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CommandPatternTest">
+      <UniqueIdentifier>{2114bc8f-430b-49ba-83cf-ad3ebbbbafb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ComponentFactoryTest">
+      <UniqueIdentifier>{f3cc9894-1dbb-41ed-a44f-ecbbf44d13f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ComponentFactoryTest">
+      <UniqueIdentifier>{afeff144-2c09-43c4-a6b4-63ea321159fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVCTest">
+      <UniqueIdentifier>{ac4a5b67-2801-4568-b65f-090d923ef5f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVCTest\ModelTest">
+      <UniqueIdentifier>{3c55d6c6-3333-4d7c-a23f-06a1543f899b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVCTest\PresentationModelTest">
+      <UniqueIdentifier>{97f6668a-9ebd-408c-adca-6d7f98139c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Toolkit">
+      <UniqueIdentifier>{a323cda6-6fff-45e3-bf33-3dfbc5c32e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVCTest">
+      <UniqueIdentifier>{4471c79e-9e32-4658-8ec4-fa627cc5ddf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVCTest\ModelTest">
+      <UniqueIdentifier>{2d1b7c8e-d5ff-4951-93ba-1a547a777a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVCTest\PresentationModelTest">
+      <UniqueIdentifier>{be5aac5b-836b-4ccd-9c64-a57eeeb08f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Toolkit">
+      <UniqueIdentifier>{ea0d09c3-60a4-4edb-bc61-df27a9542d79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\ComponentFactory">
+      <UniqueIdentifier>{77f1747a-0fea-4d3e-a757-14b8bc4d78cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\MVC">
+      <UniqueIdentifier>{8d0142b5-daed-4746-9844-a0cc57b6af7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Toolkit">
+      <UniqueIdentifier>{678dee80-6468-471a-84c3-3c9837d714aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\MVC\Model">
+      <UniqueIdentifier>{20903e12-692a-42a3-95e3-d4c20d17f76d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\MVC\PresentationModel">
+      <UniqueIdentifier>{2338fe6e-85be-476a-81aa-03fe05bd7eec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\CommandPattern">
+      <UniqueIdentifier>{9f65673a-51e0-43c0-ab1f-854198425708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\MVC\View">
+      <UniqueIdentifier>{242839db-c02b-44b4-89b7-ad053a1a9e26}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntegrationTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddComponentCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandManagerTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectComponentsCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteComponentCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentFactoryTest.cpp">
+      <Filter>Source Files\ComponentFactoryTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTest.cpp">
+      <Filter>Source Files\ComponentFactoryTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectorTest.cpp">
+      <Filter>Source Files\ComponentFactoryTest</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeAttributeTest.cpp">
+      <Filter>Source Files\ComponentFactoryTest</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeEntityTest.cpp">
+      <Filter>Source Files\ComponentFactoryTest</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeRelationshipTest.cpp">
+      <Filter>Source Files\ComponentFactoryTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ERModelTest.cpp">
+      <Filter>Source Files\MVCTest\ModelTest</Filter>
+    </ClCompile>
+    <ClCompile Include="PresentationModelTest.cpp">
+      <Filter>Source Files\MVCTest\PresentationModelTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolkitTest.cpp">
+      <Filter>Source Files\Toolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\AddComponentCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\Command.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\CommandManager.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\ConnectComponentsCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\DeleteComponentCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\Component.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\ComponentFactory.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\Connector.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\Node.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\NodeAttribute.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\NodeEntity.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\NodeRelationship.cpp">
+      <Filter>Resource Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\ERModel.cpp">
+      <Filter>Resource Files\MVC\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\PresentationModel.cpp">
+      <Filter>Resource Files\MVC\PresentationModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\TextUI.cpp">
+      <Filter>Resource Files\MVC\View</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\Toolkit.cpp">
+      <Filter>Resource Files\Toolkit</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IntegrationTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddComponentCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManagerTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectComponentsCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteComponentCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentFactoryTest.h">
+      <Filter>Header Files\ComponentFactoryTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTest.h">
+      <Filter>Header Files\ComponentFactoryTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectorTest.h">
+      <Filter>Header Files\ComponentFactoryTest</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeAttributeTest.h">
+      <Filter>Header Files\ComponentFactoryTest</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeEntityTest.h">
+      <Filter>Header Files\ComponentFactoryTest</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeRelationshipTest.h">
+      <Filter>Header Files\ComponentFactoryTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ERModelTest.h">
+      <Filter>Header Files\MVCTest\ModelTest</Filter>
+    </ClInclude>
+    <ClInclude Include="PresentationModelTest.h">
+      <Filter>Header Files\MVCTest\PresentationModelTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolkitTest.h">
+      <Filter>Header Files\Toolkit</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

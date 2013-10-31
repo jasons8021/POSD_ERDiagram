@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Source Files\CommandPattern">
+      <UniqueIdentifier>{1b9ff33b-c94d-4590-91b7-f62c983c8d71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CommandPattern">
+      <UniqueIdentifier>{8515795b-94e3-42ad-9cff-401f440e20f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ComponentFactory">
+      <UniqueIdentifier>{e21c6928-cb44-4e4a-a0cb-2be32d74c811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ComponentFactory">
+      <UniqueIdentifier>{16ada5ed-5d9c-4de5-9764-3b06bc066c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC">
+      <UniqueIdentifier>{17a239fb-2417-4b4b-a0a3-fc6b62ce400b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC">
+      <UniqueIdentifier>{ac39d55c-03e6-4474-bebe-9586d9830cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\Model">
+      <UniqueIdentifier>{5b81df11-ac6c-414a-9c20-2f5a4c6d68d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\View">
+      <UniqueIdentifier>{6656e2da-f645-4fe0-a758-731052a5002a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\PresentationModel">
+      <UniqueIdentifier>{8e18121f-077d-4041-9f93-4cc663c9615c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\Model">
+      <UniqueIdentifier>{4bac2ef4-556c-47b7-994f-e280eb8d038e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\View">
+      <UniqueIdentifier>{27a7402e-2749-4895-8495-7cf08fc45a73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\PresentationModel">
+      <UniqueIdentifier>{80bce4d2-1e92-4d15-be25-154a955010b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Toolkit">
+      <UniqueIdentifier>{415ef864-ef88-4835-9bcb-e46200caf9cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Toolkit">
+      <UniqueIdentifier>{63facceb-f5ff-4bc8-bb0c-a13db6951029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{595d69b4-4b16-4bec-a696-9e419ceb0534}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{a6069e37-6f4e-4015-88fd-21603b8bf4d3}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\MVC\View\GUI Item">
+      <UniqueIdentifier>{ef880854-d09a-40bc-a943-3e68a65b818b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\View\GUI Item">
+      <UniqueIdentifier>{0218c9c6-f37f-4787-91d2-1f88c9defe65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddComponentCmd.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandManager.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectComponentsCmd.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteComponentCmd.cpp">
+      <Filter>Source Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentFactory.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Connector.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeAttribute.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeEntity.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeRelationship.cpp">
+      <Filter>Source Files\ComponentFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ERModel.cpp">
+      <Filter>Source Files\MVC\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TextUI.cpp">
+      <Filter>Source Files\MVC\View</Filter>
+    </ClCompile>
+    <ClCompile Include="PresentationModel.cpp">
+      <Filter>Source Files\MVC\PresentationModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Toolkit.cpp">
+      <Filter>Source Files\Toolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Source Files\MVC\View</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GUI.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GUI.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ERDiagramScene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ERDiagramScene.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="ERDiagramScene.cpp">
+      <Filter>Source Files\MVC\View</Filter>
+    </ClCompile>
+    <ClCompile Include="ERDiagramMessageBoxManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityItem.cpp">
+      <Filter>Source Files\MVC\View\GUI Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentItem.cpp">
+      <Filter>Source Files\MVC\View\GUI Item</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributeItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddComponentCmd.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManager.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectComponentsCmd.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteComponentCmd.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentFactory.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Connector.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeAttribute.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeEntity.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeRelationship.h">
+      <Filter>Header Files\ComponentFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ERModel.h">
+      <Filter>Header Files\MVC\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PresentationModel.h">
+      <Filter>Header Files\MVC\PresentationModel</Filter>
+    </ClInclude>
+    <ClInclude Include="TextUI.h">
+      <Filter>Header Files\MVC\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Toolkit.h">
+      <Filter>Header Files\Toolkit</Filter>
+    </ClInclude>
+    <ClInclude Include="ERDiagramMessageBoxManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityItem.h">
+      <Filter>Header Files\MVC\View\GUI Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentItem.h">
+      <Filter>Header Files\MVC\View\GUI Item</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributeItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="GUI.h">
+      <Filter>Header Files\MVC\View</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ERDiagramScene.h">
+      <Filter>Header Files\MVC\View</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
