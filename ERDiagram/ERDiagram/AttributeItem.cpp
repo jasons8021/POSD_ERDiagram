@@ -2,15 +2,7 @@
 
 AttributeItem::AttributeItem()
 {
-// 	QVector<QPointF> circleCoordinate;
-// 	{
-// 		circleCoordinate.push_back(QPointF(25,  25));
-// 		circleCoordinate.push_back(QPointF(25, -25));
-// 		circleCoordinate.push_back(QPointF(-25, -25));
-// 		circleCoordinate.push_back(QPointF(-25, 25));
-// 		circleCoordinate.push_back(QPointF(25, 25));
-// 	}
-// 	_qPainterPath.addPolygon(QPolygonF(rectangleCoordinate));
+	_qPainterPath.addEllipse(QRect( 0, 0, 100, 80 ));
 }
 
 AttributeItem::~AttributeItem()
@@ -29,19 +21,7 @@ QPainterPath AttributeItem::sharp()
 
 void AttributeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-// 	QPen pen = painter->pen();
-// 	pen.setCosmetic(true);
-// 	pen.setWidth(5);
-// 	pen.setColor(QColor(Qt::red));
-// 	painter->setPen(pen);
-// 	QBrush brush = painter->brush();
-// 	brush.setStyle(Qt::SolidPattern);
-// 	painter->setBrush(brush);
-
-	painter->drawEllipse(0,0,100,75);
-}
-
-void AttributeItem::hello()
-{
-
+	// painter->drawRect(QRect( 10, 10, 100, 80 ));
+	// 在一個方形中畫一個橢圓，0,0為方形左上角的座標，100為寬、80為高
+	painter->drawEllipse( QRect( 0, 0, 100, 80 ) );
 }

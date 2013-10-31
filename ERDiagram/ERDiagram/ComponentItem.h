@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QStyleOption>
 #include <QWidget>
+#include <QLabel>
 
 class ComponentItem : public QGraphicsItem
 {
@@ -16,6 +17,7 @@ public:
 	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* ) = 0;
 protected:
 	QPainterPath _qPainterPath;
+	QLabel* _qLabel;
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef ATTRIBUTEITEM_H_
-#define ATTRIBUTEITEM_H_
+#ifndef RELATIONSHIPITEM_H_
+#define RELATIONSHIPITEM_H_
 
 #include <QRect>
 #include <QPainter>
@@ -8,11 +8,11 @@
 #include <QPainterPath>
 #include "ComponentItem.h"
 
-class AttributeItem : public ComponentItem
+class RelationshipItem : public ComponentItem
 {
 public:
-	AttributeItem();
-	virtual ~AttributeItem();
+	RelationshipItem(QPointF, QPointF);
+	virtual ~RelationshipItem();
 	QRectF boundingRect() const;
 	QPainterPath sharp();
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );

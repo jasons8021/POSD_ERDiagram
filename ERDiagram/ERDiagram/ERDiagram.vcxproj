@@ -113,6 +113,7 @@
     <ClCompile Include="NodeEntity.cpp" />
     <ClCompile Include="NodeRelationship.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
+    <ClCompile Include="RelationshipItem.cpp" />
     <ClCompile Include="TextUI.cpp" />
     <ClCompile Include="Toolkit.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="NodeEntity.h" />
     <ClInclude Include="NodeRelationship.h" />
     <ClInclude Include="PresentationModel.h" />
+    <ClInclude Include="RelationshipItem.h" />
     <ClInclude Include="TextUI.h" />
     <ClInclude Include="Toolkit.h" />
   </ItemGroup>

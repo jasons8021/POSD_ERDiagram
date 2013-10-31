@@ -13,6 +13,7 @@
 #include "PresentationModel.h"
 #include "EntityItem.h"
 #include "AttributeItem.h"
+#include "RelationshipItem.h"
 
 QT_BEGIN_NAMESPACE
 class DiagramScene;
@@ -48,6 +49,7 @@ private:
 	// Item
 	EntityItem* _entityItem;
 	AttributeItem* _attributeItem;
+	RelationshipItem* _relationshipItem;
 
 	PresentationModel* _presentationModel;
 };
