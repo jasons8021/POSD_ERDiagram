@@ -11,15 +11,16 @@
 class AttributeItem : public ComponentItem
 {
 public:
-	AttributeItem();
+	AttributeItem(QString);
 	virtual ~AttributeItem();
 	QRectF boundingRect() const;
-	QPainterPath shape();
+	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void setPrimaryKey(bool);
 	bool getPrimaryKey();
 private:
 	bool _isPrimaryKey;
+	QString _attributeText;
 };
 
 #endif

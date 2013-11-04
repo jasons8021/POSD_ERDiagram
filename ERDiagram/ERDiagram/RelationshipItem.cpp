@@ -20,7 +20,9 @@ RelationshipItem::RelationshipItem( QPointF sourceComponentItem, QPointF destion
 	qDebug()<<_sourceComponentItem;
 	qDebug()<<_destionationComponentItem;
 
-	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+ 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+// 	setFlag(QGraphicsItem::ItemIsSelectable, true);
+// 	setFlag(QGraphicsItem::ItemIsMovable, true);
 	setAcceptsHoverEvents(true);
 }
 
@@ -30,18 +32,11 @@ RelationshipItem::~RelationshipItem()
 
 QRectF RelationshipItem::boundingRect() const
 {
-	//qDebug()<<"in boundingRect"<<_qPainterPath;
 	return _qPainterPath.boundingRect();
 }
 
-QPainterPath RelationshipItem::shape()
+QPainterPath RelationshipItem::shape() const
 {
-	qDebug()<<"in Sharp"<<_qPainterPath;
-
-	QVector<QPointF> qPointSet;
-	qPointSet.push_back(_sourceComponentItem);
-	qPointSet.push_back(_destionationComponentItem);
-	_qPainterPath.addPolygon(qPointSet);
 	return _qPainterPath;
 }
 

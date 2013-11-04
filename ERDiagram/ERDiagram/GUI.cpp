@@ -12,16 +12,12 @@ GUI::GUI(PresentationModel* presentationModel)
 	_relationshipItem = new RelationshipItem(QPointF(200,200),QPointF(500,500));
 	_relationshipItem->translate(0, 0);
 	_scene->addItem(_relationshipItem);
-	if (_relationshipItem->isSelected())
-	{
-		qDebug()<<"be selected";
-	}
 
-	_entityItem = new EntityItem();
+	_entityItem = new EntityItem(QString::fromLocal8Bit("hello qstring E"));
 	_entityItem->translate(400, 300);
 	_scene->addItem(_entityItem);
 
-	_attributeItem = new AttributeItem();
+	_attributeItem = new AttributeItem(QString::fromLocal8Bit("hello qstring A"));
 	_attributeItem->translate(400, 300);
 	_scene->addItem(_attributeItem);
 

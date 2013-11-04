@@ -14,11 +14,13 @@
 class EntityItem : public ComponentItem
 {
 public:
-	EntityItem();
+	EntityItem(QString);
 	virtual ~EntityItem();
 	QRectF boundingRect() const;
-	QPainterPath shape();
+	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
+private:
+	QString _entityText;
 };
 
 #endif
