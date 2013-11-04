@@ -14,8 +14,12 @@ public:
 	AttributeItem();
 	virtual ~AttributeItem();
 	QRectF boundingRect() const;
-	QPainterPath sharp();
+	QPainterPath shape();
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
+	void setPrimaryKey(bool);
+	bool getPrimaryKey();
+private:
+	bool _isPrimaryKey;
 };
 
 #endif

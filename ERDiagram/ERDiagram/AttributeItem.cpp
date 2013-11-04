@@ -3,6 +3,8 @@
 AttributeItem::AttributeItem()
 {
 	_qPainterPath.addEllipse(QRect( 0, 0, 100, 80 ));
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	setAcceptsHoverEvents(true);
 }
 
 AttributeItem::~AttributeItem()
@@ -14,7 +16,7 @@ QRectF AttributeItem::boundingRect() const
 	return _qPainterPath.boundingRect();
 }
 
-QPainterPath AttributeItem::sharp()
+QPainterPath AttributeItem::shape()
 {
 	return _qPainterPath;
 }
@@ -24,4 +26,14 @@ void AttributeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* op
 	// painter->drawRect(QRect( 10, 10, 100, 80 ));
 	// 在一個方形中畫一個橢圓，0,0為方形左上角的座標，100為寬、80為高
 	painter->drawEllipse( QRect( 0, 0, 100, 80 ) );
+}
+
+void AttributeItem::setPrimaryKey( bool isPrimaryKey )
+{
+	_isPrimaryKey = isPrimaryKey;
+}
+
+bool AttributeItem::getPrimaryKey()
+{
+	return _isPrimaryKey;
 }

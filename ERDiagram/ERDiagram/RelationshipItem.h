@@ -14,8 +14,14 @@ public:
 	RelationshipItem(QPointF, QPointF);
 	virtual ~RelationshipItem();
 	QRectF boundingRect() const;
-	QPainterPath sharp();
+	QPainterPath shape();
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
+// 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
+// 	void mousePressEvent(QGraphicsSceneMouseEvent*);
+// 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+private:
+	QPointF _sourceComponentItem;
+	QPointF _destionationComponentItem;
 };
 
 #endif

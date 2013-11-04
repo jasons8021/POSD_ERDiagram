@@ -9,20 +9,19 @@ GUI::GUI(PresentationModel* presentationModel)
 	_scene = new ERDiagramScene(this);
 	_scene->setSceneRect(QRectF(0, 0, 800, 600));
 
-	_relationshipItem = new RelationshipItem(QPointF(300,300),QPointF(500,500));
-	_relationshipItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-	_relationshipItem->setAcceptsHoverEvents(true);
+	_relationshipItem = new RelationshipItem(QPointF(200,200),QPointF(500,500));
+	_relationshipItem->translate(0, 0);
 	_scene->addItem(_relationshipItem);
+	if (_relationshipItem->isSelected())
+	{
+		qDebug()<<"be selected";
+	}
 
 	_entityItem = new EntityItem();
-	_entityItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-	_entityItem->setAcceptsHoverEvents(true);
 	_entityItem->translate(400, 300);
 	_scene->addItem(_entityItem);
 
 	_attributeItem = new AttributeItem();
-	_attributeItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-	_attributeItem->setAcceptsHoverEvents(true);
 	_attributeItem->translate(400, 300);
 	_scene->addItem(_attributeItem);
 

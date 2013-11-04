@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QPainterPath>
 #include <QString>
+#include <QtGui>
 #include "ComponentItem.h"
 
 
@@ -16,11 +17,8 @@ public:
 	EntityItem();
 	virtual ~EntityItem();
 	QRectF boundingRect() const;
-	QPainterPath sharp();
+	QPainterPath shape();
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
-
-private:
-	QString  hello;
 };
 
 #endif

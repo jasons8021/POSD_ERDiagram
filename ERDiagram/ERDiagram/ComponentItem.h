@@ -13,7 +13,7 @@ public:
 	ComponentItem();
 	virtual ~ComponentItem();
 	virtual QRectF boundingRect() const = 0;
-	virtual QPainterPath sharp() = 0;
+	virtual QPainterPath shape() = 0;
 	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* ) = 0;
 protected:
 	QPainterPath _qPainterPath;
