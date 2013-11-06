@@ -1,6 +1,8 @@
 #ifndef ENTITYITEM_H_
 #define ENTITYITEM_H_
 
+#define PARAMETER_ENTITYITEMSHAPE "Rectangle"
+
 #include <QRect>
 #include <QPainter>
 #include <QStyleOption>
@@ -14,13 +16,14 @@
 class EntityItem : public ComponentItem
 {
 public:
-	EntityItem(QString);
+	EntityItem(int, int, QString);
 	virtual ~EntityItem();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
+	void paintText(QPainter*);
 private:
-	QString _entityText;
+	
 };
 
 #endif

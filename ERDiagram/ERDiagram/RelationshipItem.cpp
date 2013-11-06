@@ -1,28 +1,25 @@
 #include "RelationshipItem.h"
-#include "ERDiagramMessageBoxManager.h"
-#include <QPen>
-#include <QLineF>
-#include <QtGui>
-#include <QGraphicsLineItem>
-#include "..\src\corelib\io\qdebug.h"
 
 RelationshipItem::RelationshipItem( QPointF sourceComponentItem, QPointF destionationComponentItem )
 {
 	_sourceComponentItem = sourceComponentItem;
 	_destionationComponentItem = destionationComponentItem;
 
-	QVector<QPointF> qPointSet;
-	qPointSet.push_back(_sourceComponentItem);
-	qPointSet.push_back(_destionationComponentItem);
-	_qPainterPath.addPolygon(qPointSet);
+// 	QVector<QPointF> qPointSet;
+// 	qPointSet.push_back(_sourceComponentItem);
+// 	qPointSet.push_back(_destionationComponentItem);
+// 	_qPainterPath.addPolygon(qPointSet);
 
-	qDebug()<<_qPainterPath;
-	qDebug()<<_sourceComponentItem;
-	qDebug()<<_destionationComponentItem;
+	
+	_text = "1";
+	QFont textFont;
+	QFontMetrics fm(textFont);
+	_textWidth = fm.width(_text);
 
+	_textBoundingRectangle = QRect(100, 500, _textWidth + 100, 80);
+	qDebug()<<_textBoundingRectangle;
+	_qPainterPath.addRect(QRect(100, 500, _textWidth + 100, 0.5));
  	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-// 	setFlag(QGraphicsItem::ItemIsSelectable, true);
-// 	setFlag(QGraphicsItem::ItemIsMovable, true);
 	setAcceptsHoverEvents(true);
 }
 
@@ -42,8 +39,19 @@ QPainterPath RelationshipItem::shape() const
 
 void RelationshipItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
+	painter->setBrush(Qt::black);
 	painter->drawPath(_qPainterPath);
-	//painter->drawRect(boundingRect());
+
+	// ¼g¦r
+	QFont font;
+	font.setStyleHint(QFont::Times, QFont::PreferAntialias);
+	font.setBold(true);
+	font.setPointSize(18);
+
+	painter->setRenderHint(QPainter::Antialiasing);
+	//painter->setBrush(Qt::black);
+	painter->setFont(font);
+	painter->drawText( _textBoundingRectangle, Qt::TextWordWrap | Qt::AlignCenter, _text);
 }
 // 
 // void RelationshipItem::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)

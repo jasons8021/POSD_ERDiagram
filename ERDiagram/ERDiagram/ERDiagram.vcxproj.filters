@@ -175,6 +175,9 @@
     <ClCompile Include="RelationshipItem.cpp">
       <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
     </ClCompile>
+    <ClCompile Include="ConnectionItem.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -238,6 +241,9 @@
       <Filter>Header Files\MVC\View\TextUI</Filter>
     </ClInclude>
     <ClInclude Include="RelationshipItem.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionItem.h">
       <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
     </ClInclude>
   </ItemGroup>

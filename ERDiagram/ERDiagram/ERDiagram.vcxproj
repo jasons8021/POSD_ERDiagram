@@ -88,6 +88,7 @@
     <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="ComponentItem.cpp" />
     <ClCompile Include="ConnectComponentsCmd.cpp" />
+    <ClCompile Include="ConnectionItem.cpp" />
     <ClCompile Include="Connector.cpp" />
     <ClCompile Include="DeleteComponentCmd.cpp" />
     <ClCompile Include="EntityItem.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="ComponentItem.h" />
     <ClInclude Include="ConnectComponentsCmd.h" />
+    <ClInclude Include="ConnectionItem.h" />
     <ClInclude Include="Connector.h" />
     <ClInclude Include="DeleteComponentCmd.h" />
     <CustomBuild Include="ERDiagramScene.h">

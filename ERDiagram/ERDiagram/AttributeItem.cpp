@@ -1,12 +1,12 @@
 #include "AttributeItem.h"
+#include <QDebug>
 
-AttributeItem::AttributeItem( QString attributeText )
+AttributeItem::AttributeItem( int sx, int sy, QString attributeText ) : ComponentItem( sx, sy, attributeText )
 {
-	_attributeText = attributeText;
-	_qPainterPath.addEllipse(QRect( 0, 0, 100, 80 ));
-	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	ComponentItem::setPath(PARAMETER_ATTRIBUTEITEMSHAPE);
+	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
 	setAcceptsHoverEvents(true);
-	_isPrimaryKey = false;
+	_isPrimaryKey = true;
 }
 
 AttributeItem::~AttributeItem()
@@ -25,22 +25,15 @@ QPainterPath AttributeItem::shape() const
 
 void AttributeItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	// painter->drawRect(QRect( 10, 10, 100, 80 ));
-	// 在一個方形中畫一個橢圓，0,0為方形左上角的座標，100為寬、80為高
-	painter->drawEllipse( QRect( 0, 0, 100, 80 ) );
+	painter->setBrush(Qt::white);
+	painter->drawPath(_qPainterPath);
+	paintText(painter);
+	paintBorder(painter, PARAMETER_ATTRIBUTEITEMSHAPE);
+}
 
-	// 寫字
-	QFont font;
-	font.setStyleHint(QFont::Times, QFont::PreferAntialias);
-	if(_isPrimaryKey)
-		font.setUnderline(true);
-	font.setBold(true);
-	font.setPointSize(18);
-
-	painter->setRenderHint(QPainter::Antialiasing);
-	painter->setBrush(Qt::black);
-	painter->setFont(font);
-	painter->drawText( QRect( 30, 20, 200, 60 ), Qt::TextWordWrap, _attributeText);
+void AttributeItem::paintText(QPainter* painter)
+{
+	ComponentItem::paintText(painter, _isPrimaryKey);
 }
 
 void AttributeItem::setPrimaryKey( bool isPrimaryKey )

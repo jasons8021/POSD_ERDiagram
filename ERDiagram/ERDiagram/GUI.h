@@ -14,6 +14,7 @@
 #include "EntityItem.h"
 #include "AttributeItem.h"
 #include "RelationshipItem.h"
+#include "ConnectionItem.h"
 
 QT_BEGIN_NAMESPACE
 class DiagramScene;
@@ -50,6 +51,7 @@ private:
 	EntityItem* _entityItem;
 	AttributeItem* _attributeItem;
 	RelationshipItem* _relationshipItem;
+	ConnectionItem* _connectionItem;
 
 	PresentationModel* _presentationModel;
 };
