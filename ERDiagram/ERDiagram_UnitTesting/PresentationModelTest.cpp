@@ -257,3 +257,60 @@ TEST_F(PresentationModelTest, redo_TextUI)
 	EXPECT_EQ("Undo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n\n", _presentationModel->undo_TextUI());
 	EXPECT_EQ("Redo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n  A   |  10   |  CmdA10\n------------------------------------\n\n", _presentationModel->redo_TextUI());
 }
+
+TEST_F(PresentationModelTest, getComponent_GUI)
+{
+	string allTypeResult = "A,A0;";
+	allTypeResult += "E,E1;";
+	allTypeResult += "R,R2;";
+	allTypeResult += "A,A3;";
+	allTypeResult += "A,A4;";
+	allTypeResult += "A,A5;";
+	allTypeResult += "E,E6;";
+	allTypeResult += "R,R7;";
+	allTypeResult += "E,E8;";
+	allTypeResult += "E,E9";
+
+	EXPECT_EQ(allTypeResult, _presentationModel->getComponent_GUI());
+
+	while(_erModel->_components.size() > 0 )
+		_erModel->_components.pop_back();
+	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getComponent_GUI());
+}
+
+TEST_F(PresentationModelTest, getConnection_GUI)
+{
+	// 一開始connections是空的沒東西，用來判斷大小為0的情況
+	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getConnection_GUI());
+
+	string resultTwoConnection = "0,1,;";
+	resultTwoConnection += "5,6,";
+
+	string resultFourConnection = resultTwoConnection;
+	resultFourConnection += ";1,2,1;";
+	resultFourConnection += "7,8,N";
+
+	// 加入兩個Connection後，有兩個連結
+	EXPECT_EQ(10, _erModel->addConnection(10, 0, 1, ""));
+	EXPECT_EQ(11, _erModel->addConnection(11, 5, 6, ""));
+	EXPECT_EQ(resultTwoConnection, _presentationModel->getConnection_GUI());
+
+	// 再加入兩個Connection後，有四個連結
+	EXPECT_EQ(12, _erModel->addConnection(12, 1, 2, "1"));
+	EXPECT_EQ(13, _erModel->addConnection(13, 7, 8, "N"));
+	EXPECT_EQ(resultFourConnection, _presentationModel->getConnection_GUI());
+}
+
+TEST_F(PresentationModelTest, getPrimaryKey_GUI)
+{
+	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getPrimaryKey_GUI());
+
+	vector<int> primaryKeys;
+
+	// 加入PK
+	primaryKeys.push_back(0);
+	primaryKeys.push_back(3);
+	primaryKeys.push_back(4);
+	_erModel->setPrimaryKey(1, primaryKeys);
+	EXPECT_EQ("0,3,4", _presentationModel->getPrimaryKey_GUI());
+}

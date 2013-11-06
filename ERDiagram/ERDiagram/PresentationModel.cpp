@@ -331,3 +331,18 @@ string PresentationModel::redo_TextUI()
 
 	return result;
 }
+
+string PresentationModel::getComponent_GUI()
+{
+	return _erModel->getComponentForGUI();
+}
+
+string PresentationModel::getConnection_GUI()
+{
+	return _erModel->getConnectionForGUI();
+}
+
+string PresentationModel::getPrimaryKey_GUI()
+{
+	return _erModel->getPrimaryKeyForGUI();
+}

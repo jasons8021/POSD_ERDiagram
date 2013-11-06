@@ -74,9 +74,6 @@
     <Filter Include="Header Files\MVC\View\GUI">
       <UniqueIdentifier>{c263e50b-0ea7-4d88-b7b0-889d2256f201}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MVC\View\GUI\GUI Item">
-      <UniqueIdentifier>{ef880854-d09a-40bc-a943-3e68a65b818b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\MVC\View\TextUI">
       <UniqueIdentifier>{a53dd02d-4f03-455a-ac95-9deaed2b61ac}</UniqueIdentifier>
     </Filter>
@@ -86,7 +83,10 @@
     <Filter Include="Source Files\MVC\View\GUI">
       <UniqueIdentifier>{2c2d8c7a-ce9a-419f-b9f3-18acfee0256a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MVC\View\GUI\GUI Item">
+    <Filter Include="Header Files\MVC\View\GUI\GUI Item Factory">
+      <UniqueIdentifier>{ef880854-d09a-40bc-a943-3e68a65b818b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\View\GUI\GUI Item Factory">
       <UniqueIdentifier>{0218c9c6-f37f-4787-91d2-1f88c9defe65}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -154,15 +154,6 @@
     <ClCompile Include="ERDiagramMessageBoxManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EntityItem.cpp">
-      <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentItem.cpp">
-      <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
-    </ClCompile>
-    <ClCompile Include="AttributeItem.cpp">
-      <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
-    </ClCompile>
     <ClCompile Include="ERDiagramScene.cpp">
       <Filter>Source Files\MVC\View\GUI</Filter>
     </ClCompile>
@@ -172,14 +163,23 @@
     <ClCompile Include="TextUI.cpp">
       <Filter>Source Files\MVC\View\TextUI</Filter>
     </ClCompile>
-    <ClCompile Include="RelationshipItem.cpp">
-      <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ConnectionItem.cpp">
-      <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
-    </ClCompile>
     <ClCompile Include="ItemFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemAttribute.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComponent.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemConnection.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemEntity.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemRelationship.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,26 +231,26 @@
     <ClInclude Include="ERDiagramMessageBoxManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EntityItem.h">
-      <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentItem.h">
-      <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
-    </ClInclude>
-    <ClInclude Include="AttributeItem.h">
-      <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
-    </ClInclude>
     <ClInclude Include="TextUI.h">
       <Filter>Header Files\MVC\View\TextUI</Filter>
     </ClInclude>
-    <ClInclude Include="RelationshipItem.h">
-      <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ConnectionItem.h">
-      <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
-    </ClInclude>
     <ClInclude Include="ItemFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemAttribute.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComponent.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemConnection.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemEntity.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRelationship.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

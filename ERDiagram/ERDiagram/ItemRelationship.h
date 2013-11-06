@@ -1,5 +1,5 @@
-#ifndef RELATIONSHIPITEM_H_
-#define RELATIONSHIPITEM_H_
+#ifndef ITEMRELATIONSHIP_H_
+#define ITEMRELATIONSHIP_H_
 
 #define PARAMETER_RELATIONSHIPITEMSHAPE "Diamond"
 
@@ -8,17 +8,19 @@
 #include <QStyleOption>
 #include <QWidget>
 #include <QPainterPath>
-#include "ComponentItem.h"
+#include "ItemComponent.h"
 
-class RelationshipItem : public ComponentItem
+class ItemRelationship : public ItemComponent
 {
 public:
-	RelationshipItem(int, int, QString);
-	virtual ~RelationshipItem();
+	ItemRelationship(int, int, QString);
+	virtual ~ItemRelationship();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void paintText(QPainter*);
+	void setPath(QVector<QPointF>);
+	void paintBorder(QPainter*);
 // 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 // 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 // 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);

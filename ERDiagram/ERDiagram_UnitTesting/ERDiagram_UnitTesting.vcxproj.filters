@@ -162,14 +162,14 @@
     <ClCompile Include="..\ERDiagram\ERModel.cpp">
       <Filter>Resource Files\MVC\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\ERDiagram\PresentationModel.cpp">
-      <Filter>Resource Files\MVC\PresentationModel</Filter>
-    </ClCompile>
     <ClCompile Include="..\ERDiagram\TextUI.cpp">
       <Filter>Resource Files\MVC\View</Filter>
     </ClCompile>
     <ClCompile Include="..\ERDiagram\Toolkit.cpp">
       <Filter>Resource Files\Toolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\PresentationModel.cpp">
+      <Filter>Resource Files\MVC\PresentationModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
-#ifndef COMPONENTITEM_H_
-#define COMPONENTITEM_H_
+#ifndef ITEMCOMPONENT_H_
+#define ITEMCOMPONENT_H_
 
 #define PARAMETER_ITEMHEIGHT 80
 #define PARAMETER_ADJUSTWIDTH 100
@@ -14,29 +14,26 @@
 #include <QStyleOption>
 #include <QWidget>
 #include <QLabel>
-#include <QDebug>
 #include <QRect>
 #include <QPainterPath>
 
-class ComponentItem : public QGraphicsItem
+class ItemComponent : public QGraphicsItem
 {
 public:
-	ComponentItem();
-	ComponentItem(int, int, QString);
-	virtual ~ComponentItem();
+	ItemComponent();
+	ItemComponent(int, int, QString);
+	virtual ~ItemComponent();
 
 	int getItemWidth();
 	void setItemWidth(int);
 	int getItemHeight();
 	void setItemHeight(int);
-	void setPath(QString);
-	void setPath(QVector<QPointF>);
  	QPointF getItemCenter();
-	void paintBorder(QPainter*, QString);
+	void setPaintBorderFont(QPainter*);
 	virtual void paintText(QPainter*, bool);
-	virtual QRectF boundingRect() const = 0;
-	virtual QPainterPath shape() const = 0;
-	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* ) = 0;
+	virtual QRectF boundingRect() const;
+	virtual QPainterPath shape() const;
+	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 protected:
 	int _itemWidth;
 	int _itemHeight;

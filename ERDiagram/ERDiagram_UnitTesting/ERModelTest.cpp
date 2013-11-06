@@ -1507,3 +1507,59 @@ TEST_F(ERModelTest, sortCompoentsAndConnection)
 	for (int i = 0; i < _erModel->_components.size(); i++)
 		EXPECT_EQ(testSortComponentsTextSet[i], _erModel->_components[i]->getText());
 }
+
+TEST_F(ERModelTest, getComponentForGUI)
+{
+	string allTypeResult = "A,A0;";
+	allTypeResult += "E,E1;";
+	allTypeResult += "R,R2;";
+	allTypeResult += "A,A3;";
+	allTypeResult += "A,A4;";
+	allTypeResult += "A,A5;";
+	allTypeResult += "E,E6;";
+	allTypeResult += "R,R7;";
+	allTypeResult += "E,E8;";
+	allTypeResult += "E,E9";
+
+	EXPECT_EQ(allTypeResult, _erModel->getComponentForGUI());
+
+	while(_erModel->_components.size() > 0 )
+		_erModel->_components.pop_back();
+	EXPECT_EQ(PARAMETER_NULL, _erModel->getComponentForGUI());
+}
+
+TEST_F(ERModelTest, getConnectionForGUI)
+{
+	// 一開始connections是空的沒東西，用來判斷大小為0的情況
+	EXPECT_EQ(PARAMETER_NULL, _erModel->getConnectionForGUI());
+
+	string resultTwoConnection = "0,1,;";
+	resultTwoConnection += "5,6,";
+
+	string resultFourConnection = resultTwoConnection;
+	resultFourConnection += ";1,2,1;";
+	resultFourConnection += "7,8,N";
+
+	// 加入兩個Connection後，有兩個連結
+	EXPECT_EQ(10, _erModel->addConnection(10, 0, 1, ""));
+	EXPECT_EQ(11, _erModel->addConnection(11, 5, 6, ""));
+	EXPECT_EQ(resultTwoConnection, _erModel->getConnectionForGUI());
+
+	// 再加入兩個Connection後，有四個連結
+	EXPECT_EQ(12, _erModel->addConnection(12, 1, 2, "1"));
+	EXPECT_EQ(13, _erModel->addConnection(13, 7, 8, "N"));
+	EXPECT_EQ(resultFourConnection, _erModel->getConnectionForGUI());
+}
+TEST_F(ERModelTest, getPrimaryKeyForGUI)
+{
+	EXPECT_EQ(PARAMETER_NULL, _erModel->getPrimaryKeyForGUI());
+
+	vector<int> primaryKeys;
+
+	// 加入PK
+	primaryKeys.push_back(0);
+	primaryKeys.push_back(3);
+	primaryKeys.push_back(4);
+	_erModel->setPrimaryKey(1, primaryKeys);
+	EXPECT_EQ("0,3,4", _erModel->getPrimaryKeyForGUI());
+}

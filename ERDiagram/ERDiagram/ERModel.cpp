@@ -866,3 +866,43 @@ void ERModel::setIsModify( bool isModify )
 {
 	_isModify = isModify;
 }
+
+//////////////////////////////////////////////////////////////////////////
+//								GUI Function							//
+//////////////////////////////////////////////////////////////////////////
+string ERModel::getComponentForGUI()
+{
+	string ComponentDataList;
+
+	for (int i = 0; i < _components.size(); i++)
+		ComponentDataList += _components[i]->getType() + COMMA + _components[i]->getText() + SEMICOLON;
+
+	return ComponentDataList.substr(0, ComponentDataList.size() + PARAMETER_ADJUSTSTRING);
+}
+
+string ERModel::getConnectionForGUI()
+{
+	string ConnectionDataList;
+
+	for (int i = 0; i < _connections.size(); i++){
+		ConnectionDataList += Toolkit::integerToString(static_cast<Connector*>(_connections[i])->getSourceNodeID()) + COMMA
+						   + Toolkit::integerToString(static_cast<Connector*>(_connections[i])->getDestinationNodeID()) + COMMA
+						   + _connections[i]->getText() + SEMICOLON;
+	}
+
+	return ConnectionDataList.substr(0, ConnectionDataList.size() + PARAMETER_ADJUSTSTRING);
+}
+
+string ERModel::getPrimaryKeyForGUI()
+{
+	string primaryKeyString;
+	vector<Component*> allAttributeNode = searchSpecificTypeComponentSet(PARAMETER_ATTRIBUTE, _components);
+
+	for (int i = 0; i < allAttributeNode.size(); i++) 
+	{
+		if (static_cast<NodeAttribute*>(allAttributeNode[i])->getIsPrimaryKey())
+			primaryKeyString += allAttributeNode[i]->getIDString() + COMMA;
+	}
+	return primaryKeyString.substr(0, primaryKeyString.size() + PARAMETER_ADJUSTSTRING);
+}
+

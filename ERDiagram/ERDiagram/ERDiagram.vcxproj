@@ -81,17 +81,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AddComponentCmd.cpp" />
-    <ClCompile Include="AttributeItem.cpp" />
+    <ClCompile Include="ItemAttribute.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
-    <ClCompile Include="ComponentItem.cpp" />
+    <ClCompile Include="ItemComponent.cpp" />
     <ClCompile Include="ConnectComponentsCmd.cpp" />
-    <ClCompile Include="ConnectionItem.cpp" />
+    <ClCompile Include="ItemConnection.cpp" />
     <ClCompile Include="Connector.cpp" />
     <ClCompile Include="DeleteComponentCmd.cpp" />
-    <ClCompile Include="EntityItem.cpp" />
+    <ClCompile Include="ItemEntity.cpp" />
     <ClCompile Include="ERDiagramMessageBoxManager.cpp" />
     <ClCompile Include="ERDiagramScene.cpp" />
     <ClCompile Include="ERModel.cpp" />
@@ -115,20 +115,20 @@
     <ClCompile Include="NodeEntity.cpp" />
     <ClCompile Include="NodeRelationship.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
-    <ClCompile Include="RelationshipItem.cpp" />
+    <ClCompile Include="ItemRelationship.cpp" />
     <ClCompile Include="TextUI.cpp" />
     <ClCompile Include="Toolkit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h" />
-    <ClInclude Include="AttributeItem.h" />
+    <ClInclude Include="ItemAttribute.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentFactory.h" />
-    <ClInclude Include="ComponentItem.h" />
+    <ClInclude Include="ItemComponent.h" />
     <ClInclude Include="ConnectComponentsCmd.h" />
-    <ClInclude Include="ConnectionItem.h" />
+    <ClInclude Include="ItemConnection.h" />
     <ClInclude Include="Connector.h" />
     <ClInclude Include="DeleteComponentCmd.h" />
     <CustomBuild Include="ERDiagramScene.h">
@@ -141,7 +141,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui"</Command>
     </CustomBuild>
-    <ClInclude Include="EntityItem.h" />
+    <ClInclude Include="ItemEntity.h" />
     <ClInclude Include="ERDiagramMessageBoxManager.h" />
     <ClInclude Include="ERModel.h" />
     <CustomBuild Include="GUI.h">
@@ -160,7 +160,7 @@
     <ClInclude Include="NodeEntity.h" />
     <ClInclude Include="NodeRelationship.h" />
     <ClInclude Include="PresentationModel.h" />
-    <ClInclude Include="RelationshipItem.h" />
+    <ClInclude Include="ItemRelationship.h" />
     <ClInclude Include="TextUI.h" />
     <ClInclude Include="Toolkit.h" />
   </ItemGroup>

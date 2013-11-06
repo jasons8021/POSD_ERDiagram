@@ -2,8 +2,8 @@
 #define ERDIAGRAMSCENE_H_
 
 #include <QGraphicsScene>
-#include "EntityItem.h"
-#include "ComponentItem.h"
+#include "ItemEntity.h"
+#include "ItemComponent.h"
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;

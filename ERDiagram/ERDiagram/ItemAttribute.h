@@ -1,5 +1,5 @@
-#ifndef ATTRIBUTEITEM_H_
-#define ATTRIBUTEITEM_H_
+#ifndef ItemAttribute_H_
+#define ItemAttribute_H_
 
 #define PARAMETER_ATTRIBUTEITEMSHAPE "Ellipse"
 
@@ -8,19 +8,21 @@
 #include <QStyleOption>
 #include <QWidget>
 #include <QPainterPath>
-#include "ComponentItem.h"
+#include "ItemComponent.h"
 
-class AttributeItem : public ComponentItem
+class ItemAttribute : public ItemComponent
 {
 public:
-	AttributeItem(int,int,QString);
-	virtual ~AttributeItem();
+	ItemAttribute(int,int,QString);
+	virtual ~ItemAttribute();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void paintText(QPainter*);
 	void setPrimaryKey(bool);
 	bool getPrimaryKey();
+	void setPath();
+	void paintBorder(QPainter*);
 private:
 	bool _isPrimaryKey;
 };

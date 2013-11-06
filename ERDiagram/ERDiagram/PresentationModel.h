@@ -100,9 +100,9 @@ class PresentationModel
 	FRIEND_TEST(PresentationModelTest, setPrimaryKeys_TextUI);
  	FRIEND_TEST(PresentationModelTest, displayERDiagramTable_TextUI);
  	FRIEND_TEST(PresentationModelTest, deleteComponent);
-// 	FRIEND_TEST(PresentationModelTest, );
-// 	FRIEND_TEST(PresentationModelTest, );
-// 	FRIEND_TEST(PresentationModelTest, );
+ 	FRIEND_TEST(PresentationModelTest, getComponent_GUI);
+ 	FRIEND_TEST(PresentationModelTest, getConnection_GUI);
+ 	FRIEND_TEST(PresentationModelTest, getPrimaryKey_GUI);
 public:
 	PresentationModel(ERModel*);
 	virtual ~PresentationModel();
@@ -127,6 +127,10 @@ public:
 	string undo_TextUI();
 	string redo_TextUI();
 	vector<int> splitPrimaryKey(string);
+	// GUI Function
+	string getComponent_GUI();
+	string getConnection_GUI();
+	string getPrimaryKey_GUI();
 private:
 	ERModel* _erModel;
 };

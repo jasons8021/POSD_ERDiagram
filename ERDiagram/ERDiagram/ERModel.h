@@ -18,6 +18,7 @@
 #define TEXT_COMMASPACE ", "
 #define TEXT_ENDLINE "\n"
 #define COMMA ","
+#define SEMICOLON ";"
 #define SPLITTERBYBACKSLASH "\\"
 
 #define PARAMETER_NULL ""
@@ -57,6 +58,8 @@
 #define PARAMETER_SEARCHNUMBEGIN 0
 
 #define PARAMETER_ISERROR -1
+
+#define PARAMETER_ADJUSTSTRING -1
 
 #include <iostream>
 #include <fstream>
@@ -119,6 +122,7 @@ class ERModel
 	FRIEND_TEST(ERModelTest, searchRelatedComponent);
 	FRIEND_TEST(ERModelTest, resetERModel);
 	FRIEND_TEST(ERModelTest, sortCompoentsAndConnection);
+	FRIEND_TEST(ERModelTest, getComponentForGUI);
 
 	friend class AddComponentCmdTest;
 	FRIEND_TEST(AddComponentCmdTest, execute);
@@ -145,7 +149,7 @@ class ERModel
 	FRIEND_TEST(PresentationModelTest, checkAttributeInEntity);
 	FRIEND_TEST(PresentationModelTest, setPrimaryKeys);
  	FRIEND_TEST(PresentationModelTest, displayERDiagramTable);
-// 	FRIEND_TEST(PresentationModelTest, );
+ 	FRIEND_TEST(PresentationModelTest, getComponent_GUI);
 // 	FRIEND_TEST(PresentationModelTest, );
 // 	FRIEND_TEST(PresentationModelTest, );
 // 	FRIEND_TEST(PresentationModelTest, );
@@ -213,6 +217,11 @@ public:
 	vector<Component*> searchRelatedComponent(int);
 	vector<vector<string>> classifyInputFile(string);
 	pair<string,vector<string>> splitter(string);
+
+	// GUI function
+	string getComponentForGUI();
+	string getConnectionForGUI();
+	string getPrimaryKeyForGUI();
 private:
 	int _componentID;
 	bool _isModify;
