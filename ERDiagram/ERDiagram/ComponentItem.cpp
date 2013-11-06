@@ -96,6 +96,8 @@ void ComponentItem::paintBorder( QPainter* painter, QString shapeType )
 			painter->drawRect(_textBoundingRectangle);
 		else if (shapeType == PARAMETER_ATTRIBUTEITEMSHAPE)
 			painter->drawEllipse(_textBoundingRectangle);
+		else if (shapeType == PARAMETER_RELATIONSHIPITEMSHAPE)
+			painter->drawPath(_qPainterPath);
 		else if (shapeType == PARAMETER_CONNECTIONITEMSHAPE)
 			painter->drawPath(_qPainterPath);
 	}

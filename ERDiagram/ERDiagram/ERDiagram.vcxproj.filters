@@ -178,6 +178,9 @@
     <ClCompile Include="ConnectionItem.cpp">
       <Filter>Source Files\MVC\View\GUI\GUI Item</Filter>
     </ClCompile>
+    <ClCompile Include="ItemFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="ConnectionItem.h">
       <Filter>Header Files\MVC\View\GUI\GUI Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemFactory.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

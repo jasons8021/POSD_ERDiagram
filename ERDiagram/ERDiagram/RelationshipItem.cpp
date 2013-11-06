@@ -1,26 +1,19 @@
 #include "RelationshipItem.h"
 
-RelationshipItem::RelationshipItem( QPointF sourceComponentItem, QPointF destionationComponentItem )
+RelationshipItem::RelationshipItem( int sx, int sy, QString relationshipText ) : ComponentItem( sx, sy, relationshipText )
 {
-	_sourceComponentItem = sourceComponentItem;
-	_destionationComponentItem = destionationComponentItem;
+	QVector<QPointF> pointSet;
+	pointSet.push_back(QPointF(sx, sy + (_itemHeight / 2)));
+	pointSet.push_back(QPointF(sx + (_itemWidth / 2), sy));
+	pointSet.push_back(QPointF(sx + _itemWidth, sy +  (_itemHeight / 2)));
+	pointSet.push_back(QPointF(sx + (_itemWidth / 2), sy + _itemHeight));
+	pointSet.push_back(QPointF(sx, sy + (_itemHeight / 2)));
 
-// 	QVector<QPointF> qPointSet;
-// 	qPointSet.push_back(_sourceComponentItem);
-// 	qPointSet.push_back(_destionationComponentItem);
-// 	_qPainterPath.addPolygon(qPointSet);
-
-	
-	_text = "1";
-	QFont textFont;
-	QFontMetrics fm(textFont);
-	_textWidth = fm.width(_text);
-
-	_textBoundingRectangle = QRect(100, 500, _textWidth + 100, 80);
-	qDebug()<<_textBoundingRectangle;
-	_qPainterPath.addRect(QRect(100, 500, _textWidth + 100, 0.5));
- 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	_qPainterPath.addPolygon(pointSet);
+	//ComponentItem::setPath(PARAMETER_RELATIONSHIPITEMSHAPE);
+	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
 	setAcceptsHoverEvents(true);
+	qDebug()<<_qPainterPath;
 }
 
 RelationshipItem::~RelationshipItem()
@@ -39,19 +32,15 @@ QPainterPath RelationshipItem::shape() const
 
 void RelationshipItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->setBrush(Qt::black);
+	painter->setBrush(Qt::white);
 	painter->drawPath(_qPainterPath);
+	paintText(painter);
+	paintBorder(painter, PARAMETER_RELATIONSHIPITEMSHAPE);
+}
 
-	// ¼g¦r
-	QFont font;
-	font.setStyleHint(QFont::Times, QFont::PreferAntialias);
-	font.setBold(true);
-	font.setPointSize(18);
-
-	painter->setRenderHint(QPainter::Antialiasing);
-	//painter->setBrush(Qt::black);
-	painter->setFont(font);
-	painter->drawText( _textBoundingRectangle, Qt::TextWordWrap | Qt::AlignCenter, _text);
+void RelationshipItem::paintText( QPainter* painter )
+{
+	ComponentItem::paintText(painter, false);
 }
 // 
 // void RelationshipItem::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)

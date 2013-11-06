@@ -28,6 +28,7 @@ class GUI:public QMainWindow
 public:
 	GUI(PresentationModel*);
 	virtual ~GUI();
+	void loadFile();
 
 	private slots:
 		void browse();

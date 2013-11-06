@@ -9,23 +9,8 @@ GUI::GUI(PresentationModel* presentationModel)
 	_scene = new ERDiagramScene(this);
 	_scene->setSceneRect(QRectF(0, 0, 800, 600));
 
-// 	_relationshipItem = new RelationshipItem(QPointF(200,200),QPointF(500,200));
-// 	_relationshipItem->translate(0, 0);
-// 	_scene->addItem(_relationshipItem);
-
+	loadFile();
 	
-
-	_entityItem = new EntityItem(500,150,QString::fromLocal8Bit("hello qstring E"));
-	_attributeItem = new AttributeItem(200, 300, QString::fromLocal8Bit("Enter the IDs Enter the IDs "));
-
-	_connectionItem = new ConnectionItem(_entityItem, _attributeItem);
-
-	_scene->addItem(_connectionItem);
-	_scene->addItem(_entityItem);
-	_scene->addItem(_attributeItem);
-
-	_scene->update();
-
 	QHBoxLayout *layout = new QHBoxLayout;
 	_view = new QGraphicsView(_scene);
 	layout->addWidget(_view);
@@ -75,4 +60,18 @@ void GUI::browse()
 		inputFileText = _presentationModel->loadERDiagram_TextUI(directory.toStdString());
 		ERDiagramMessageBoxManager::showMessageBox(inputFileText);
 	}
+}
+
+void GUI::loadFile()
+{
+	_relationshipItem = new RelationshipItem(400, 300,QString::fromLocal8Bit("Relationship"));
+	_entityItem = new EntityItem(500,150,QString::fromLocal8Bit("hello qstring E"));
+	_attributeItem = new AttributeItem(200, 300, QString::fromLocal8Bit("Enter the IDs Enter the IDs "));
+	_connectionItem = new ConnectionItem(_entityItem, _attributeItem);
+
+	_scene->addItem(_connectionItem);
+	_scene->addItem(_entityItem);
+	_scene->addItem(_attributeItem);
+	_scene->addItem(_relationshipItem);
+
 }

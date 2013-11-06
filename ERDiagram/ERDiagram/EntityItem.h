@@ -12,7 +12,6 @@
 #include <QtGui>
 #include "ComponentItem.h"
 
-
 class EntityItem : public ComponentItem
 {
 public:
