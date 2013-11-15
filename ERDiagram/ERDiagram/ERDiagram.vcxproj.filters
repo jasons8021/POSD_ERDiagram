@@ -151,9 +151,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ERDiagramScene.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="ERDiagramMessageBoxManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ERDiagramScene.cpp">
       <Filter>Source Files\MVC\View\GUI</Filter>
     </ClCompile>
@@ -227,9 +224,6 @@
     </ClInclude>
     <ClInclude Include="Toolkit.h">
       <Filter>Header Files\Toolkit</Filter>
-    </ClInclude>
-    <ClInclude Include="ERDiagramMessageBoxManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextUI.h">
       <Filter>Header Files\MVC\View\TextUI</Filter>

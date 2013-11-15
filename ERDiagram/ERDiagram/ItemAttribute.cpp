@@ -22,6 +22,7 @@ QPainterPath ItemAttribute::shape() const
 	return _qPainterPath;
 }
 
+// 畫出Item
 void ItemAttribute::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	painter->setBrush(Qt::white);
@@ -30,11 +31,13 @@ void ItemAttribute::paint( QPainter* painter, const QStyleOptionGraphicsItem* op
 	paintBorder(painter);
 }
 
+// 寫字，如果遇到Attribute是PK的話，就加入底線
 void ItemAttribute::paintText(QPainter* painter)
 {
 	ItemComponent::paintText(painter, _isPrimaryKey);
 }
 
+// get/set PK
 void ItemAttribute::setPrimaryKey( bool isPrimaryKey )
 {
 	_isPrimaryKey = isPrimaryKey;
@@ -45,11 +48,13 @@ bool ItemAttribute::getPrimaryKey()
 	return _isPrimaryKey;
 }
 
+// 設定路徑
 void ItemAttribute::setPath()
 {
 	_qPainterPath.addEllipse(_textBoundingRectangle);
 }
 
+// 畫外框
 void ItemAttribute::paintBorder( QPainter* painter )
 {
 	if (isSelected())

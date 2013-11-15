@@ -11,8 +11,8 @@
 #include <QPen>
 #include <QLineF>
 #include <QtGui>
-#include <QGraphicsLineItem>
 #include "ItemComponent.h"
+#include <QDebug>
 
 class ItemConnection : public ItemComponent
 {
@@ -29,6 +29,7 @@ private:
 	ItemComponent* _sourceComponentItem;
 	ItemComponent* _destionationComponentItem;
 	QPointF _centerPos;
+	QLineF _connectedLine;
 };
 
 #endif

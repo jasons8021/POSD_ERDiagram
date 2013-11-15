@@ -24,6 +24,7 @@ ItemComponent::~ItemComponent()
 {
 }
 
+// 處理attribute、entity、relationshipItem的寫字
 void ItemComponent::paintText( QPainter* painter, bool isUnderLine)
 {
 	qreal extra = -5;
@@ -43,26 +44,31 @@ void ItemComponent::paintText( QPainter* painter, bool isUnderLine)
 	painter->drawText(_textBoundingRectangle, Qt::TextWordWrap | Qt::AlignCenter, _text);
 }
 
+// 取得item的寬度
 int ItemComponent::getItemWidth()
 {
 	return _itemWidth;
 }
 
+// 設定item的高度
 void ItemComponent::setItemWidth( int itemWidth )
 {
 	_itemWidth = itemWidth;
 }
 
+// 取得item的高度
 int ItemComponent::getItemHeight()
 {
 	return _itemHeight;
 }
 
+// 設定item的高度
 void ItemComponent::setItemHeight( int itemHeight )
 {
 	_itemHeight = itemHeight;
 }
 
+// 取得item的中心點
 QPointF ItemComponent::getItemCenter()
 {
 	return _textBoundingRectangle.center();

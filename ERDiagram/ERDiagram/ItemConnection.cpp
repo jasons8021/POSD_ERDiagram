@@ -10,14 +10,19 @@ ItemConnection::ItemConnection( ItemComponent* sourceComponentItem, ItemComponen
 	_sourceComponentItem = sourceComponentItem;
 	_destionationComponentItem = destionationComponentItem;
 
-	_centerPos.setX((_sourceComponentItem->x() + _destionationComponentItem->x()) / 2);
-	_centerPos.setY((_sourceComponentItem->y() + _destionationComponentItem->y()) / 2);
+	_centerPos.setX((_sourceComponentItem->getItemCenter().rx() + _destionationComponentItem->getItemCenter().rx()) / 2);
+	_centerPos.setY((_sourceComponentItem->getItemCenter().ry() + _destionationComponentItem->getItemCenter().ry()) / 2);
 
 	_text = text;
-	QVector<QPointF> pointSet;
-	pointSet.push_back(_sourceComponentItem->getItemCenter());
-	pointSet.push_back(_destionationComponentItem->getItemCenter());
 
+	_connectedLine = QLineF(_sourceComponentItem->getItemCenter(), _destionationComponentItem->getItemCenter());
+
+	QVector<QPointF> pointSet;
+	// °_ÂI
+	pointSet.push_back(QPointF(_connectedLine.p1()));
+	// ²×ÂI
+	pointSet.push_back(QPointF(_connectedLine.p2()));
+	
 	setPath(pointSet);
 
 	setZValue(-1);
@@ -41,7 +46,7 @@ QPainterPath ItemConnection::shape() const
 
 void ItemConnection::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->drawPath(_qPainterPath);
+	painter->drawLine(_connectedLine);
 
 	QFont font;
 	font.setStyleHint(QFont::Times, QFont::PreferAntialias);

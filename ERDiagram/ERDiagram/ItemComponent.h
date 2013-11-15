@@ -40,7 +40,6 @@ protected:
 	int _textWidth;
 	QRect _textBoundingRectangle;
 	QPainterPath _qPainterPath;
-//private:
 	int _sx;
 	int _sy;
 	QString _text;

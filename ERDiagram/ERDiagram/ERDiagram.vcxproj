@@ -92,7 +92,6 @@
     <ClCompile Include="Connector.cpp" />
     <ClCompile Include="DeleteComponentCmd.cpp" />
     <ClCompile Include="ItemEntity.cpp" />
-    <ClCompile Include="ERDiagramMessageBoxManager.cpp" />
     <ClCompile Include="ERDiagramScene.cpp" />
     <ClCompile Include="ERModel.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ERDiagramScene.cpp">
@@ -142,7 +141,6 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui"</Command>
     </CustomBuild>
     <ClInclude Include="ItemEntity.h" />
-    <ClInclude Include="ERDiagramMessageBoxManager.h" />
     <ClInclude Include="ERModel.h" />
     <CustomBuild Include="GUI.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
