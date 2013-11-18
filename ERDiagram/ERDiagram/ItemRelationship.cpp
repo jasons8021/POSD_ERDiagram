@@ -11,7 +11,7 @@ ItemRelationship::ItemRelationship( int sx, int sy, QString relationshipText ) :
 
 	setPath(pointSet);
 	
-	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 	setAcceptsHoverEvents(true);
 }
 
@@ -54,4 +54,9 @@ void ItemRelationship::paintBorder( QPainter* painter )
 		ItemComponent::setPaintBorderFont(painter);
 		painter->drawPath(_qPainterPath);
 	}
+}
+
+void ItemRelationship::updatePosition()
+{
+
 }

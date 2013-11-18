@@ -10,12 +10,15 @@
 #define PARAMETER_CONNECTIONITEMSHAPE "Line"
 
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOption>
 #include <QWidget>
 #include <QLabel>
 #include <QRect>
 #include <QPainterPath>
+
+class ERDiagramScene;
 
 class ItemComponent : public QGraphicsItem
 {
@@ -30,6 +33,8 @@ public:
 	void setItemHeight(int);
  	QPointF getItemCenter();
 	void setPaintBorderFont(QPainter*);
+	void setScene(QGraphicsScene*);
+	virtual void updatePosition();
 	virtual void paintText(QPainter*, bool);
 	virtual QRectF boundingRect() const;
 	virtual QPainterPath shape() const;
@@ -43,6 +48,10 @@ protected:
 	int _sx;
 	int _sy;
 	QString _text;
+	QGraphicsScene* _erDiagramScene;
+	void mousePressEvent(QGraphicsSceneMouseEvent *);
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent *);
 };
 
 #endif

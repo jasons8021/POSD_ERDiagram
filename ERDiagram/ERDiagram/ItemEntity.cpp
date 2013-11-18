@@ -4,7 +4,7 @@
 ItemEntity::ItemEntity( int sx, int sy, QString entityText ) : ItemComponent( sx, sy, entityText )
 {
 	setPath();
-	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 	setAcceptsHoverEvents(true);
 }
 
@@ -47,4 +47,9 @@ void ItemEntity::paintBorder( QPainter* painter )
 		ItemComponent::setPaintBorderFont(painter);
 		painter->drawRect(_textBoundingRectangle);
 	}
+}
+
+void ItemEntity::updatePosition()
+{
+
 }

@@ -3,7 +3,7 @@
 ItemAttribute::ItemAttribute( int sx, int sy, QString attributeText ) : ItemComponent( sx, sy, attributeText )
 {
 	setPath();
-	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 	setAcceptsHoverEvents(true);
 	_isPrimaryKey = false;
 }
@@ -62,4 +62,9 @@ void ItemAttribute::paintBorder( QPainter* painter )
 		ItemComponent::setPaintBorderFont(painter);
 		painter->drawEllipse(_textBoundingRectangle);
 	}
+}
+
+void ItemAttribute::updatePosition()
+{
+
 }

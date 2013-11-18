@@ -34,7 +34,10 @@ void ERDiagramScene::addAllItem( QVector<QString> inputFileText )
 		static_cast<ItemAttribute*>(_guiItem[i])->setPrimaryKey(true);
 
 	for (int i = 0; i < _guiItem.size(); i++)
+	{
 		this->addItem(_guiItem[i]);
+		_guiItem[i]->setScene(this);
+	}
 }
 
 // QString的字串切割，QString.split()會回傳QStringList，QStringList的用法是.at(index)
@@ -109,4 +112,15 @@ QPointF ERDiagramScene::getPlaceItemPosition( QString type )
 	updatePlaceItemPosition(type);
 
 	return itemPos;
+}
+
+// 更新位置
+void ERDiagramScene::updateItemPosition()
+{
+	for (QVector<ItemComponent *>::iterator index = _guiItem.begin(); index < _guiItem.end(); index++)
+	{
+		ItemComponent* itemComponent = ((ItemComponent *)*index);
+		itemComponent->updatePosition();
+	}
+	update(0, 0, width(), height());
 }

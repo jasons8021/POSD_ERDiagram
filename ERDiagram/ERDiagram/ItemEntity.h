@@ -23,6 +23,7 @@ public:
 	void paintText(QPainter*);
 	void setPath();
 	void paintBorder(QPainter*); 
+	void updatePosition();
 private:
 	
 };

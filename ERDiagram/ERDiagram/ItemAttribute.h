@@ -23,6 +23,7 @@ public:
 	bool getPrimaryKey();
 	void setPath();
 	void paintBorder(QPainter*);
+	void updatePosition();
 private:
 	bool _isPrimaryKey;
 };

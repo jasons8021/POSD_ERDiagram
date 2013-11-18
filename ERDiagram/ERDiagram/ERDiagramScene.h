@@ -23,6 +23,8 @@
 #include "ItemComponent.h"
 #include "ItemFactory.h"
 
+//class ItemComponent;
+
 class ERDiagramScene : public QGraphicsScene
 {
 	Q_OBJECT
@@ -35,6 +37,7 @@ public:
 	void updatePlaceItemPosition(QString);
 	QPointF getPlaceItemPosition(QString);
 	QVector<QStringList> splitTextData(QString);
+	void updateItemPosition();
 private:
 	ItemFactory _itemFactory;
 	QVector<ItemComponent*> _guiItem;

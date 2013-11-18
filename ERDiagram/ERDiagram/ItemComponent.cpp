@@ -1,4 +1,5 @@
 #include "ItemComponent.h"
+#include "ERDiagramScene.h"
 
 ItemComponent::ItemComponent()
 {
@@ -98,6 +99,33 @@ QPainterPath ItemComponent::shape() const
 }
 
 void ItemComponent::paint( QPainter*, const QStyleOptionGraphicsItem*, QWidget* )
+{
+
+}
+
+void ItemComponent::setScene( QGraphicsScene* erDiagramScene )
+{
+	_erDiagramScene = erDiagramScene;
+}
+
+void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
+{
+	QGraphicsItem::mousePressEvent(event);
+}
+
+void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
+{
+	QGraphicsItem::mouseReleaseEvent(event);
+	static_cast<ERDiagramScene*>(_erDiagramScene)->updateItemPosition();
+}
+
+void ItemComponent::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
+{
+	QGraphicsItem::mouseMoveEvent(event);
+	static_cast<ERDiagramScene*>(_erDiagramScene)->updateItemPosition();
+}
+
+void ItemComponent::updatePosition()
 {
 
 }

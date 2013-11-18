@@ -21,6 +21,7 @@ public:
 	void paintText(QPainter*);
 	void setPath(QVector<QPointF>);
 	void paintBorder(QPainter*);
+	void updatePosition();
 // 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 // 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 // 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);

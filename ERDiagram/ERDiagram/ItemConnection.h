@@ -22,9 +22,12 @@ public:
 	virtual ~ItemConnection();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
+	QPointF getScenePosition(ItemComponent*);
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void setPath(QVector<QPointF>);
 	void paintBorder(QPainter*);
+	void updatePosition();
+	void setSourceDestinationPoint();
 private:
 	ItemComponent* _sourceComponentItem;
 	ItemComponent* _destionationComponentItem;

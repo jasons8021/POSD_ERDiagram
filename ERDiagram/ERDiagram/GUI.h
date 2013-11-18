@@ -1,6 +1,9 @@
 #ifndef GUI_H_
 #define GUI_H_
 
+#define SCENE_HEIGHT 1600
+#define SCENE_WIDTH 1200
+
 #include <QtGui>
 #include <QtGui/QMainWindow>
 #include <QMenu>
@@ -10,6 +13,8 @@
 #include <QWidget>
 #include <QAction>
 #include <QString>
+#include <QToolButton>
+#include <QIcon>
 
 #include "ERDiagramScene.h"
 #include "PresentationModel.h"
@@ -30,12 +35,18 @@ private:
 
 	QGraphicsView* _view;
 	ERDiagramScene* _scene;
-	//bar
-	QMenu* _fileMenu;
-	QToolBar* _fileToolBar;
-	//QAction
-	QAction* _exitAction;
+
+	QMenu* _menu;
+	QToolBar* _toolBar;
+
 	QAction* _openAction;
+	QAction* _exitAction;
+
+	QToolButton* _pointerButton;
+	QToolButton* _connectionButton;
+	QToolButton* _addAttributeButton;
+	QToolButton* _addEntityButton;
+	QToolButton* _addRelationshipButton;
 
 	PresentationModel* _presentationModel;
 };

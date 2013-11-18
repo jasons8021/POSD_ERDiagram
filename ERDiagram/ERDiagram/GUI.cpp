@@ -8,7 +8,7 @@ GUI::GUI(PresentationModel* presentationModel)
 	createToolbars();
 
 	_scene = new ERDiagramScene(this);
-	_scene->setSceneRect(QRectF(0, 0, 1300, 700));
+	_scene->setSceneRect(QRectF(0, 0, SCENE_HEIGHT, SCENE_WIDTH));
 
 	QHBoxLayout *layout = new QHBoxLayout;
 	_view = new QGraphicsView(_scene);
@@ -17,6 +17,7 @@ GUI::GUI(PresentationModel* presentationModel)
 	QWidget *widget = new QWidget;
 	widget->setLayout(layout);
 
+	
 	setCentralWidget(widget);
 }
 
@@ -26,28 +27,63 @@ GUI::~GUI()
 
 void GUI::createActions()
 {
-	_openAction = new QAction(QIcon("images/openFile.png"), tr("O&pen..."), this);
+	_openAction = new QAction(QIcon("images/openFile.png"), tr("Open..."), this);
 	_openAction->setShortcut(tr("Ctrl+O"));
 	connect(_openAction, SIGNAL(triggered()), this, SLOT(loadFile()));
 
-	_exitAction = new QAction(QIcon("images/exit.png"), tr("E&xit"), this);
+	_exitAction = new QAction(QIcon("images/exit.png"), tr("Exit"), this);
 	_exitAction->setShortcut(tr("Alt+F4"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
 }
 
 void GUI::createMenus()
 {
-	_fileMenu = menuBar()->addMenu(tr("&File","&Exit"));
-	_fileMenu->addAction(_openAction);
-	_fileMenu->addSeparator();
-	_fileMenu->addAction(_exitAction);
+	// 開啟檔案 & 離開
+	_menu = menuBar()->addMenu(tr("&File","&Exit"));
+	_menu->addAction(_openAction);
+	_menu->addSeparator();
+	_menu->addAction(_exitAction);
 }
 
 void GUI::createToolbars()
 {
-	_fileToolBar = addToolBar(tr("File"));
-	_fileToolBar->addAction(_openAction);
-	_fileToolBar->addAction(_exitAction);
+	// 開啟檔案 & 離開
+	_toolBar = addToolBar(tr("File"));
+	_toolBar->addAction(_openAction);
+	_toolBar->addAction(_exitAction);
+
+	// state的Menu
+	_toolBar = addToolBar(tr("State"));
+
+	_pointerButton = new QToolButton();
+	_pointerButton->setIcon(QIcon("images/pointer.png"));
+	_pointerButton->setCheckable(true);
+	_pointerButton->setChecked(true);
+
+	_connectionButton = new QToolButton();
+	_connectionButton->setIcon(QIcon("images/connector.png"));
+	_pointerButton->setCheckable(true);
+
+	_toolBar->addWidget(_pointerButton);
+	_toolBar->addWidget(_connectionButton);
+
+	_toolBar->addSeparator();
+
+	_addAttributeButton = new QToolButton();
+	_addAttributeButton->setIcon(QIcon("images/circle.png"));
+	_pointerButton->setCheckable(true);
+
+	_addEntityButton = new QToolButton();
+	_addEntityButton->setIcon(QIcon("images/rectangle.png"));
+	_pointerButton->setCheckable(true);
+
+	_addRelationshipButton = new QToolButton();
+	_addRelationshipButton->setIcon(QIcon("images/diamond.png"));
+	_pointerButton->setCheckable(true);
+
+	_toolBar->addWidget(_addAttributeButton);
+	_toolBar->addWidget(_addEntityButton);
+	_toolBar->addWidget(_addRelationshipButton);
 }
 
 void GUI::loadFile()
