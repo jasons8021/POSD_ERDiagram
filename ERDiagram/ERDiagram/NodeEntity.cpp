@@ -23,8 +23,15 @@ string NodeEntity::canConnectTo( Component* targetNode )
 
 	if (checkMessage == TEXT_CONNECTION_CANCONNECT)
 	{
-		if (targetNode->getType() == PARAMETER_RELATIONSHIP || targetNode->getType() == PARAMETER_ATTRIBUTE)	
+		if (targetNode->getType() == PARAMETER_RELATIONSHIP)
 			return TEXT_CONNECTION_CANCONNECT;		// 可以相連
+		else if (targetNode->getType() == PARAMETER_ATTRIBUTE)
+		{
+			if (!static_cast<NodeAttribute*>(targetNode)->getIsConnectedEntity())
+				return TEXT_CONNECTION_CANCONNECT;		// 可以相連
+			else
+				return TEXT_NODENUMBEGIN + targetNode->getIDString() + TEXT_CONNECTION_NOTCONNECTION + this->getIDString() + TEXT_ENDTEXT;
+		}
 		else										// 型態錯誤
 			return TEXT_NODENUMBEGIN + targetNode->getIDString() + TEXT_CONNECTION_NOTCONNECTION + this->getIDString() + TEXT_ENDTEXT;
 	}

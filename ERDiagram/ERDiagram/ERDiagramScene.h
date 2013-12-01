@@ -15,35 +15,70 @@
 #define PARAMETER_ENTITY "E"
 #define PARAMETER_RELATIONSHIP "R"
 #define PARAMETER_CONNECTOR "C"
+#define PARAMETER_NOTFINDID -1
+
+#define PRIVIEWITEMORIGINAL_X 0
+#define PRIVIEWITEMORIGINAL_Y 0
+#define NULLTEXT ""
+
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QPointF>
-#include "ItemEntity.h"
 #include "ItemComponent.h"
 #include "ItemFactory.h"
+#include "GuiState.h"
+#include "PointerState.h"
+#include "ConnectionState.h"
+#include "AddAttributeState.h"
+#include "AddEntityState.h"
+#include "AddRelationshipState.h"
+#include "GUI.h"
 
-//class ItemComponent;
+class GUI;
 
 class ERDiagramScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
+	enum stateMode{
+		PointerMode,
+		ConnectionMode,
+		AttributeMode,
+		EntityMode,
+		RelationshipMode
+	};
+
 	ERDiagramScene(QObject* parent = 0);
 	virtual ~ERDiagramScene();
 	void addAllItem(QVector<QString>);
-	ItemComponent* addComponent(QStringList);
-	ItemComponent* addConnection(QStringList);
+	void addNodeFromGUI(QPointF, QString, QString);
+	ItemComponent* addNode(QPointF, QString, QString);
+	void addNodeFromLoadFile(QStringList);
+	void addConnectionFromGUI(ItemComponent*, ItemComponent*, QString);
+	ItemComponent* addConnection(ItemComponent*, ItemComponent*, QString);
+	void addConnectionFromLoadFile(QStringList);
 	void updatePlaceItemPosition(QString);
 	QPointF getPlaceItemPosition(QString);
 	QVector<QStringList> splitTextData(QString);
 	void updateItemPosition();
+	void changeState(int);
+	void mousePressEvent(QGraphicsSceneMouseEvent*);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+	int getCurrentMode();
+	void changToPointerMode();
+	int findItemId(ItemComponent*);
 private:
+	int _currentMode;
 	ItemFactory _itemFactory;
 	QVector<ItemComponent*> _guiItem;
 	QPointF _itemAttributePos;
 	QPointF _itemEntityPos;
 	QPointF _itemRelationshipPos;
+	GuiState* _state;
+	ItemComponent* _previewItem;
+	GUI* _gui;
 };
 
 #endif

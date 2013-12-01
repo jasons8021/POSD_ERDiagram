@@ -346,3 +346,19 @@ string PresentationModel::getPrimaryKey_GUI()
 {
 	return _erModel->getPrimaryKeyForGUI();
 }
+
+bool PresentationModel::addConnectionCmd_GUI( int firstComponentID, int secondComponentID, string cardinality )
+{
+	int beforeAddNodeSize;
+	beforeAddNodeSize = _erModel->getConnectionTableSize();
+
+	if(_erModel->getCheckConnectionStateMessage(firstComponentID,secondComponentID) != TEXT_CONNECTION_CANCONNECT)
+		return false;
+	else
+		_erModel->addConnectionCmd(firstComponentID, secondComponentID, cardinality);
+
+	if (_erModel->getConnectionTableSize() > beforeAddNodeSize)
+		return true;
+	else
+		return false;
+}

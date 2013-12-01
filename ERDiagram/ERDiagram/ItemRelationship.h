@@ -8,9 +8,9 @@
 #include <QStyleOption>
 #include <QWidget>
 #include <QPainterPath>
-#include "ItemComponent.h"
+#include "ItemNode.h"
 
-class ItemRelationship : public ItemComponent
+class ItemRelationship : public ItemNode
 {
 public:
 	ItemRelationship(int, int, QString);
@@ -18,14 +18,8 @@ public:
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
-	void paintText(QPainter*);
 	void setPath(QVector<QPointF>);
-	void paintBorder(QPainter*);
 	void updatePosition();
-// 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
-// 	void mousePressEvent(QGraphicsSceneMouseEvent*);
-// 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
-private:
 };
 
 #endif

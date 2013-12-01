@@ -10,9 +10,9 @@
 #include <QPainterPath>
 #include <QString>
 #include <QtGui>
-#include "ItemComponent.h"
+#include "ItemNode.h"
 
-class ItemEntity : public ItemComponent
+class ItemEntity : public ItemNode/*ItemComponent*/
 {
 public:
 	ItemEntity(int, int, QString);
@@ -20,12 +20,8 @@ public:
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
-	void paintText(QPainter*);
 	void setPath();
-	void paintBorder(QPainter*); 
 	void updatePosition();
-private:
-	
 };
 
 #endif

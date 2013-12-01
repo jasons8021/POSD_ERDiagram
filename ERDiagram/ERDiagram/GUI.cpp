@@ -1,4 +1,6 @@
 #include "GUI.h"
+#include <QTableView>
+#include <QStandardItemModel>
 
 GUI::GUI(PresentationModel* presentationModel)
 {
@@ -12,13 +14,42 @@ GUI::GUI(PresentationModel* presentationModel)
 
 	QHBoxLayout *layout = new QHBoxLayout;
 	_view = new QGraphicsView(_scene);
-	layout->addWidget(_view);
+	
+	
+	_view->setMinimumWidth(1300);
+	_view->setMaximumWidth(1400);
+	_view->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
+	
+	///////////////////////////////////////////////////////////////////////////////
+	_tableView = new QTableView();
+	_itemModel = new QStandardItemModel();
+	_itemModel->setHorizontalHeaderItem(0, new QStandardItem(QString(" Type ")));
+	_itemModel->setHorizontalHeaderItem(1, new QStandardItem(QString(" Text ")));
+
+	QStandardItem *nameItem = new QStandardItem("Jason");
+	QStandardItem *addressItem = new QStandardItem("Taipei");
+
+	QList<QStandardItem*> row;
+	row << nameItem << addressItem;
+
+	_itemModel->appendRow(row);
+
+	_tableView->setModel(_itemModel);
+
+	_tableView->setMinimumWidth(200);
+	_tableView->setMaximumWidth(300);
+	_tableView->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
+	layout->addWidget(_view);
+	layout->addWidget(_tableView);
+	/////////////////////////////////////////////////////////////////////////////////
+	
 	QWidget *widget = new QWidget;
 	widget->setLayout(layout);
 
-	
 	setCentralWidget(widget);
+	_view->setMouseTracking(true);
 }
 
 GUI::~GUI()
@@ -34,6 +65,9 @@ void GUI::createActions()
 	_exitAction = new QAction(QIcon("images/exit.png"), tr("Exit"), this);
 	_exitAction->setShortcut(tr("Alt+F4"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+	_testAction = new QAction(QIcon("images/openFile.png"), tr("Test"), this);
+	connect(_testAction, SIGNAL(triggered()), this, SLOT(test()));
 }
 
 void GUI::createMenus()
@@ -43,6 +77,8 @@ void GUI::createMenus()
 	_menu->addAction(_openAction);
 	_menu->addSeparator();
 	_menu->addAction(_exitAction);
+	_menu->addSeparator();
+	_menu->addAction(_testAction);
 }
 
 void GUI::createToolbars()
@@ -52,38 +88,64 @@ void GUI::createToolbars()
 	_toolBar->addAction(_openAction);
 	_toolBar->addAction(_exitAction);
 
-	// stateªºMenu
-	_toolBar = addToolBar(tr("State"));
-
+	// state Button
 	_pointerButton = new QToolButton();
-	_pointerButton->setIcon(QIcon("images/pointer.png"));
 	_pointerButton->setCheckable(true);
 	_pointerButton->setChecked(true);
+	_pointerButton->setIcon(QIcon("images/pointer.png"));
 
 	_connectionButton = new QToolButton();
+	_connectionButton->setCheckable(true);
 	_connectionButton->setIcon(QIcon("images/connector.png"));
-	_pointerButton->setCheckable(true);
 
+	_addAttributeButton = new QToolButton();
+	_addAttributeButton->setCheckable(true);
+	_addAttributeButton->setIcon(QIcon("images/circle.png"));
+
+	_addEntityButton = new QToolButton();
+	_addEntityButton->setCheckable(true);
+	_addEntityButton->setIcon(QIcon("images/rectangle.png"));
+
+	_addRelationshipButton = new QToolButton();
+	_addRelationshipButton->setCheckable(true);
+	_addRelationshipButton->setIcon(QIcon("images/diamond.png"));
+
+	_buttonGroup = new QButtonGroup();
+	_buttonGroup->addButton(_pointerButton, ERDiagramScene::PointerMode);
+	_buttonGroup->addButton(_connectionButton, ERDiagramScene::ConnectionMode);
+	_buttonGroup->addButton(_addAttributeButton, ERDiagramScene::AttributeMode);
+	_buttonGroup->addButton(_addEntityButton, ERDiagramScene::EntityMode);
+	_buttonGroup->addButton(_addRelationshipButton, ERDiagramScene::RelationshipMode);
+	connect(_buttonGroup, SIGNAL(buttonClicked(int)),
+		this, SLOT(buttonGroupClicked()));
+
+	// stateªºMenu
+	_toolBar = addToolBar(tr("State"));
 	_toolBar->addWidget(_pointerButton);
 	_toolBar->addWidget(_connectionButton);
 
 	_toolBar->addSeparator();
 
-	_addAttributeButton = new QToolButton();
-	_addAttributeButton->setIcon(QIcon("images/circle.png"));
-	_pointerButton->setCheckable(true);
-
-	_addEntityButton = new QToolButton();
-	_addEntityButton->setIcon(QIcon("images/rectangle.png"));
-	_pointerButton->setCheckable(true);
-
-	_addRelationshipButton = new QToolButton();
-	_addRelationshipButton->setIcon(QIcon("images/diamond.png"));
-	_pointerButton->setCheckable(true);
-
 	_toolBar->addWidget(_addAttributeButton);
 	_toolBar->addWidget(_addEntityButton);
 	_toolBar->addWidget(_addRelationshipButton);
+}
+
+void GUI::test()
+{
+	qDebug()<<"hello";
+
+	QStandardItem *nameItem = new QStandardItem("Jason");
+	QStandardItem *addressItem = new QStandardItem("Taipei");
+
+	QList<QStandardItem*> row;
+	row << nameItem << addressItem;
+
+	_itemModel->appendRow(row);
+
+	_tableView->setModel(_itemModel);
+	
+	_tableView->update();
 }
 
 void GUI::loadFile()
@@ -100,4 +162,31 @@ void GUI::loadFile()
 		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getPrimaryKey_GUI().c_str()));
 		_scene->addAllItem(inputFileText);
 	}
+}
+
+void GUI::buttonGroupClicked()
+{
+	_scene->changeState(_buttonGroup->checkedId());
+}
+
+void GUI::changeToPointerMode()
+{
+	_buttonGroup->button((int)ERDiagramScene::PointerMode)->click();
+}
+
+void GUI::addNode( QString type_qs, QString text_qs )
+{
+	string type_s = string((const char *)type_qs.toLocal8Bit()); 
+	string text_s = string((const char *)text_qs.toLocal8Bit()); 
+	if (_presentationModel->addNodeCmd(type_s, text_s))
+		qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
+	else
+		qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
+}
+
+bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )
+{
+	bool flag = _presentationModel->addConnectionCmd_GUI(sourceNodeId,destinationNodeId,"");
+	qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
+	return flag;
 }

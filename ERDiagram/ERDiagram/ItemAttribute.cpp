@@ -1,6 +1,6 @@
 #include "ItemAttribute.h"
 
-ItemAttribute::ItemAttribute( int sx, int sy, QString attributeText ) : ItemComponent( sx, sy, attributeText )
+ItemAttribute::ItemAttribute( int sx, int sy, QString attributeText ) : ItemNode( sx, sy, attributeText )
 {
 	setPath();
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
@@ -14,27 +14,19 @@ ItemAttribute::~ItemAttribute()
 
 QRectF ItemAttribute::boundingRect() const
 {
-	return _qPainterPath.boundingRect();
+	return ItemNode::boundingRect();
 }
 
 QPainterPath ItemAttribute::shape() const
 {
-	return _qPainterPath;
+	return ItemNode::shape();
 }
 
 // 畫出Item
 void ItemAttribute::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->setBrush(Qt::white);
-	painter->drawPath(_qPainterPath);
-	paintText(painter);
-	paintBorder(painter);
-}
-
-// 寫字，如果遇到Attribute是PK的話，就加入底線
-void ItemAttribute::paintText(QPainter* painter)
-{
-	ItemComponent::paintText(painter, _isPrimaryKey);
+	setIsUnderLine(_isPrimaryKey);
+	ItemNode::paint(painter, option, widget);
 }
 
 // get/set PK
@@ -48,20 +40,10 @@ bool ItemAttribute::getPrimaryKey()
 	return _isPrimaryKey;
 }
 
-// 設定路徑
+// Attbitue是一個橢圓形，所以加入Ellipse
 void ItemAttribute::setPath()
 {
 	_qPainterPath.addEllipse(_textBoundingRectangle);
-}
-
-// 畫外框
-void ItemAttribute::paintBorder( QPainter* painter )
-{
-	if (isSelected())
-	{
-		ItemComponent::setPaintBorderFont(painter);
-		painter->drawEllipse(_textBoundingRectangle);
-	}
 }
 
 void ItemAttribute::updatePosition()

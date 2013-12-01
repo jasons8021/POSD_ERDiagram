@@ -3,17 +3,21 @@
 
 ItemComponent::ItemComponent()
 {
+	_textBoundingRectangle = QRect(0, 0, 0, 0);
 }
 
 ItemComponent::ItemComponent( int sx, int sy, QString text )
 {
 	QFont textFont;
-	QFontMetrics fm(textFont);
+	QFontMetrics textFM(textFont);
 
 	_sx = sx;
 	_sy = sy;
 	_text = text;
-	_textWidth = fm.width(_text);
+
+	// 抓輸入字串的長度
+	_textWidth = textFM.width(_text);
+
 	// QRect第一二個參數是方形的左上角座標，第三個參數是長、第四個是寬
 	_textBoundingRectangle = QRect(sx, sy, _textWidth + PARAMETER_ADJUSTWIDTH, PARAMETER_ITEMHEIGHT);
 	_itemWidth = _textBoundingRectangle.width();
@@ -51,7 +55,7 @@ int ItemComponent::getItemWidth()
 	return _itemWidth;
 }
 
-// 設定item的高度
+// 設定item的寬度
 void ItemComponent::setItemWidth( int itemWidth )
 {
 	_itemWidth = itemWidth;
@@ -75,6 +79,7 @@ QPointF ItemComponent::getItemCenter()
 	return _textBoundingRectangle.center();
 }
 
+// 畫外框的格式
 void ItemComponent::setPaintBorderFont( QPainter* painter )
 {
 	QPen qPen;
@@ -85,6 +90,16 @@ void ItemComponent::setPaintBorderFont( QPainter* painter )
 		qPen.setWidth(4);
 		qPen.setBrush(QColor(172, 210, 74));
 		painter->setPen(qPen);
+	}
+}
+
+// 畫被點中出現的外框
+void ItemComponent::paintBorder( QPainter* painter )
+{
+	if (isSelected() && _scene->getCurrentMode() == PARAMETER_POINTERMODE)
+	{
+		ItemComponent::setPaintBorderFont(painter);
+		painter->drawPath(_qPainterPath);
 	}
 }
 
@@ -100,12 +115,22 @@ QPainterPath ItemComponent::shape() const
 
 void ItemComponent::paint( QPainter*, const QStyleOptionGraphicsItem*, QWidget* )
 {
-
+	// 畫線跟畫物件的paint不一樣，分開做
 }
 
-void ItemComponent::setScene( QGraphicsScene* erDiagramScene )
+void ItemComponent::setScene( ERDiagramScene* erDiagramScene )
 {
-	_erDiagramScene = erDiagramScene;
+	_scene = erDiagramScene;
+}
+
+void ItemComponent::updatePosition()
+{
+	// 由子類別實做
+}
+
+void ItemComponent::setPath()
+{
+	// 由子類別實做
 }
 
 void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
@@ -116,16 +141,13 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mouseReleaseEvent(event);
-	static_cast<ERDiagramScene*>(_erDiagramScene)->updateItemPosition();
+	// 位置有改變，呼叫scene去更新
+	_scene->updateItemPosition();
 }
 
 void ItemComponent::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mouseMoveEvent(event);
-	static_cast<ERDiagramScene*>(_erDiagramScene)->updateItemPosition();
-}
-
-void ItemComponent::updatePosition()
-{
-
+	// 位置有改變，呼叫scene去更新
+	_scene->updateItemPosition();
 }

@@ -314,3 +314,15 @@ TEST_F(PresentationModelTest, getPrimaryKey_GUI)
 	_erModel->setPrimaryKey(1, primaryKeys);
 	EXPECT_EQ("0,3,4", _presentationModel->getPrimaryKey_GUI());
 }
+
+TEST_F(PresentationModelTest, addConnectionCmd_GUI)
+{
+	EXPECT_TRUE(_presentationModel->addConnectionCmd_GUI(0, 1, ""));
+	EXPECT_TRUE(_presentationModel->addConnectionCmd_GUI(1, 2, "1"));
+
+	// ¿ù»~«¬ºA´ú¸Õ
+	EXPECT_FALSE(_presentationModel->addConnectionCmd_GUI(1, 1, ""));
+	EXPECT_FALSE(_presentationModel->addConnectionCmd_GUI(0, 3, ""));
+	EXPECT_FALSE( _presentationModel->addConnectionCmd_GUI(2, 2, ""));
+	EXPECT_FALSE( _presentationModel->addConnectionCmd_GUI(6, 0, ""));
+}

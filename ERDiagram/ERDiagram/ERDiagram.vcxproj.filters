@@ -89,6 +89,12 @@
     <Filter Include="Source Files\MVC\View\GUI\GUI Item Factory">
       <UniqueIdentifier>{0218c9c6-f37f-4787-91d2-1f88c9defe65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MVC\View\GUI\GUI State">
+      <UniqueIdentifier>{a8d9fe91-2142-47ad-b43f-046f4454713f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\View\GUI\GUI State">
+      <UniqueIdentifier>{212555e5-3eb2-4104-8e88-3ea2fbe2bdde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -178,6 +184,30 @@
     <ClCompile Include="ItemRelationship.cpp">
       <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
     </ClCompile>
+    <ClCompile Include="GuiState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemNode.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="PointerState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
+    <ClCompile Include="AddAttributeState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
+    <ClCompile Include="AddEntityState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
+    <ClCompile Include="AddRelationshipState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
+    <ClCompile Include="AddNodeState.cpp">
+      <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -245,6 +275,30 @@
     </ClInclude>
     <ClInclude Include="ItemRelationship.h">
       <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemNode.h">
+      <Filter>Header Files\MVC\View\GUI\GUI Item Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="PointerState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="AddRelationshipState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="AddAttributeState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="AddEntityState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="AddNodeState.h">
+      <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

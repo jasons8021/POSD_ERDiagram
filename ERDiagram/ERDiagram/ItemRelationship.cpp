@@ -1,6 +1,6 @@
 #include "ItemRelationship.h"
 
-ItemRelationship::ItemRelationship( int sx, int sy, QString relationshipText ) : ItemComponent( sx, sy, relationshipText )
+ItemRelationship::ItemRelationship( int sx, int sy, QString relationshipText ) : ItemNode( sx, sy, relationshipText )
 {
 	QVector<QPointF> pointSet;
 	pointSet.push_back(QPointF(sx, sy + (_itemHeight / 2)));
@@ -10,9 +10,6 @@ ItemRelationship::ItemRelationship( int sx, int sy, QString relationshipText ) :
 	pointSet.push_back(QPointF(sx, sy + (_itemHeight / 2)));
 
 	setPath(pointSet);
-	
-	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-	setAcceptsHoverEvents(true);
 }
 
 ItemRelationship::~ItemRelationship()
@@ -21,42 +18,27 @@ ItemRelationship::~ItemRelationship()
 
 QRectF ItemRelationship::boundingRect() const
 {
-	return _qPainterPath.boundingRect();
+	return ItemNode::boundingRect();
 }
 
 QPainterPath ItemRelationship::shape() const
 {
-	return _qPainterPath;
+	return ItemNode::shape();
 }
 
 void ItemRelationship::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->setBrush(Qt::white);
-	painter->drawPath(_qPainterPath);
-	paintText(painter);
-	paintBorder(painter);
+	setIsUnderLine(false);
+	ItemNode::paint(painter, option, widget);
 }
 
-void ItemRelationship::paintText( QPainter* painter )
-{
-	ItemComponent::paintText(painter, false);
-}
-
+// Relationship是一個菱形，所以加入的是四個點座標
 void ItemRelationship::setPath(QVector<QPointF> pointSet)
 {
 	_qPainterPath.addPolygon(pointSet);
 }
 
-void ItemRelationship::paintBorder( QPainter* painter )
-{
-	if (isSelected())
-	{
-		ItemComponent::setPaintBorderFont(painter);
-		painter->drawPath(_qPainterPath);
-	}
-}
-
 void ItemRelationship::updatePosition()
 {
-
+	// 未用到
 }

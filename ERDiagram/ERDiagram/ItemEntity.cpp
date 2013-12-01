@@ -1,11 +1,9 @@
 #include "ItemEntity.h"
 #include <math.h>
 
-ItemEntity::ItemEntity( int sx, int sy, QString entityText ) : ItemComponent( sx, sy, entityText )
+ItemEntity::ItemEntity( int sx, int sy, QString entityText ) : /*ItemComponent*/ItemNode( sx, sy, entityText )
 {
 	setPath();
-	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-	setAcceptsHoverEvents(true);
 }
 
 ItemEntity::~ItemEntity()
@@ -14,42 +12,27 @@ ItemEntity::~ItemEntity()
 
 QRectF ItemEntity::boundingRect() const
 {
-	return _qPainterPath.boundingRect();
+	return ItemNode::boundingRect();
 }
 
 QPainterPath ItemEntity::shape() const
 {
-	return _qPainterPath;
+	return ItemNode::shape();
 }
 
 void ItemEntity::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->setBrush(Qt::white);
-	painter->drawPath(_qPainterPath);
-	paintText(painter);
-	paintBorder(painter);
+	setIsUnderLine(false);
+	ItemNode::paint(painter, option, widget);
 }
 
-void ItemEntity::paintText( QPainter* painter )
-{
-	ItemComponent::paintText(painter, false);
-}
-
+// Entity是一個方形，所以加入的是Rect
 void ItemEntity::setPath()
 {
 	_qPainterPath.addRect(_textBoundingRectangle);
 }
 
-void ItemEntity::paintBorder( QPainter* painter )
-{
-	if (isSelected())
-	{
-		ItemComponent::setPaintBorderFont(painter);
-		painter->drawRect(_textBoundingRectangle);
-	}
-}
-
 void ItemEntity::updatePosition()
 {
-
+	// 未用到
 }

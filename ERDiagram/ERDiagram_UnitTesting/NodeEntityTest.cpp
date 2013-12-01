@@ -14,9 +14,9 @@ TEST_F(NodeEntityTest, connectTo){
 }
 
 TEST_F(NodeEntityTest, canConnectTo){
-	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new Component(1, PARAMETER_ATTRIBUTE, "UnitTestNodeA1")));
+	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new NodeAttribute(1, "UnitTestNodeA1")));
 	_entityComponent->connectTo(new NodeEntity(1, "UnitTestNodeA1"));
-	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new Component(2, PARAMETER_RELATIONSHIP, "UnitTestNodeR2")));
+	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new NodeRelationship(2, "UnitTestNodeR2")));
 	_entityComponent->connectTo(new NodeRelationship(2, "UnitTestNodeR2"));
 
 	// 不可連結

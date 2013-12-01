@@ -48,3 +48,8 @@ void NodeAttribute::deleteConnectedComponent( int delComponentID )
 	Component::deleteConnectedComponent(delComponentID);
 	_connectedEntity = false;
 }
+
+bool NodeAttribute::getIsConnectedEntity()
+{
+	return _connectedEntity;
+}

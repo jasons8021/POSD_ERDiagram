@@ -5,8 +5,8 @@
 #include "PresentationModel.h"
 #include "GUI.h"
 
-#define PARAMETER_WINDOW_WIDTH 800
-#define PARAMETER_WINDOW_HEIGHT 600
+#define PARAMETER_WINDOW_WIDTH 1600
+#define PARAMETER_WINDOW_HEIGHT 900
 
 using namespace std;
 

@@ -131,6 +131,7 @@ public:
 	string getComponent_GUI();
 	string getConnection_GUI();
 	string getPrimaryKey_GUI();
+	bool addConnectionCmd_GUI(int, int, string);
 private:
 	ERModel* _erModel;
 };

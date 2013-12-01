@@ -80,7 +80,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddAttributeState.cpp" />
     <ClCompile Include="AddComponentCmd.cpp" />
+    <ClCompile Include="AddEntityState.cpp" />
+    <ClCompile Include="AddNodeState.cpp" />
+    <ClCompile Include="AddRelationshipState.cpp" />
+    <ClCompile Include="ConnectionState.cpp" />
+    <ClCompile Include="GuiState.cpp" />
     <ClCompile Include="ItemAttribute.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandManager.cpp" />
@@ -108,18 +114,26 @@
     </ClCompile>
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
+    <ClCompile Include="ItemNode.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeAttribute.cpp" />
     <ClCompile Include="NodeEntity.cpp" />
     <ClCompile Include="NodeRelationship.cpp" />
+    <ClCompile Include="PointerState.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
     <ClCompile Include="ItemRelationship.cpp" />
     <ClCompile Include="TextUI.cpp" />
     <ClCompile Include="Toolkit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddAttributeState.h" />
     <ClInclude Include="AddComponentCmd.h" />
+    <ClInclude Include="AddEntityState.h" />
+    <ClInclude Include="AddNodeState.h" />
+    <ClInclude Include="AddRelationshipState.h" />
+    <ClInclude Include="ConnectionState.h" />
+    <ClInclude Include="GuiState.h" />
     <ClInclude Include="ItemAttribute.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandManager.h" />
@@ -153,10 +167,12 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui"</Command>
     </CustomBuild>
     <ClInclude Include="ItemFactory.h" />
+    <ClInclude Include="ItemNode.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NodeAttribute.h" />
     <ClInclude Include="NodeEntity.h" />
     <ClInclude Include="NodeRelationship.h" />
+    <ClInclude Include="PointerState.h" />
     <ClInclude Include="PresentationModel.h" />
     <ClInclude Include="ItemRelationship.h" />
     <ClInclude Include="TextUI.h" />

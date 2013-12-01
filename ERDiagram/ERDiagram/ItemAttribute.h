@@ -8,9 +8,9 @@
 #include <QStyleOption>
 #include <QWidget>
 #include <QPainterPath>
-#include "ItemComponent.h"
+#include "ItemNode.h"
 
-class ItemAttribute : public ItemComponent
+class ItemAttribute : public ItemNode
 {
 public:
 	ItemAttribute(int,int,QString);
@@ -18,11 +18,9 @@ public:
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
-	void paintText(QPainter*);
 	void setPrimaryKey(bool);
 	bool getPrimaryKey();
 	void setPath();
-	void paintBorder(QPainter*);
 	void updatePosition();
 private:
 	bool _isPrimaryKey;

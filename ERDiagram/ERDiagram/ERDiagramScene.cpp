@@ -2,9 +2,12 @@
 
 ERDiagramScene::ERDiagramScene(QObject* parent) : QGraphicsScene(parent)
 {
+	_previewItem = new ItemComponent();
 	_itemAttributePos = QPointF(0,50);
 	_itemEntityPos = QPointF(350,50);
 	_itemRelationshipPos = QPointF(700,50);
+	_state = new PointerState(this);
+	_gui = static_cast<GUI*>(parent);
 }
 
 ERDiagramScene::~ERDiagramScene()
@@ -22,22 +25,17 @@ void ERDiagramScene::addAllItem( QVector<QString> inputFileText )
 	for(int i = 0; i < resultComponentData.size(); i++)
 	{
 		if (resultComponentData[i].at(PARAMETER_TYPE) != PARAMETER_CONNECTOR)
-			_guiItem.push_back(addComponent(resultComponentData[i]));
+			addNodeFromLoadFile(resultComponentData[i]);
 		else
 		{
-			_guiItem.push_back(addConnection(resultConnectionData[connectionCounter]));
+			addConnectionFromLoadFile(resultConnectionData[connectionCounter]);
 			connectionCounter++;
 		}
 	}
 
 	for ( int i = 0; i < resultPrimaryKey.size(); i++)
-		static_cast<ItemAttribute*>(_guiItem[i])->setPrimaryKey(true);
+		static_cast<ItemAttribute*>(_guiItem[resultPrimaryKey.at(i).toInt()])->setPrimaryKey(true);
 
-	for (int i = 0; i < _guiItem.size(); i++)
-	{
-		this->addItem(_guiItem[i]);
-		_guiItem[i]->setScene(this);
-	}
 }
 
 // QString的字串切割，QString.split()會回傳QStringList，QStringList的用法是.at(index)
@@ -52,39 +50,88 @@ QVector<QStringList> ERDiagramScene::splitTextData( QString textData )
 }
 
 // 新增Item
-ItemComponent* ERDiagramScene::addComponent( QStringList componentData )
+ItemComponent* ERDiagramScene::addNode( QPointF point, QString type, QString text )
 {
-	QPointF itemPos;
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
-	QString type =  componentData.at(PARAMETER_TYPE);
-	QString text =  componentData.at(PARAMETER_TEXT);
 
-	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
-	newItem = static_cast<ItemComponent*>(itemFactory->creatItem(itemPos.x(), itemPos.y(), type, text));
-
+	newItem = static_cast<ItemComponent*>(itemFactory->creatItem(point.x(), point.y(), type, text));
 	delete itemFactory;
+
+	_guiItem.push_back(newItem);
+
+	// 將scene設給Item
+	newItem->setScene(this);
+	// 將Item加入scene
+	this->addItem(newItem);
 
 	return newItem;
 }
 
-// 兩個Item間的連結
-ItemComponent* ERDiagramScene::addConnection( QStringList connecionData )
+// 從輸入的檔案新增Item
+void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
+{
+	QPointF itemPos;
+	QString type =  componentData.at(PARAMETER_TYPE);
+	QString text =  componentData.at(PARAMETER_TEXT);
+
+	// 原本的erd檔沒有位置資訊，因此隨機假設位置進去
+	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
+
+	addNode(QPointF(itemPos.x(), itemPos.y()), type, text);
+}
+
+// 從GUI介面新增Item
+void  ERDiagramScene::addNodeFromGUI( QPointF point, QString type, QString text )
+{
+	// 加入Item進ERModel
+	_gui->addNode(type, text);
+
+	// 加入Item到GUI上
+	addNode(point, type, text);
+
+}
+
+// 新增連結
+ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
 {
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
 
+	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(sourceItem, destionationItem, text));
+	delete itemFactory;
+
+	_guiItem.push_back(newItem);
+
+	// 將scene設給Item
+	newItem->setScene(this);
+	// 將Item加入scene
+	this->addItem(newItem);
+
+	return newItem;
+}
+
+// 從輸入的檔案新增兩個Item間的連結
+void  ERDiagramScene::addConnectionFromLoadFile( QStringList connecionData )
+{
 	int sourceItemId = connecionData.at(PARAMETER_SOURCEITEMID).toInt();
 	int destionationItemId = connecionData.at(PARAMETER_DESTIONATIONITEMID).toInt();
 	QString text =  connecionData.at(PARAMETER_CONNECTIONITEMTEXT);
 
-	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(_guiItem[sourceItemId], _guiItem[destionationItemId], text));
-
-	delete itemFactory;
-
-	return newItem;
+	addConnection(_guiItem[sourceItemId], _guiItem[destionationItemId], text);
 }
 
+// 從GUI上新增兩個Item的連結
+void ERDiagramScene::addConnectionFromGUI( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
+{
+	// 加入connection進入ERModel，成功在畫連線
+	if (_gui->addConnection(findItemId(sourceItem), findItemId(destionationItem), text))
+	{
+		addConnection(sourceItem, destionationItem, text);
+	}
+}
+
+// 供loadFile進來的資料設定位置
 void ERDiagramScene::updatePlaceItemPosition( QString type )
 {
 	// 根據type，改變Y軸座標位置
@@ -114,7 +161,7 @@ QPointF ERDiagramScene::getPlaceItemPosition( QString type )
 	return itemPos;
 }
 
-// 更新位置
+// 更新Item移動後的位置
 void ERDiagramScene::updateItemPosition()
 {
 	for (QVector<ItemComponent *>::iterator index = _guiItem.begin(); index < _guiItem.end(); index++)
@@ -123,4 +170,68 @@ void ERDiagramScene::updateItemPosition()
 		itemComponent->updatePosition();
 	}
 	update(0, 0, width(), height());
+}
+
+void ERDiagramScene::changeState( int stateMode )
+{
+	delete _state;
+	_currentMode = stateMode;
+	switch(stateMode)
+	{
+	case PointerMode:
+		_previewItem = new ItemComponent();
+		_state = new PointerState(this);
+		break;
+	case ConnectionMode:
+		_previewItem = new ItemConnection();
+		_state = new ConnectionState(this, _previewItem);
+		break;
+	case AttributeMode:
+		_previewItem = new ItemAttribute(PRIVIEWITEMORIGINAL_X, PRIVIEWITEMORIGINAL_Y, NULLTEXT);
+		_state = new AddAttributeState(this, _previewItem);
+		break;
+	case EntityMode:
+		_previewItem = new ItemEntity(PRIVIEWITEMORIGINAL_X, PRIVIEWITEMORIGINAL_Y, NULLTEXT);
+		_state = new AddEntityState(this, _previewItem);
+		break;
+	case RelationshipMode:
+		_previewItem = new ItemRelationship(PRIVIEWITEMORIGINAL_X, PRIVIEWITEMORIGINAL_Y, NULLTEXT);
+		_state = new AddRelationshipState(this, _previewItem);
+		break;
+	}
+}
+
+void ERDiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* event )
+{
+	_state->mousePressEvent(event);
+}
+
+void ERDiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
+{
+	_state->mouseMoveEvent(event);
+}
+
+void ERDiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
+{
+	_state->mouseReleaseEvent(event);
+}
+
+int ERDiagramScene::getCurrentMode()
+{
+	return _currentMode;
+}
+
+void ERDiagramScene::changToPointerMode()
+{
+	_gui->changeToPointerMode();
+}
+
+int ERDiagramScene::findItemId( ItemComponent* targetItem )
+{
+	for (int i = 0; i < _guiItem.size(); i++)
+	{
+		if (_guiItem[i] == targetItem)
+			return i;
+	}
+	return PARAMETER_NOTFINDID;
 }

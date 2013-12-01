@@ -13,6 +13,7 @@
 #include <vector>
 #include <gtest/gtest_prod.h>
 #include "Node.h"
+#include "NodeAttribute.h"
 
 using namespace std;
 

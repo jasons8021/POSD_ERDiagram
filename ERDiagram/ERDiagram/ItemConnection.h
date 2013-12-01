@@ -25,12 +25,13 @@ public:
 	QPointF getScenePosition(ItemComponent*);
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void setPath(QVector<QPointF>);
-	void paintBorder(QPainter*);
 	void updatePosition();
 	void setSourceDestinationPoint();
+	void setSourceItem(ItemComponent*);
+	void setDestionationItem(ItemComponent*);
 private:
-	ItemComponent* _sourceComponentItem;
-	ItemComponent* _destionationComponentItem;
+	ItemComponent* _sourceItem;
+	ItemComponent* _destionationItem;
 	QPointF _centerPos;
 	QLineF _connectedLine;
 };

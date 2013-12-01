@@ -8,6 +8,7 @@
 #define PARAMETER_ATTRIBUTEITEMSHAPE "Ellipse"
 #define PARAMETER_RELATIONSHIPITEMSHAPE "Diamond"
 #define PARAMETER_CONNECTIONITEMSHAPE "Line"
+#define PARAMETER_POINTERMODE 0
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
@@ -26,19 +27,23 @@ public:
 	ItemComponent();
 	ItemComponent(int, int, QString);
 	virtual ~ItemComponent();
-
 	int getItemWidth();
 	void setItemWidth(int);
 	int getItemHeight();
 	void setItemHeight(int);
  	QPointF getItemCenter();
 	void setPaintBorderFont(QPainter*);
-	void setScene(QGraphicsScene*);
+	void paintBorder(QPainter*);
+	void setScene(ERDiagramScene*);
+	void mousePressEvent(QGraphicsSceneMouseEvent *);
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent *);
 	virtual void updatePosition();
 	virtual void paintText(QPainter*, bool);
 	virtual QRectF boundingRect() const;
 	virtual QPainterPath shape() const;
 	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
+	virtual void setPath();
 protected:
 	int _itemWidth;
 	int _itemHeight;
@@ -48,10 +53,7 @@ protected:
 	int _sx;
 	int _sy;
 	QString _text;
-	QGraphicsScene* _erDiagramScene;
-	void mousePressEvent(QGraphicsSceneMouseEvent *);
-	void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
-	void mouseMoveEvent(QGraphicsSceneMouseEvent *);
+	ERDiagramScene* _scene;
 };
 
 #endif
