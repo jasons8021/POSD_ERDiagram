@@ -214,6 +214,12 @@
     <ClCompile Include="ComponentTableView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ComponentTableView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ComponentTableView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -309,9 +315,6 @@
     <ClInclude Include="TableViewModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentTableView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ERDiagramScene.h">
@@ -319,6 +322,9 @@
     </CustomBuild>
     <CustomBuild Include="GUI.h">
       <Filter>Header Files\MVC\View\GUI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ComponentTableView.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

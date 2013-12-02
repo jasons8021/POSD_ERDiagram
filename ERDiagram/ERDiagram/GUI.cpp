@@ -24,6 +24,9 @@ GUI::GUI(PresentationModel* presentationModel)
 	_tableViewModel = new TableViewModel();
 	_tableView = new ComponentTableView(_tableViewModel);
 
+	QTableView* tabelView = new QTableView();
+	tabelView->horizontalHeader()->setStretchLastSection(true);
+
 	layout_v->addWidget(label);
 	layout_v->addWidget(_tableView);
 	layout_h->addWidget(_view);

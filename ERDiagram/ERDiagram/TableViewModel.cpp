@@ -4,8 +4,6 @@ TableViewModel::TableViewModel()
 {
 	setHorizontalHeaderItem(0, new QStandardItem(QString(" Type ")));
 	setHorizontalHeaderItem(1, new QStandardItem(QString(" Text ")));
-
-
 }
 
 TableViewModel::~TableViewModel()

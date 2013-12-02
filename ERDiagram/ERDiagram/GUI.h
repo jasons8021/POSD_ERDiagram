@@ -5,8 +5,6 @@
 #define SCENE_WIDTH 1200
 #define VIEW_MINWIDTH 1200
 #define VIEW_MAXWIDTH 1300
-#define TABLEVIEW_MINWIDTH 300
-#define TABLEVIEW_MAXWIDTH 400
 
 #include <QtGui>
 #include <QtGui/QMainWindow>
