@@ -12,33 +12,25 @@ GUI::GUI(PresentationModel* presentationModel)
 	_scene = new ERDiagramScene(this);
 	_scene->setSceneRect(QRectF(0, 0, SCENE_HEIGHT, SCENE_WIDTH));
 
-	QHBoxLayout *layout = new QHBoxLayout;
+	QHBoxLayout* layout_h = new QHBoxLayout;
 	_view = new QGraphicsView(_scene);
-	
-	
 	_view->setMinimumWidth(VIEW_MINWIDTH);
-	_view->setMaximumWidth(VIEW_MAXWIDTH);
 	_view->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-
 	
-	///////////////////////////////////////////////////////////////////////////////
-	_tableView = new QTableView();
-	_itemModel = new QStandardItemModel();
-	_itemModel->setHorizontalHeaderItem(0, new QStandardItem(QString(" Type ")));
-	_itemModel->setHorizontalHeaderItem(1, new QStandardItem(QString(" Text ")));
+	// 右上角的Components
+	QVBoxLayout* layout_v = new QVBoxLayout;
+	QLabel* label = new QLabel("<p align=\"center\" style=\"background-color: #BFBFC0\"><font size=\"10\">Components</font></p>");
 
-	_tableView->setModel(_itemModel);
+	_tableViewModel = new TableViewModel();
+	_tableView = new ComponentTableView(_tableViewModel);
 
-	_tableView->setMinimumWidth(TABLEVIEW_MINWIDTH);
-	_tableView->setMaximumWidth(TABLEVIEW_MAXWIDTH);
-	_tableView->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-
-	layout->addWidget(_view);
-	layout->addWidget(_tableView);
-	/////////////////////////////////////////////////////////////////////////////////
+	layout_v->addWidget(label);
+	layout_v->addWidget(_tableView);
+	layout_h->addWidget(_view);
+	layout_h->addLayout(layout_v);
 	
 	QWidget *widget = new QWidget;
-	widget->setLayout(layout);
+	widget->setLayout(layout_h);
 
 	setCentralWidget(widget);
 	_view->setMouseTracking(true);
@@ -57,9 +49,6 @@ void GUI::createActions()
 	_exitAction = new QAction(QIcon("images/exit.png"), tr("Exit"), this);
 	_exitAction->setShortcut(tr("Alt+F4"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
-
-	_testAction = new QAction(QIcon("images/openFile.png"), tr("Test"), this);
-	connect(_testAction, SIGNAL(triggered()), this, SLOT(test()));
 }
 
 void GUI::createMenus()
@@ -69,8 +58,6 @@ void GUI::createMenus()
 	_menu->addAction(_openAction);
 	_menu->addSeparator();
 	_menu->addAction(_exitAction);
-	_menu->addSeparator();
-	_menu->addAction(_testAction);
 }
 
 void GUI::createToolbars()
@@ -123,11 +110,6 @@ void GUI::createToolbars()
 	_toolBar->addWidget(_addRelationshipButton);
 }
 
-void GUI::test()
-{
-	addNodeIntoTable("attribute","erty");
-}
-
 void GUI::loadFile()
 {
 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
@@ -158,39 +140,18 @@ void GUI::addNode( QString type_qs, QString text_qs )
 {
 	string type_s = string((const char *)type_qs.toLocal8Bit()); 
 	string text_s = string((const char *)text_qs.toLocal8Bit()); 
-	if (_presentationModel->addNodeCmd(type_s, text_s))
-		qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
-	else
-		qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
+	_presentationModel->addNodeCmd(type_s, text_s);
 }
 
 bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )
 {
 	bool flag = _presentationModel->addConnectionCmd_GUI(sourceNodeId,destinationNodeId,"");
-	qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
 	return flag;
 }
 
 void GUI::addNodeIntoTable( QString type, QString text )
 {
-	if (type == LETTER_ATTRIBUTE)
-		type = TYPE_ATTRIBUTE;
-	else if (type == LETTER_ENTITY)
-		type = TYPE_ENTITY;
-	else if (type == LETTER_RELATIONSHIP)
-		type = TYPE_RELATIONSHIP;
-	else
-		type = TYPE_CONNECTOR;
-
-	QStandardItem *typeItem = new QStandardItem(type);
-	QStandardItem *textItem = new QStandardItem(text);
-
-	QList<QStandardItem*> row;
-	row << typeItem << textItem;
-
-	_itemModel->appendRow(row);
-
-	_tableView->setModel(_itemModel);
-
-	_tableView->update();
+	// 先更新TableViewModel
+	_tableViewModel->addNodeIntoModel(type, text);
+	_tableView->updateModel(_tableViewModel);
 }

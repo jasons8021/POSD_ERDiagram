@@ -85,6 +85,7 @@
     <ClCompile Include="AddEntityState.cpp" />
     <ClCompile Include="AddNodeState.cpp" />
     <ClCompile Include="AddRelationshipState.cpp" />
+    <ClCompile Include="ComponentTableView.cpp" />
     <ClCompile Include="ConnectionState.cpp" />
     <ClCompile Include="GuiState.cpp" />
     <ClCompile Include="ItemAttribute.cpp" />
@@ -123,6 +124,7 @@
     <ClCompile Include="PointerState.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
     <ClCompile Include="ItemRelationship.cpp" />
+    <ClCompile Include="TableViewModel.cpp" />
     <ClCompile Include="TextUI.cpp" />
     <ClCompile Include="Toolkit.cpp" />
   </ItemGroup>
@@ -132,6 +134,7 @@
     <ClInclude Include="AddEntityState.h" />
     <ClInclude Include="AddNodeState.h" />
     <ClInclude Include="AddRelationshipState.h" />
+    <ClInclude Include="ComponentTableView.h" />
     <ClInclude Include="ConnectionState.h" />
     <ClInclude Include="GuiState.h" />
     <ClInclude Include="ItemAttribute.h" />
@@ -175,6 +178,7 @@
     <ClInclude Include="PointerState.h" />
     <ClInclude Include="PresentationModel.h" />
     <ClInclude Include="ItemRelationship.h" />
+    <ClInclude Include="TableViewModel.h" />
     <ClInclude Include="TextUI.h" />
     <ClInclude Include="Toolkit.h" />
   </ItemGroup>

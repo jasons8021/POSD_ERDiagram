@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 		QApplication app(argc, argv);
 		GUI* graphicalUI = new GUI(presentationModel);
 
-		graphicalUI->setMaximumSize(PARAMETER_WINDOW_WIDTH, PARAMETER_WINDOW_HEIGHT);
-		graphicalUI->setMinimumSize(PARAMETER_WINDOW_WIDTH, PARAMETER_WINDOW_HEIGHT);
+// 		graphicalUI->setMaximumSize(PARAMETER_WINDOW_WIDTH, PARAMETER_WINDOW_HEIGHT);
+// 		graphicalUI->setMinimumSize(PARAMETER_WINDOW_WIDTH, PARAMETER_WINDOW_HEIGHT);
 		graphicalUI->setWindowTitle("Entity Relation Diagramming Tool");
 		graphicalUI->show();
 		return app.exec();

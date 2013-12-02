@@ -208,6 +208,12 @@
     <ClCompile Include="AddNodeState.cpp">
       <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
     </ClCompile>
+    <ClCompile Include="TableViewModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTableView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -299,6 +305,12 @@
     </ClInclude>
     <ClInclude Include="AddNodeState.h">
       <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
+    </ClInclude>
+    <ClInclude Include="TableViewModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTableView.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
