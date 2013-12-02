@@ -5,7 +5,16 @@
 #define SCENE_WIDTH 1200
 #define VIEW_MINWIDTH 1300
 #define VIEW_MAXWIDTH 1400
-
+#define TABLEVIEW_MINWIDTH 200
+#define TABLEVIEW_MAXWIDTH 300
+#define LETTER_ATTRIBUTE "A"
+#define LETTER_ENTITY "E"
+#define LETTER_RELATIONSHIP "R"
+#define LETTER_CONNECTOR "C"
+#define TYPE_ATTRIBUTE "Attribute"
+#define TYPE_ENTITY "Entity"
+#define TYPE_RELATIONSHIP "Relationship"
+#define TYPE_CONNECTOR "Connector"
 
 #include <QtGui>
 #include <QtGui/QMainWindow>
@@ -32,6 +41,7 @@ public:
 	void changeToPointerMode();
 	void addNode(QString, QString);
 	bool addConnection(int, int, QString);
+	void addNodeIntoTable(QString, QString);
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();

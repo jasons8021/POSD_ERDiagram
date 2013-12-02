@@ -16,8 +16,8 @@ GUI::GUI(PresentationModel* presentationModel)
 	_view = new QGraphicsView(_scene);
 	
 	
-	_view->setMinimumWidth(1300);
-	_view->setMaximumWidth(1400);
+	_view->setMinimumWidth(VIEW_MINWIDTH);
+	_view->setMaximumWidth(VIEW_MAXWIDTH);
 	_view->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
 	
@@ -27,18 +27,10 @@ GUI::GUI(PresentationModel* presentationModel)
 	_itemModel->setHorizontalHeaderItem(0, new QStandardItem(QString(" Type ")));
 	_itemModel->setHorizontalHeaderItem(1, new QStandardItem(QString(" Text ")));
 
-	QStandardItem *nameItem = new QStandardItem("Jason");
-	QStandardItem *addressItem = new QStandardItem("Taipei");
-
-	QList<QStandardItem*> row;
-	row << nameItem << addressItem;
-
-	_itemModel->appendRow(row);
-
 	_tableView->setModel(_itemModel);
 
-	_tableView->setMinimumWidth(200);
-	_tableView->setMaximumWidth(300);
+	_tableView->setMinimumWidth(TABLEVIEW_MINWIDTH);
+	_tableView->setMaximumWidth(TABLEVIEW_MAXWIDTH);
 	_tableView->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
 	layout->addWidget(_view);
@@ -133,19 +125,7 @@ void GUI::createToolbars()
 
 void GUI::test()
 {
-	qDebug()<<"hello";
-
-	QStandardItem *nameItem = new QStandardItem("Jason");
-	QStandardItem *addressItem = new QStandardItem("Taipei");
-
-	QList<QStandardItem*> row;
-	row << nameItem << addressItem;
-
-	_itemModel->appendRow(row);
-
-	_tableView->setModel(_itemModel);
-	
-	_tableView->update();
+	addNodeIntoTable("attribute","erty");
 }
 
 void GUI::loadFile()
@@ -160,7 +140,7 @@ void GUI::loadFile()
 		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getComponent_GUI().c_str()));
 		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getConnection_GUI().c_str()));
 		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getPrimaryKey_GUI().c_str()));
-		_scene->addAllItem(inputFileText);
+		_scene->loadAllItem(inputFileText);
 	}
 }
 
@@ -189,4 +169,28 @@ bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardin
 	bool flag = _presentationModel->addConnectionCmd_GUI(sourceNodeId,destinationNodeId,"");
 	qDebug()<<"Component table size:\n" << QString::fromLocal8Bit(_presentationModel->displayComponentTable_TextUI().c_str());
 	return flag;
+}
+
+void GUI::addNodeIntoTable( QString type, QString text )
+{
+	if (type == LETTER_ATTRIBUTE)
+		type = TYPE_ATTRIBUTE;
+	else if (type == LETTER_ENTITY)
+		type = TYPE_ENTITY;
+	else if (type == LETTER_RELATIONSHIP)
+		type = TYPE_RELATIONSHIP;
+	else
+		type = TYPE_CONNECTOR;
+
+	QStandardItem *typeItem = new QStandardItem(type);
+	QStandardItem *textItem = new QStandardItem(text);
+
+	QList<QStandardItem*> row;
+	row << typeItem << textItem;
+
+	_itemModel->appendRow(row);
+
+	_tableView->setModel(_itemModel);
+
+	_tableView->update();
 }

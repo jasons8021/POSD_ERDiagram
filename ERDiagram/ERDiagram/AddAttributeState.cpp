@@ -13,7 +13,7 @@ AddAttributeState::~AddAttributeState()
 void AddAttributeState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	AddNodeState::mousePressEvent(event);
-	_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), "A", _text);
+	_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), PARAMETER_ATTRIBUTE, _text);
 	_scene->changToPointerMode();
 }
 

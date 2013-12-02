@@ -1,6 +1,8 @@
 #ifndef ADDENTITYSTATE_H_
 #define ADDENTITYSTATE_H_
 
+#define PARAMETER_ENTITY "E"
+
 #include "AddNodeState.h"
 
 class AddEntityState :public AddNodeState

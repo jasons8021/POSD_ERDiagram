@@ -14,8 +14,8 @@ ERDiagramScene::~ERDiagramScene()
 {
 }
 
-// 根據loadFile加入全部的Item
-void ERDiagramScene::addAllItem( QVector<QString> inputFileText )
+// 根據loadFile將全部的Item加進畫面中
+void ERDiagramScene::loadAllItem( QVector<QString> inputFileText )
 {
 	int connectionCounter = 0;
 	QVector<QStringList> resultComponentData = splitTextData(inputFileText[PARAMETER_COMPONENTDATA]);
@@ -65,6 +65,8 @@ ItemComponent* ERDiagramScene::addNode( QPointF point, QString type, QString tex
 	// 將Item加入scene
 	this->addItem(newItem);
 
+	_gui->addNodeIntoTable(type,text);
+
 	return newItem;
 }
 
@@ -107,6 +109,8 @@ ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemCom
 	newItem->setScene(this);
 	// 將Item加入scene
 	this->addItem(newItem);
+
+	_gui->addNodeIntoTable("Connector", text);
 
 	return newItem;
 }

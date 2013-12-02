@@ -1,6 +1,8 @@
 #ifndef ADDATTRIBUTESTATE_H_
 #define ADDATTRIBUTESTATE_H_
 
+#define PARAMETER_ATTRIBUTE "A"
+
 #include "AddNodeState.h"
 
 class AddAttributeState : public AddNodeState

@@ -14,7 +14,7 @@ AddEntityState::~AddEntityState()
 void AddEntityState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	AddNodeState::mousePressEvent(event);
-	_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), "E", _text);
+	_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), PARAMETER_ENTITY, _text);
 	_scene->changToPointerMode();
 }
 

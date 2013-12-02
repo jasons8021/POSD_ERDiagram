@@ -51,10 +51,10 @@ public:
 
 	ERDiagramScene(QObject* parent = 0);
 	virtual ~ERDiagramScene();
-	void addAllItem(QVector<QString>);
+	void loadAllItem(QVector<QString>);
 	void addNodeFromGUI(QPointF, QString, QString);
-	ItemComponent* addNode(QPointF, QString, QString);
 	void addNodeFromLoadFile(QStringList);
+	ItemComponent* addNode(QPointF, QString, QString);
 	void addConnectionFromGUI(ItemComponent*, ItemComponent*, QString);
 	ItemComponent* addConnection(ItemComponent*, ItemComponent*, QString);
 	void addConnectionFromLoadFile(QStringList);

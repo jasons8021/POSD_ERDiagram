@@ -14,7 +14,7 @@ AddRelationshipState::~AddRelationshipState()
 void AddRelationshipState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	AddNodeState::mousePressEvent(event);
-	_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), "R", _text);
+	_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), PARAMETER_RELATIONSHIP, _text);
 	_scene->changToPointerMode();
 }
 
