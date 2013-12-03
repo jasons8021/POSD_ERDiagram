@@ -151,3 +151,13 @@ void ItemComponent::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 	// 位置有改變，呼叫scene去更新
 	_scene->updateItemPosition();
 }
+
+void ItemComponent::setItemID( int ID )
+{
+	_itemID = ID;
+}
+
+int ItemComponent::getItemID()
+{
+	return _itemID;
+}

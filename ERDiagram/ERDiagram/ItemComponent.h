@@ -38,6 +38,8 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent *);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *);
+	void setItemID(int);
+	int getItemID();
 	virtual void updatePosition();
 	virtual void paintText(QPainter*, bool);
 	virtual QRectF boundingRect() const;
@@ -54,6 +56,7 @@ protected:
 	int _sy;
 	QString _text;
 	ERDiagramScene* _scene;
+	int _itemID;
 };
 
 #endif

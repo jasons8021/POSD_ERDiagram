@@ -79,6 +79,8 @@ int ERModel::addConnection( int componentID, int sourceNodeID, int destinationNo
 		return PARAMETER_ISERROR;
 	delete componentFactory;
 
+	notifyObserver();
+
 	return newConnection->getID();
 }
 

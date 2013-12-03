@@ -167,5 +167,9 @@ void GUI::addNodeIntoTable( QString type, QString text )
 
 void GUI::updateInfo()
 {
+	for (int i = 0; i < _scene->getGUIItem().size(); i++)
+	{
+		qDebug()<<_scene->getGUIItem()[i]->getItemID();
+	}
 	qDebug()<<"observer updateInfo";
 }

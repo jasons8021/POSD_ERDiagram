@@ -58,7 +58,8 @@ ItemComponent* ERDiagramScene::addNode( QPointF point, QString type, QString tex
 	newItem = static_cast<ItemComponent*>(itemFactory->creatItem(point.x(), point.y(), type, text));
 	delete itemFactory;
 
-	_guiItem.push_back(newItem);
+	// 將newItem push進_guiItem中，並設定編號
+	setItemID(newItem);
 
 	// 將scene設給Item
 	newItem->setScene(this);
@@ -103,7 +104,8 @@ ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemCom
 	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(sourceItem, destionationItem, text));
 	delete itemFactory;
 
-	_guiItem.push_back(newItem);
+	// 將newItem push進_guiItem中，並設定編號
+	setItemID(newItem);
 
 	// 將scene設給Item
 	newItem->setScene(this);
@@ -130,9 +132,7 @@ void ERDiagramScene::addConnectionFromGUI( ItemComponent* sourceItem, ItemCompon
 {
 	// 加入connection進入ERModel，成功在畫連線
 	if (_gui->addConnection(findItemId(sourceItem), findItemId(destionationItem), text))
-	{
 		addConnection(sourceItem, destionationItem, text);
-	}
 }
 
 // 供loadFile進來的資料設定位置
@@ -238,4 +238,15 @@ int ERDiagramScene::findItemId( ItemComponent* targetItem )
 			return i;
 	}
 	return PARAMETER_NOTFINDID;
+}
+
+void ERDiagramScene::setItemID( ItemComponent* newComponent )
+{
+	_guiItem.push_back(newComponent);
+	newComponent->setItemID(_guiItem.size() - 1);
+}
+
+QVector<ItemComponent*> ERDiagramScene::getGUIItem()
+{
+	return _guiItem;
 }

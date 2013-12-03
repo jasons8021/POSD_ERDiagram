@@ -69,6 +69,8 @@ public:
 	int getCurrentMode();
 	void changToPointerMode();
 	int findItemId(ItemComponent*);
+	void setItemID(ItemComponent*);
+	QVector<ItemComponent*> getGUIItem();
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;
