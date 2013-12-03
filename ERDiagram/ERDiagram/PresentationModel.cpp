@@ -362,3 +362,13 @@ bool PresentationModel::addConnectionCmd_GUI( int firstComponentID, int secondCo
 	else
 		return false;
 }
+
+void PresentationModel::attachObserver( Observer* observer )
+{
+	_erModel->attachObserver(observer);
+}
+
+void PresentationModel::detachObserver( Observer* observer )
+{
+	_erModel->detachObserver(observer);
+}

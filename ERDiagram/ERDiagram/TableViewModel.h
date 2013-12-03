@@ -16,7 +16,7 @@ class TableViewModel : public QStandardItemModel
 {
 public:
 	TableViewModel();
-	~TableViewModel();
+	virtual ~TableViewModel();
 	void addNodeIntoModel(QString, QString);
 };
 

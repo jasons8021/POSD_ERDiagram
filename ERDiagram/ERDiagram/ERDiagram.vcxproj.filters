@@ -208,17 +208,23 @@
     <ClCompile Include="AddNodeState.cpp">
       <Filter>Source Files\MVC\View\GUI\GUI State</Filter>
     </ClCompile>
-    <ClCompile Include="TableViewModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentTableView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ComponentTableView.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_ComponentTableView.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="TableViewModel.cpp">
+      <Filter>Source Files\MVC\View\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTableView.cpp">
+      <Filter>Source Files\MVC\View\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +319,12 @@
       <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
     </ClInclude>
     <ClInclude Include="TableViewModel.h">
+      <Filter>Header Files\MVC\View\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -324,7 +336,7 @@
       <Filter>Header Files\MVC\View\GUI</Filter>
     </CustomBuild>
     <CustomBuild Include="ComponentTableView.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MVC\View\GUI</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

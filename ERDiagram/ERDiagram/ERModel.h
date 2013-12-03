@@ -75,6 +75,8 @@
 #include "ComponentFactory.h"
 #include "CommandManager.h"
 #include "Toolkit.h"
+#include "Subject.h"
+#include "Observer.h"
 
 using namespace std;
 
@@ -82,7 +84,7 @@ class AddComponentCmd;
 class ConnectComponentsCmd;
 class DeleteComponentCmd;
 
-class ERModel
+class ERModel : public Subject
 {
 	friend class ERModelTest;
 	FRIEND_TEST(ERModelTest, addNode);

@@ -52,6 +52,8 @@ void GUI::createActions()
 	_exitAction = new QAction(QIcon("images/exit.png"), tr("Exit"), this);
 	_exitAction->setShortcut(tr("Alt+F4"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+	_presentationModel->attachObserver(this);
 }
 
 void GUI::createMenus()
@@ -129,21 +131,24 @@ void GUI::loadFile()
 	}
 }
 
+// GUI提供按了哪個按鈕，由Scene去根據按鈕決定該去的State
 void GUI::buttonGroupClicked()
 {
 	_scene->changeState(_buttonGroup->checkedId());
 }
 
+// buttonGroup轉為PointerButton
 void GUI::changeToPointerMode()
 {
 	_buttonGroup->button((int)ERDiagramScene::PointerMode)->click();
 }
 
-void GUI::addNode( QString type_qs, QString text_qs )
+// 將QString 轉為String後，用PM加入Model中
+void GUI::addNode( QString type_qstring, QString text_qstring )
 {
-	string type_s = string((const char *)type_qs.toLocal8Bit()); 
-	string text_s = string((const char *)text_qs.toLocal8Bit()); 
-	_presentationModel->addNodeCmd(type_s, text_s);
+	string type_string = string((const char *)type_qstring.toLocal8Bit()); 
+	string text_string = string((const char *)text_qstring.toLocal8Bit()); 
+	_presentationModel->addNodeCmd(type_string, text_string);
 }
 
 bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )
@@ -152,9 +157,15 @@ bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardin
 	return flag;
 }
 
+// 將新的Node加入TableView中
 void GUI::addNodeIntoTable( QString type, QString text )
 {
 	// 先更新TableViewModel
 	_tableViewModel->addNodeIntoModel(type, text);
 	_tableView->updateModel(_tableViewModel);
+}
+
+void GUI::updateInfo()
+{
+	qDebug()<<"observer updateInfo";
 }

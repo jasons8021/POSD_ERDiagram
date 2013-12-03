@@ -84,8 +84,10 @@
 #include <sstream>
 #include <vector>
 #include <gtest/gtest_prod.h>
+
 #include "ERModel.h"
 #include "Toolkit.h"
+#include "Observer.h"
 
 class PresentationModel
 {
@@ -132,6 +134,10 @@ public:
 	string getConnection_GUI();
 	string getPrimaryKey_GUI();
 	bool addConnectionCmd_GUI(int, int, string);
+	
+	// ObserverPattern
+	void attachObserver(Observer*);
+	void detachObserver(Observer*);
 private:
 	ERModel* _erModel;
 };

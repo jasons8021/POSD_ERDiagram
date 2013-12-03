@@ -22,8 +22,9 @@
 #include "PresentationModel.h"
 #include "TableViewModel.h"
 #include "ComponentTableView.h"
+#include "Observer.h"
 
-class GUI : public QMainWindow
+class GUI : public QMainWindow, public Observer
 {
 	Q_OBJECT
 public:
@@ -34,6 +35,7 @@ public:
 	void addNode(QString, QString);
 	bool addConnection(int, int, QString);
 	void addNodeIntoTable(QString, QString);
+	void updateInfo();
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();

@@ -24,14 +24,15 @@ void AddNodeState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 		_text = text;
 		_textWidth = textFM.width(_text);
 	}
-
-	setPreviewItemPosition(event->scenePos());
 }
 
 void AddNodeState::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
 	setPreviewItemPosition(event->scenePos());
-	_scene->addItem(_previewItem);
+
+	// 檢查是否已經加入scene中
+	if (_previewItem->scene() != _scene)
+		_scene->addItem(_previewItem);
 }
 
 void AddNodeState::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
@@ -39,11 +40,13 @@ void AddNodeState::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 	setPreviewItemPosition(event->scenePos());
 }
 
+// 設定preview Item的出現位置
 void AddNodeState::setPreviewItemPosition( QPointF mousePoint )
 {
 	_previewItem->setPos(getPreviewItemPosition(mousePoint));
 }
 
+// preview Item位置校正
 QPointF AddNodeState::getPreviewItemPosition( QPointF mousePoint )
 {
 	return (mousePoint - _previewItem->getItemCenter());

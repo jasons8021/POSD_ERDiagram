@@ -36,6 +36,8 @@ int ERModel::addNode( int componentID, string type, string text )
 	_components.push_back(newComponent);
 	delete componentFactory;
 
+	notifyObserver();
+
 	return newComponent->getID();
 }
 

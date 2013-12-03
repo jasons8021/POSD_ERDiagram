@@ -17,7 +17,7 @@ class ComponentTableView : public QTableView
 	Q_OBJECT
 public:
 	ComponentTableView(QStandardItemModel*);
-	~ComponentTableView();
+	virtual ~ComponentTableView();
 	void updateModel(QStandardItemModel*);
 	private slots:
 		void doubleClickedEvent(const QModelIndex&);
