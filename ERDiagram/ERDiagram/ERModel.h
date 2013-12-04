@@ -224,6 +224,9 @@ public:
 	string getComponentForGUI();
 	string getConnectionForGUI();
 	string getPrimaryKeyForGUI();
+
+	///////////////////////////////////////////////////////////////////
+	void changeText(int,string);
 private:
 	int _componentID;
 	bool _isModify;

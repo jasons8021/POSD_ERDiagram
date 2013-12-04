@@ -30,6 +30,7 @@ public:
 	string getIDString();
 	string getType();
 	string getText();
+	void setText(string);
 	vector<Component*> getConnections();
 	virtual void deleteConnectedComponent(int);
 	virtual void connectTo(Component*);

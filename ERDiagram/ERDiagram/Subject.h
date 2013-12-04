@@ -14,6 +14,7 @@ public:
 	void attachObserver(Observer* observer);
 	void detachObserver(Observer* observer);
 	void notifyObserver();
+	void notifyTextChanged();
 private:
 	vector<Observer*> _observerList;
 };

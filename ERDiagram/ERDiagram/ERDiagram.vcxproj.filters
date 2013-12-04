@@ -31,30 +31,6 @@
     <Filter Include="Source Files\ComponentFactory">
       <UniqueIdentifier>{16ada5ed-5d9c-4de5-9764-3b06bc066c22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MVC">
-      <UniqueIdentifier>{17a239fb-2417-4b4b-a0a3-fc6b62ce400b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MVC">
-      <UniqueIdentifier>{ac39d55c-03e6-4474-bebe-9586d9830cec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\MVC\Model">
-      <UniqueIdentifier>{5b81df11-ac6c-414a-9c20-2f5a4c6d68d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\MVC\View">
-      <UniqueIdentifier>{6656e2da-f645-4fe0-a758-731052a5002a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\MVC\PresentationModel">
-      <UniqueIdentifier>{8e18121f-077d-4041-9f93-4cc663c9615c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MVC\Model">
-      <UniqueIdentifier>{4bac2ef4-556c-47b7-994f-e280eb8d038e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MVC\View">
-      <UniqueIdentifier>{27a7402e-2749-4895-8495-7cf08fc45a73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MVC\PresentationModel">
-      <UniqueIdentifier>{80bce4d2-1e92-4d15-be25-154a955010b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Toolkit">
       <UniqueIdentifier>{415ef864-ef88-4835-9bcb-e46200caf9cd}</UniqueIdentifier>
     </Filter>
@@ -71,11 +47,20 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Header Files\MVC\View\GUI">
-      <UniqueIdentifier>{c263e50b-0ea7-4d88-b7b0-889d2256f201}</UniqueIdentifier>
+    <Filter Include="Source Files\ObserverPattern">
+      <UniqueIdentifier>{57478615-6c0a-48fa-876e-a500ee00edd2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MVC\View\TextUI">
-      <UniqueIdentifier>{a53dd02d-4f03-455a-ac95-9deaed2b61ac}</UniqueIdentifier>
+    <Filter Include="Header Files\ObserverPattern">
+      <UniqueIdentifier>{1d078910-3f58-4a0f-8cf8-0df575b71d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC">
+      <UniqueIdentifier>{b43fac4a-1300-446d-b600-1f4377f1bf9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC">
+      <UniqueIdentifier>{6483718a-d21a-42a6-9ffe-04ec09c5e017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\View">
+      <UniqueIdentifier>{27a7402e-2749-4895-8495-7cf08fc45a73}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\MVC\View\TextUI">
       <UniqueIdentifier>{277090d3-622d-4f82-a466-79a9dcf9a4ec}</UniqueIdentifier>
@@ -83,17 +68,38 @@
     <Filter Include="Source Files\MVC\View\GUI">
       <UniqueIdentifier>{2c2d8c7a-ce9a-419f-b9f3-18acfee0256a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MVC\View\GUI\GUI Item Factory">
-      <UniqueIdentifier>{ef880854-d09a-40bc-a943-3e68a65b818b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\MVC\View\GUI\GUI Item Factory">
       <UniqueIdentifier>{0218c9c6-f37f-4787-91d2-1f88c9defe65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\View\GUI\GUI State">
+      <UniqueIdentifier>{212555e5-3eb2-4104-8e88-3ea2fbe2bdde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\PresentationModel">
+      <UniqueIdentifier>{80bce4d2-1e92-4d15-be25-154a955010b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MVC\Model">
+      <UniqueIdentifier>{4bac2ef4-556c-47b7-994f-e280eb8d038e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\View">
+      <UniqueIdentifier>{6656e2da-f645-4fe0-a758-731052a5002a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\View\GUI">
+      <UniqueIdentifier>{c263e50b-0ea7-4d88-b7b0-889d2256f201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\View\GUI\GUI Item Factory">
+      <UniqueIdentifier>{ef880854-d09a-40bc-a943-3e68a65b818b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\MVC\View\GUI\GUI State">
       <UniqueIdentifier>{a8d9fe91-2142-47ad-b43f-046f4454713f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MVC\View\GUI\GUI State">
-      <UniqueIdentifier>{212555e5-3eb2-4104-8e88-3ea2fbe2bdde}</UniqueIdentifier>
+    <Filter Include="Header Files\MVC\View\TextUI">
+      <UniqueIdentifier>{a53dd02d-4f03-455a-ac95-9deaed2b61ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\PresentationModel">
+      <UniqueIdentifier>{8e18121f-077d-4041-9f93-4cc663c9615c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\Model">
+      <UniqueIdentifier>{5b81df11-ac6c-414a-9c20-2f5a4c6d68d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -221,10 +227,10 @@
       <Filter>Source Files\MVC\View\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Observer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ObserverPattern</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ObserverPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,11 +327,11 @@
     <ClInclude Include="TableViewModel.h">
       <Filter>Header Files\MVC\View\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\ObserverPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

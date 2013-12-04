@@ -34,10 +34,11 @@
 #include "AddEntityState.h"
 #include "AddRelationshipState.h"
 #include "GUI.h"
+#include "Observer.h"
 
 class GUI;
 
-class ERDiagramScene : public QGraphicsScene
+class ERDiagramScene : public QGraphicsScene, public Observer
 {
 	Q_OBJECT
 public:
@@ -71,6 +72,8 @@ public:
 	int findItemId(ItemComponent*);
 	void setItemID(ItemComponent*);
 	QVector<ItemComponent*> getGUIItem();
+	void updateInfo();
+	void updateTextChanged(int);
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;

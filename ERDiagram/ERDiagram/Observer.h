@@ -9,6 +9,7 @@ public:
 	Observer();
 	virtual ~Observer();
 	virtual void updateInfo() = 0;
+	virtual void updateTextChanged(int) = 0;
 };
 
 #endif

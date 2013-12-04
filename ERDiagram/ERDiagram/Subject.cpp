@@ -35,3 +35,11 @@ void Subject::notifyObserver()
 		_observerList[i]->updateInfo();
 	}
 }
+
+void Subject::notifyTextChanged()
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updateTextChanged();
+	}
+}

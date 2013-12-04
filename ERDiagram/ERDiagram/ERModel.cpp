@@ -910,3 +910,9 @@ string ERModel::getPrimaryKeyForGUI()
 	return primaryKeyString.substr(0, primaryKeyString.size() + PARAMETER_ADJUSTSTRING);
 }
 
+void ERModel::changeText( int targetNodeID, string editedText )
+{
+	searchComponent(targetNodeID)->setText(editedText);
+	notifyObserver();
+}
+

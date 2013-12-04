@@ -135,9 +135,13 @@ public:
 	string getPrimaryKey_GUI();
 	bool addConnectionCmd_GUI(int, int, string);
 	
+	//////////////////////////////////////////////////////
+	void changeText(int, string);
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
+	//////////////////////////////////////////////////////
+
 private:
 	ERModel* _erModel;
 };

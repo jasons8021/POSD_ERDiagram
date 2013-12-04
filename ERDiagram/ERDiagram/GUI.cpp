@@ -173,3 +173,8 @@ void GUI::updateInfo()
 	}
 	qDebug()<<"observer updateInfo";
 }
+
+void GUI::updateTextChanged( int textChangedItemID )
+{
+
+}

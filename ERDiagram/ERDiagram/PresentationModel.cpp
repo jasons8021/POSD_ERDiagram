@@ -372,3 +372,8 @@ void PresentationModel::detachObserver( Observer* observer )
 {
 	_erModel->detachObserver(observer);
 }
+
+void PresentationModel::changeText( int targetNodeID, string editedText )
+{
+	_erModel->changeText(targetNodeID, editedText);
+}

@@ -97,3 +97,8 @@ void Component::deleteConnectedComponent( int delComponentID )
 	}
 }
 
+void Component::setText( string text )
+{
+	_text = text;
+}
+

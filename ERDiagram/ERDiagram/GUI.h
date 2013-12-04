@@ -36,6 +36,7 @@ public:
 	bool addConnection(int, int, QString);
 	void addNodeIntoTable(QString, QString);
 	void updateInfo();
+	void updateTextChanged(int);
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();
