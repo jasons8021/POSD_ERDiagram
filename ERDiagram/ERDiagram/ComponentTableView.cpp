@@ -1,8 +1,10 @@
 #include "ComponentTableView.h"
 #include "..\src\corelib\io\qdebug.h"
 
-ComponentTableView::ComponentTableView( QStandardItemModel* tableViewModel )
+ComponentTableView::ComponentTableView( GUI* gui, QStandardItemModel* tableViewModel )
 {
+	_gui = gui;
+
 	// header的對齊設定
 	setColumnWidth (COLUMN_TYPE,COLUMN_WIDTH);
 	setColumnWidth (COLUMN_TEXT,COLUMN_WIDTH);
@@ -23,7 +25,11 @@ ComponentTableView::~ComponentTableView()
 
 void ComponentTableView::doubleClickedEvent( const QModelIndex& index )
 {
-	qDebug()<<index;
+	QVariant value = this->model()->data(index,0);
+	qDebug()<<index.row();
+	qDebug()<<value.toString();
+	if (value.isValid()&&index.column()!=0)
+ 		_gui->changeItemText(index.row(), value.toString());
 }
 
 void ComponentTableView::updateModel( QStandardItemModel* newTableViewModel )

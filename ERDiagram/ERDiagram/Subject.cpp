@@ -36,10 +36,10 @@ void Subject::notifyObserver()
 	}
 }
 
-void Subject::notifyTextChanged()
+void Subject::notifyTextChanged(int componentID, string editedText)
 {
 	for (int i = 0; i < _observerList.size(); i++)
 	{
-		_observerList[i]->updateTextChanged();
+		_observerList[i]->updateTextChanged(componentID, editedText);
 	}
 }

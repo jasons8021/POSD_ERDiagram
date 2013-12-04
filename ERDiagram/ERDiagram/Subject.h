@@ -2,6 +2,7 @@
 #define SUBJECT_H_
 
 #include <vector>
+#include <string>
 #include "Observer.h"
 
 using namespace std;
@@ -14,7 +15,7 @@ public:
 	void attachObserver(Observer* observer);
 	void detachObserver(Observer* observer);
 	void notifyObserver();
-	void notifyTextChanged();
+	void notifyTextChanged(int, string);
 private:
 	vector<Observer*> _observerList;
 };

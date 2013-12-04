@@ -101,6 +101,12 @@
     <Filter Include="Header Files\MVC\Model">
       <UniqueIdentifier>{5b81df11-ac6c-414a-9c20-2f5a4c6d68d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MVC\View\GUI\TableView">
+      <UniqueIdentifier>{f744241a-05a8-4498-be07-03e3fc4cb253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MVC\View\GUI\TableView">
+      <UniqueIdentifier>{9515124e-c78d-45d7-92c5-32c777ec27f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -220,17 +226,23 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ComponentTableView.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="TableViewModel.cpp">
-      <Filter>Source Files\MVC\View\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentTableView.cpp">
-      <Filter>Source Files\MVC\View\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Observer.cpp">
       <Filter>Source Files\ObserverPattern</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files\ObserverPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="TableViewModel.cpp">
+      <Filter>Source Files\MVC\View\GUI\TableView</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTableView.cpp">
+      <Filter>Source Files\MVC\View\GUI\TableView</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TableViewModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TableViewModel.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -324,9 +336,6 @@
     <ClInclude Include="AddNodeState.h">
       <Filter>Header Files\MVC\View\GUI\GUI State</Filter>
     </ClInclude>
-    <ClInclude Include="TableViewModel.h">
-      <Filter>Header Files\MVC\View\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Header Files\ObserverPattern</Filter>
     </ClInclude>
@@ -342,7 +351,10 @@
       <Filter>Header Files\MVC\View\GUI</Filter>
     </CustomBuild>
     <CustomBuild Include="ComponentTableView.h">
-      <Filter>Header Files\MVC\View\GUI</Filter>
+      <Filter>Header Files\MVC\View\GUI\TableView</Filter>
+    </CustomBuild>
+    <CustomBuild Include="TableViewModel.h">
+      <Filter>Header Files\MVC\View\GUI\TableView</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

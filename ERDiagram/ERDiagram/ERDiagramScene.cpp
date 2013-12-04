@@ -253,5 +253,6 @@ QVector<ItemComponent*> ERDiagramScene::getGUIItem()
 
 void ERDiagramScene::changeItemText( int textChangedItemID, QString editedText )
 {
-
+	_guiItem[textChangedItemID]->changeItemText(editedText);
+	update();
 }

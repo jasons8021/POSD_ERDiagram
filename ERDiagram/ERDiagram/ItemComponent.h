@@ -40,6 +40,9 @@ public:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *);
 	void setItemID(int);
 	int getItemID();
+	void changeItemText(QString);
+	int caculateTextWidth(QString);
+	void setTextBoundingRectangle(int, int);
 	virtual void updatePosition();
 	virtual void paintText(QPainter*, bool);
 	virtual QRectF boundingRect() const;

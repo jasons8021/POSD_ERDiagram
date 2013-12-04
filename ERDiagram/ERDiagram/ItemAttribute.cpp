@@ -43,6 +43,8 @@ bool ItemAttribute::getPrimaryKey()
 // Attbitue是一個橢圓形，所以加入Ellipse
 void ItemAttribute::setPath()
 {
+	_qPainterPath.~QPainterPath();
+	_qPainterPath = QPainterPath();
 	_qPainterPath.addEllipse(_textBoundingRectangle);
 }
 

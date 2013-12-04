@@ -19,7 +19,9 @@ public:
 	QPainterPath shape() const;
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void setPath(QVector<QPointF>);
+	void setPath();
 	void updatePosition();
+	QVector<QPointF> setPointSet(int, int);
 };
 
 #endif

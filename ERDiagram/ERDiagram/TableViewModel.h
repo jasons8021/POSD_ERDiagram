@@ -14,6 +14,7 @@
 
 class TableViewModel : public QStandardItemModel
 {
+	Q_OBJECT
 public:
 	TableViewModel();
 	virtual ~TableViewModel();

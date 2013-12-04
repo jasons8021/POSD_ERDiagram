@@ -17,12 +17,17 @@
 #include <QString>
 #include <QToolButton>
 #include <QIcon>
+#include <string>
 
 #include "ERDiagramScene.h"
 #include "PresentationModel.h"
 #include "TableViewModel.h"
 #include "ComponentTableView.h"
 #include "Observer.h"
+
+class ComponentTableView;
+
+using namespace std;
 
 class GUI : public QMainWindow, public Observer
 {
@@ -36,7 +41,10 @@ public:
 	bool addConnection(int, int, QString);
 	void addNodeIntoTable(QString, QString);
 	void updateInfo();
-	void updateTextChanged(int);
+	void updateTextChanged(int, string);
+	void changeItemText(int, QString);
+	QString stringConvertQString(string);
+	string qstringConvertString(QString);
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();

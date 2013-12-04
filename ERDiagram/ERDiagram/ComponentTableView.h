@@ -12,17 +12,22 @@
 #include <QStandardItemModel>
 #include <QModelIndex>
 
+#include "GUI.h"
+
+class GUI;
+
 class ComponentTableView : public QTableView
 {
 	Q_OBJECT
 public:
-	ComponentTableView(QStandardItemModel*);
+	ComponentTableView(GUI*, QStandardItemModel*);
 	virtual ~ComponentTableView();
 	void updateModel(QStandardItemModel*);
 	private slots:
 		void doubleClickedEvent(const QModelIndex&);
 private:
 	QStandardItemModel* _tableViewModel;
+	GUI* _gui;
 };
 
 #endif

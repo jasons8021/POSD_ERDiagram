@@ -913,6 +913,6 @@ string ERModel::getPrimaryKeyForGUI()
 void ERModel::changeText( int targetNodeID, string editedText )
 {
 	searchComponent(targetNodeID)->setText(editedText);
-	notifyObserver();
+	notifyTextChanged(targetNodeID, editedText);
 }
 

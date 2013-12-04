@@ -22,7 +22,7 @@ GUI::GUI(PresentationModel* presentationModel)
 	QLabel* label = new QLabel("<p align=\"center\" style=\"background-color: #BFBFC0\"><font size=\"10\">Components</font></p>");
 
 	_tableViewModel = new TableViewModel();
-	_tableView = new ComponentTableView(_tableViewModel);
+	_tableView = new ComponentTableView(this, _tableViewModel);
 
 	QTableView* tabelView = new QTableView();
 	tabelView->horizontalHeader()->setStretchLastSection(true);
@@ -41,6 +41,16 @@ GUI::GUI(PresentationModel* presentationModel)
 
 GUI::~GUI()
 {
+}
+
+QString GUI::stringConvertQString( string beforeConvertString )
+{
+	return QString::fromLocal8Bit(beforeConvertString.c_str());
+}
+
+string GUI::qstringConvertString( QString beforeConvertQString )
+{
+	return string((const char *)beforeConvertQString.toLocal8Bit());
 }
 
 void GUI::createActions()
@@ -124,9 +134,9 @@ void GUI::loadFile()
 		_presentationModel->loadERDiagram_TextUI(directory.toStdString());
 
 		// 取得Component、Connection、PK的資訊，並轉成QT物件
-		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getComponent_GUI().c_str()));
-		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getConnection_GUI().c_str()));
-		inputFileText.push_back(QString::fromLocal8Bit(_presentationModel->getPrimaryKey_GUI().c_str()));
+		inputFileText.push_back(stringConvertQString(_presentationModel->getComponent_GUI()));
+		inputFileText.push_back(stringConvertQString(_presentationModel->getConnection_GUI()));
+		inputFileText.push_back(stringConvertQString(_presentationModel->getPrimaryKey_GUI()));
 		_scene->loadAllItem(inputFileText);
 	}
 }
@@ -146,8 +156,8 @@ void GUI::changeToPointerMode()
 // 將QString 轉為String後，用PM加入Model中
 void GUI::addNode( QString type_qstring, QString text_qstring )
 {
-	string type_string = string((const char *)type_qstring.toLocal8Bit()); 
-	string text_string = string((const char *)text_qstring.toLocal8Bit()); 
+	string type_string = qstringConvertString(type_qstring); 
+	string text_string = qstringConvertString(text_qstring); 
 	_presentationModel->addNodeCmd(type_string, text_string);
 }
 
@@ -167,14 +177,17 @@ void GUI::addNodeIntoTable( QString type, QString text )
 
 void GUI::updateInfo()
 {
-	for (int i = 0; i < _scene->getGUIItem().size(); i++)
-	{
-		qDebug()<<_scene->getGUIItem()[i]->getItemID();
-	}
 	qDebug()<<"observer updateInfo";
 }
 
-void GUI::updateTextChanged( int textChangedItemID )
+// Subject(ERModel)的TEXT有變動時，會呼叫Notify通知GUI的updateTextChanged進行GUI的修改
+void GUI::updateTextChanged( int textChangedItemID, string editedText )
 {
-	
+	_scene->changeItemText(textChangedItemID, stringConvertQString(editedText));
+}
+
+// TableView進行修改後，像PM發出更改通知
+void GUI::changeItemText( int textChangedItemID, QString editedText )
+{
+	_presentationModel->changeText(textChangedItemID, qstringConvertString(editedText));
 }

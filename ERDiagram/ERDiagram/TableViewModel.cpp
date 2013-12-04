@@ -1,4 +1,5 @@
 #include "TableViewModel.h"
+#include "..\src\corelib\io\qdebug.h"
 
 TableViewModel::TableViewModel()
 {
@@ -24,6 +25,9 @@ void TableViewModel::addNodeIntoModel( QString type, QString text )
 
 	QStandardItem *typeItem = new QStandardItem(type);
 	QStandardItem *textItem = new QStandardItem(text);
+
+	// 設定type那欄不可點選、編輯
+	typeItem->setFlags(typeItem->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
 
 	// 新增row
 	QList<QStandardItem*> row;

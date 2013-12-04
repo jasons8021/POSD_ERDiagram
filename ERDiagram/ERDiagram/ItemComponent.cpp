@@ -8,25 +8,33 @@ ItemComponent::ItemComponent()
 
 ItemComponent::ItemComponent( int sx, int sy, QString text )
 {
-	QFont textFont;
-	QFontMetrics textFM(textFont);
-
 	_sx = sx;
 	_sy = sy;
 	_text = text;
 
-	// 抓輸入字串的長度
-	_textWidth = textFM.width(_text);
-
-	// QRect第一二個參數是方形的左上角座標，第三個參數是長、第四個是寬
-	_textBoundingRectangle = QRect(sx, sy, _textWidth + PARAMETER_ADJUSTWIDTH, PARAMETER_ITEMHEIGHT);
-	_itemWidth = _textBoundingRectangle.width();
-	_itemHeight = _textBoundingRectangle.height();
-
+	setTextBoundingRectangle(sx, sy);
 }
 
 ItemComponent::~ItemComponent()
 {
+}
+
+// 計算輸入的文字寬度
+int ItemComponent::caculateTextWidth( QString text )
+{
+	QFont textFont;
+	QFontMetrics textFM(textFont);
+
+	return textFM.width(text);
+}
+
+// 設此Item的BoundingRextangle
+void ItemComponent::setTextBoundingRectangle(int sx, int sy)
+{
+	// QRect第一二個參數是方形的左上角座標，第三個參數是長、第四個是寬
+	_textBoundingRectangle = QRect(sx, sy, caculateTextWidth(_text) + PARAMETER_ADJUSTWIDTH, PARAMETER_ITEMHEIGHT);
+	_itemWidth = _textBoundingRectangle.width();
+	_itemHeight = _textBoundingRectangle.height();
 }
 
 // 處理attribute、entity、relationshipItem的寫字
@@ -160,4 +168,15 @@ void ItemComponent::setItemID( int ID )
 int ItemComponent::getItemID()
 {
 	return _itemID;
+}
+
+void ItemComponent::changeItemText( QString text )
+{
+	_text = text;
+
+	if (caculateTextWidth(text) + PARAMETER_ADJUSTWIDTH > _itemWidth)
+	{
+		setTextBoundingRectangle(_sx, _sy);
+		setPath();
+	}
 }

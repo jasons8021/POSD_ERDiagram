@@ -29,6 +29,8 @@ void ItemEntity::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 // Entity是一個方形，所以加入的是Rect
 void ItemEntity::setPath()
 {
+	_qPainterPath.~QPainterPath();
+	_qPainterPath = QPainterPath();
 	_qPainterPath.addRect(_textBoundingRectangle);
 }
 
