@@ -176,5 +176,5 @@ void GUI::updateInfo()
 
 void GUI::updateTextChanged( int textChangedItemID )
 {
-
+	
 }

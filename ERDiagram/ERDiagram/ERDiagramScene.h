@@ -38,7 +38,7 @@
 
 class GUI;
 
-class ERDiagramScene : public QGraphicsScene, public Observer
+class ERDiagramScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
@@ -72,8 +72,7 @@ public:
 	int findItemId(ItemComponent*);
 	void setItemID(ItemComponent*);
 	QVector<ItemComponent*> getGUIItem();
-	void updateInfo();
-	void updateTextChanged(int);
+	void changeItemText(int,QString);
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;
