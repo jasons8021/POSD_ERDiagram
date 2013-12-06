@@ -4,6 +4,7 @@
 ComponentTableView::ComponentTableView( GUI* gui, QStandardItemModel* tableViewModel )
 {
 	_gui = gui;
+	_clickedIndex = QModelIndex();
 
 	// header的對齊設定
 	setColumnWidth (COLUMN_TYPE,COLUMN_WIDTH);
@@ -23,13 +24,22 @@ ComponentTableView::~ComponentTableView()
 {
 }
 
+
+
 void ComponentTableView::doubleClickedEvent( const QModelIndex& index )
 {
-	QVariant value = this->model()->data(index,0);
-	qDebug()<<index.row();
+	_clickedIndex = index;
+}
+
+void ComponentTableView::closeEditor( QWidget *editor, QAbstractItemDelegate::EndEditHint hint )
+{
+	QVariant value = this->model()->data(_clickedIndex,0);
+	qDebug()<<_clickedIndex.row();
 	qDebug()<<value.toString();
-	if (value.isValid()&&index.column()!=0)
- 		_gui->changeItemText(index.row(), value.toString());
+	if (value.isValid()&&_clickedIndex.column()!=0)
+		_gui->changeItemText(_clickedIndex.row(), value.toString());
+
+	QTableView::closeEditor(editor,hint);
 }
 
 void ComponentTableView::updateModel( QStandardItemModel* newTableViewModel )

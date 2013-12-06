@@ -23,11 +23,13 @@ public:
 	ComponentTableView(GUI*, QStandardItemModel*);
 	virtual ~ComponentTableView();
 	void updateModel(QStandardItemModel*);
+	void closeEditor(QWidget*, QAbstractItemDelegate::EndEditHint);
 	private slots:
 		void doubleClickedEvent(const QModelIndex&);
 private:
 	QStandardItemModel* _tableViewModel;
 	GUI* _gui;
+	QModelIndex _clickedIndex;
 };
 
 #endif
