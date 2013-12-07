@@ -137,6 +137,7 @@ public:
 	
 	//////////////////////////////////////////////////////
 	void changeText(int, string);
+	void changePrimaryKey(int, bool);
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);

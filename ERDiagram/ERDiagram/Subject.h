@@ -16,6 +16,7 @@ public:
 	void detachObserver(Observer* observer);
 	void notifyObserver();
 	void notifyTextChanged(int, string);
+	void notifyPrimaryKeyChanged(int, bool);
 private:
 	vector<Observer*> _observerList;
 };

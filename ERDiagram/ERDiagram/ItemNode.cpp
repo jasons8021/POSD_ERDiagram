@@ -1,6 +1,6 @@
 #include "ItemNode.h"
 
-ItemNode::ItemNode( int sx, int sy, QString Text ) : ItemComponent( sx, sy, Text )
+ItemNode::ItemNode( int sx, int sy, QString type, QString text ) : ItemComponent( sx, sy, type, text )
 {
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 }

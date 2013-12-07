@@ -2,6 +2,7 @@
 #define ItemAttribute_H_
 
 #define PARAMETER_ATTRIBUTEITEMSHAPE "Ellipse"
+#define PARAMETER_ATTRIBUTE "A"
 
 #include <QRect>
 #include <QPainter>

@@ -35,6 +35,7 @@
 #include "AddRelationshipState.h"
 #include "GUI.h"
 #include "Observer.h"
+#include "SetPrimaryKeyState.h"
 
 class GUI;
 
@@ -47,7 +48,8 @@ public:
 		ConnectionMode,
 		AttributeMode,
 		EntityMode,
-		RelationshipMode
+		RelationshipMode,
+		SetPrimaryKeyMode
 	};
 
 	ERDiagramScene(QObject* parent = 0);
@@ -72,7 +74,8 @@ public:
 	int findItemId(ItemComponent*);
 	void setItemID(ItemComponent*);
 	QVector<ItemComponent*> getGUIItem();
-	void changeItemText(int,QString);
+	void changeItemText(int, QString);
+	void changePrimaryKey(int, bool);
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;

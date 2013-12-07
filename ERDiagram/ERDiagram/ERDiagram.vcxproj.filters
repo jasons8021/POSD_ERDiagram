@@ -244,6 +244,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_TableViewModel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="SetPrimaryKeyState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -355,6 +358,9 @@
     </CustomBuild>
     <CustomBuild Include="TableViewModel.h">
       <Filter>Header Files\MVC\View\GUI\TableView</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SetPrimaryKeyState.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

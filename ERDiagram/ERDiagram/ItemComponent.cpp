@@ -6,10 +6,11 @@ ItemComponent::ItemComponent()
 	_textBoundingRectangle = QRect(0, 0, 0, 0);
 }
 
-ItemComponent::ItemComponent( int sx, int sy, QString text )
+ItemComponent::ItemComponent( int sx, int sy, QString type, QString text )
 {
 	_sx = sx;
 	_sy = sy;
+	_type = type;
 	_text = text;
 
 	setTextBoundingRectangle(sx, sy);
@@ -179,4 +180,14 @@ void ItemComponent::changeItemText( QString text )
 		setTextBoundingRectangle(_sx, _sy);
 		setPath();
 	}
+}
+
+QString ItemComponent::getType()
+{
+	return _type;
+}
+
+QString ItemComponent::getText()
+{
+	return _text;
 }

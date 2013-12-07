@@ -25,7 +25,7 @@ class ItemComponent : public QGraphicsItem
 {
 public:
 	ItemComponent();
-	ItemComponent(int, int, QString);
+	ItemComponent(int, int, QString, QString);
 	virtual ~ItemComponent();
 	int getItemWidth();
 	void setItemWidth(int);
@@ -43,6 +43,8 @@ public:
 	void changeItemText(QString);
 	int caculateTextWidth(QString);
 	void setTextBoundingRectangle(int, int);
+	QString getType();
+	QString getText();
 	virtual void updatePosition();
 	virtual void paintText(QPainter*, bool);
 	virtual QRectF boundingRect() const;
@@ -57,6 +59,7 @@ protected:
 	QPainterPath _qPainterPath;
 	int _sx;
 	int _sy;
+	QString _type;
 	QString _text;
 	ERDiagramScene* _scene;
 	int _itemID;

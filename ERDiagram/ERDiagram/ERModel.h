@@ -226,7 +226,9 @@ public:
 	string getPrimaryKeyForGUI();
 
 	///////////////////////////////////////////////////////////////////
-	void changeText(int,string);
+	void changeText(int, string);
+	void changePrimaryKey(int, bool);
+	///////////////////////////////////////////////////////////////////
 private:
 	int _componentID;
 	bool _isModify;

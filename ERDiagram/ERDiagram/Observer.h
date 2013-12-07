@@ -12,6 +12,7 @@ public:
 	virtual ~Observer();
 	virtual void updateInfo() = 0;
 	virtual void updateTextChanged(int, string) = 0;
+	virtual void updatePrimaryKeyChanged(int, bool) = 0;
 };
 
 #endif

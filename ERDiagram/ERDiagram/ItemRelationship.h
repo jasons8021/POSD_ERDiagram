@@ -2,6 +2,7 @@
 #define ITEMRELATIONSHIP_H_
 
 #define PARAMETER_RELATIONSHIPITEMSHAPE "Diamond"
+#define PARAMETER_RELATIONSHIP "R"
 
 #include <QRect>
 #include <QPainter>

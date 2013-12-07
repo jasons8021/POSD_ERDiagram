@@ -377,3 +377,8 @@ void PresentationModel::changeText( int targetNodeID, string editedText )
 {
 	_erModel->changeText(targetNodeID, editedText);
 }
+
+void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
+{
+	_erModel->changePrimaryKey(targetNodeID, isPrimaryKey);
+}

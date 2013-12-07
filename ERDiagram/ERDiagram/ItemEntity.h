@@ -2,6 +2,7 @@
 #define ITEMENTITY_H_
 
 #define PARAMETER_ENTITYITEMSHAPE "Rectangle"
+#define PARAMETER_ENTITY "E"
 
 #include <QRect>
 #include <QPainter>
@@ -25,4 +26,3 @@ public:
 };
 
 #endif
-

@@ -36,8 +36,6 @@ int ERModel::addNode( int componentID, string type, string text )
 	_components.push_back(newComponent);
 	delete componentFactory;
 
-	notifyObserver();
-
 	return newComponent->getID();
 }
 
@@ -78,8 +76,6 @@ int ERModel::addConnection( int componentID, int sourceNodeID, int destinationNo
 	else
 		return PARAMETER_ISERROR;
 	delete componentFactory;
-
-	notifyObserver();
 
 	return newConnection->getID();
 }
@@ -914,5 +910,11 @@ void ERModel::changeText( int targetNodeID, string editedText )
 {
 	searchComponent(targetNodeID)->setText(editedText);
 	notifyTextChanged(targetNodeID, editedText);
+}
+
+void ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
+{
+	static_cast<NodeAttribute*>(searchComponent(targetNodeID))->setIsPrimaryKey(isPrimaryKey);
+	notifyPrimaryKeyChanged(targetNodeID, isPrimaryKey);
 }
 

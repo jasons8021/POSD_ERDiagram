@@ -2,6 +2,7 @@
 #define ITEMCONNECTION_H_
 
 #define PARAMETER_CONNECTIONITEMSHAPE "Line"
+#define PARAMETER_CONNECTOR "C"
 
 #include <QRect>
 #include <QPainter>

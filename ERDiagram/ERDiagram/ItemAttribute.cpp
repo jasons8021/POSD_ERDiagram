@@ -1,6 +1,6 @@
 #include "ItemAttribute.h"
 
-ItemAttribute::ItemAttribute( int sx, int sy, QString attributeText ) : ItemNode( sx, sy, attributeText )
+ItemAttribute::ItemAttribute( int sx, int sy, QString attributeText ) : ItemNode( sx, sy, PARAMETER_ATTRIBUTE, attributeText )
 {
 	setPath();
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);

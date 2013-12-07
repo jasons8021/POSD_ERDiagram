@@ -28,18 +28,26 @@ void Subject::detachObserver( Observer* observer )
 }
 
 // 通知每個observer
-void Subject::notifyObserver()
+// void Subject::notifyObserver()
+// {
+// 	for (int i = 0; i < _observerList.size(); i++)
+// 	{
+// 		_observerList[i]->updateInfo();
+// 	}
+// }
+
+void Subject::notifyTextChanged( int targetNodeID, string editedText )
 {
 	for (int i = 0; i < _observerList.size(); i++)
 	{
-		_observerList[i]->updateInfo();
+		_observerList[i]->updateTextChanged(targetNodeID, editedText);
 	}
 }
 
-void Subject::notifyTextChanged(int componentID, string editedText)
+void Subject::notifyPrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
 {
 	for (int i = 0; i < _observerList.size(); i++)
 	{
-		_observerList[i]->updateTextChanged(componentID, editedText);
+		_observerList[i]->updatePrimaryKeyChanged(targetNodeID, isPrimaryKey);
 	}
 }

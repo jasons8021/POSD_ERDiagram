@@ -16,7 +16,6 @@ private:
 	ItemComponent* _sourceItem;
 	ItemComponent* _destionationItem;
 	ItemComponent* _previewItem;
-//	ItemComponent* _destionationPoint;
 };
 
 #endif

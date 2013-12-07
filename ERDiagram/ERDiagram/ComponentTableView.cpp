@@ -1,5 +1,4 @@
 #include "ComponentTableView.h"
-#include "..\src\corelib\io\qdebug.h"
 
 ComponentTableView::ComponentTableView( GUI* gui, QStandardItemModel* tableViewModel )
 {
@@ -34,8 +33,6 @@ void ComponentTableView::doubleClickedEvent( const QModelIndex& index )
 void ComponentTableView::closeEditor( QWidget *editor, QAbstractItemDelegate::EndEditHint hint )
 {
 	QVariant value = this->model()->data(_clickedIndex,0);
-	qDebug()<<_clickedIndex.row();
-	qDebug()<<value.toString();
 	if (value.isValid()&&_clickedIndex.column()!=0)
 		_gui->changeItemText(_clickedIndex.row(), value.toString());
 

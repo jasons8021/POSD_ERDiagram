@@ -137,6 +137,7 @@
     <ClCompile Include="PointerState.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
     <ClCompile Include="ItemRelationship.cpp" />
+    <ClCompile Include="SetPrimaryKeyState.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TableViewModel.cpp" />
     <ClCompile Include="TextUI.cpp" />
@@ -202,6 +203,22 @@
     <ClInclude Include="PointerState.h" />
     <ClInclude Include="PresentationModel.h" />
     <ClInclude Include="ItemRelationship.h" />
+    <CustomBuild Include="SetPrimaryKeyState.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="Subject.h" />
     <CustomBuild Include="TableViewModel.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -1,7 +1,7 @@
 #include "ItemEntity.h"
 #include <math.h>
 
-ItemEntity::ItemEntity( int sx, int sy, QString entityText ) : /*ItemComponent*/ItemNode( sx, sy, entityText )
+ItemEntity::ItemEntity( int sx, int sy, QString entityText ) : ItemNode( sx, sy, PARAMETER_ENTITY, entityText )
 {
 	setPath();
 }

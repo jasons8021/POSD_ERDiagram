@@ -202,6 +202,10 @@ void ERDiagramScene::changeState( int stateMode )
 		_previewItem = new ItemRelationship(PRIVIEWITEMORIGINAL_X, PRIVIEWITEMORIGINAL_Y, NULLTEXT);
 		_state = new AddRelationshipState(this, _previewItem);
 		break;
+	case SetPrimaryKeyMode:
+		_previewItem = new ItemComponent();
+		_state = new SetPrimaryKeyState(_gui, this);
+		break;
 	}
 }
 
@@ -251,8 +255,14 @@ QVector<ItemComponent*> ERDiagramScene::getGUIItem()
 	return _guiItem;
 }
 
-void ERDiagramScene::changeItemText( int textChangedItemID, QString editedText )
+void ERDiagramScene::changeItemText( int targetNodeID, QString editedText )
 {
-	_guiItem[textChangedItemID]->changeItemText(editedText);
+	_guiItem[targetNodeID]->changeItemText(editedText);
+	update();
+}
+
+void ERDiagramScene::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
+{
+	static_cast<ItemAttribute*>(_guiItem[targetNodeID])->setPrimaryKey(isPrimaryKey);
 	update();
 }

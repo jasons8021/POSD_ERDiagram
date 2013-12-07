@@ -1,6 +1,4 @@
 #include "GUI.h"
-#include <QTableView>
-#include <QStandardItemModel>
 
 GUI::GUI(PresentationModel* presentationModel)
 {
@@ -75,13 +73,9 @@ void GUI::createMenus()
 	_menu->addAction(_exitAction);
 }
 
-void GUI::createToolbars()
+// 產生Button
+void GUI::createButton()
 {
-	// 開啟檔案 & 離開
-	_toolBar = addToolBar(tr("File"));
-	_toolBar->addAction(_openAction);
-	_toolBar->addAction(_exitAction);
-
 	// state Button
 	_pointerButton = new QToolButton();
 	_pointerButton->setCheckable(true);
@@ -104,15 +98,29 @@ void GUI::createToolbars()
 	_addRelationshipButton->setCheckable(true);
 	_addRelationshipButton->setIcon(QIcon("images/diamond.png"));
 
+	_setPrimaryKeyButton = new QToolButton();
+	_setPrimaryKeyButton->setCheckable(true);
+	_setPrimaryKeyButton->setIcon(QIcon("images/key.png"));
+
 	_buttonGroup = new QButtonGroup();
 	_buttonGroup->addButton(_pointerButton, ERDiagramScene::PointerMode);
 	_buttonGroup->addButton(_connectionButton, ERDiagramScene::ConnectionMode);
 	_buttonGroup->addButton(_addAttributeButton, ERDiagramScene::AttributeMode);
 	_buttonGroup->addButton(_addEntityButton, ERDiagramScene::EntityMode);
 	_buttonGroup->addButton(_addRelationshipButton, ERDiagramScene::RelationshipMode);
+	_buttonGroup->addButton(_setPrimaryKeyButton, ERDiagramScene::SetPrimaryKeyMode);
 	connect(_buttonGroup, SIGNAL(buttonClicked(int)),
 		this, SLOT(buttonGroupClicked()));
+}
 
+void GUI::createToolbars()
+{
+	// 開啟檔案 & 離開
+	_toolBar = addToolBar(tr("File"));
+	_toolBar->addAction(_openAction);
+	_toolBar->addAction(_exitAction);
+
+	createButton();
 	// state的Menu
 	_toolBar = addToolBar(tr("State"));
 	_toolBar->addWidget(_pointerButton);
@@ -123,7 +131,12 @@ void GUI::createToolbars()
 	_toolBar->addWidget(_addAttributeButton);
 	_toolBar->addWidget(_addEntityButton);
 	_toolBar->addWidget(_addRelationshipButton);
+
+	_toolBar->addSeparator();
+
+	_toolBar->addWidget(_setPrimaryKeyButton);
 }
+
 
 void GUI::loadFile()
 {
@@ -177,17 +190,27 @@ void GUI::addNodeIntoTable( QString type, QString text )
 
 void GUI::updateInfo()
 {
-	qDebug()<<"observer updateInfo";
+	
 }
 
 // Subject(ERModel)的TEXT有變動時，會呼叫Notify通知GUI的updateTextChanged進行GUI的修改
-void GUI::updateTextChanged( int textChangedItemID, string editedText )
+void GUI::updateTextChanged( int targetNodeID, string editedText )
 {
-	_scene->changeItemText(textChangedItemID, stringConvertQString(editedText));
+	_scene->changeItemText(targetNodeID, stringConvertQString(editedText));
 }
 
 // TableView進行修改後，像PM發出更改通知
-void GUI::changeItemText( int textChangedItemID, QString editedText )
+void GUI::changeItemText( int targetNodeID, QString editedText )
 {
-	_presentationModel->changeText(textChangedItemID, qstringConvertString(editedText));
+	_presentationModel->changeText(targetNodeID, qstringConvertString(editedText));
+}
+
+void GUI::updatePrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
+{
+	_scene->changePrimaryKey(targetNodeID, isPrimaryKey);
+}
+
+void GUI::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
+{
+	_presentationModel->changePrimaryKey(targetNodeID, isPrimaryKey);
 }

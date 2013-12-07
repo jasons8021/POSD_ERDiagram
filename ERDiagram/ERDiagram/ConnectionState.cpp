@@ -1,17 +1,14 @@
 #include "ConnectionState.h"
 #include "ERDiagramScene.h"
 
-ConnectionState::ConnectionState( ERDiagramScene* scene, ItemComponent* previewItem ): GuiState(scene)
+ConnectionState::ConnectionState( ERDiagramScene* scene, ItemComponent* previewItem ) : GuiState(scene)
 {
 	_sourceItem = NULL;
 	_destionationItem = NULL;
-// 	_previewItem = previewItem;
-// 	_destionationPoint = new ItemEntity(0,0,"");
 }
 
 ConnectionState::~ConnectionState()
 {
-	//delete _destionationPoint;
 }
 
 void ConnectionState::mousePressEvent( QGraphicsSceneMouseEvent* event )

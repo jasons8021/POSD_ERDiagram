@@ -11,7 +11,7 @@
 class ItemNode : public ItemComponent
 {
 public:
-	ItemNode(int, int, QString);
+	ItemNode(int, int, QString, QString);
 	virtual ~ItemNode();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

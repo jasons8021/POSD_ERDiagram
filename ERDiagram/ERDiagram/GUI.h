@@ -18,6 +18,8 @@
 #include <QToolButton>
 #include <QIcon>
 #include <string>
+#include <QTableView>
+#include <QStandardItemModel>
 
 #include "ERDiagramScene.h"
 #include "PresentationModel.h"
@@ -43,6 +45,8 @@ public:
 	void updateInfo();
 	void updateTextChanged(int, string);
 	void changeItemText(int, QString);
+	void updatePrimaryKeyChanged(int, bool);
+	void changePrimaryKey(int, bool);
 	QString stringConvertQString(string);
 	string qstringConvertString(QString);
 	private slots:
@@ -52,6 +56,7 @@ private:
 	void createActions();
 	void createMenus();
 	void createToolbars();
+	void createButton();
 
 	QGraphicsView* _view;
 	ERDiagramScene* _scene;
@@ -68,6 +73,7 @@ private:
 	QToolButton* _addAttributeButton;
 	QToolButton* _addEntityButton;
 	QToolButton* _addRelationshipButton;
+	QToolButton* _setPrimaryKeyButton;
 	QButtonGroup* _buttonGroup;
 
 	TableViewModel* _tableViewModel;

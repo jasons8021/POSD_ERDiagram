@@ -15,6 +15,7 @@ ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destio
 {
 	_sourceItem = sourceItem;
 	_destionationItem = destionationItem;
+	_type = PARAMETER_CONNECTOR;
 	_text = text;
 
 	setSourceDestinationPoint();
