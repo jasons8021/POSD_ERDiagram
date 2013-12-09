@@ -17,17 +17,11 @@ void ConnectionState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 	{
 		// 將點到位置對應到Scene的Item放進來
 		_sourceItem = static_cast<ItemComponent*>(_scene->itemAt(event->scenePos()));
-//		_destionationPoint->setPos(event->scenePos());
 	}
-// 	static_cast<ItemConnection*>(_previewItem)->setSourceItem(_sourceItem);
-// 	static_cast<ItemConnection*>(_previewItem)->setDestionationItem(_destionationPoint);
-// 
-// 	_scene->addItem(_previewItem);
 }
 
 void ConnectionState::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
-// 	_destionationPoint->setPos(event->scenePos());
 }
 
 void ConnectionState::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
@@ -36,15 +30,26 @@ void ConnectionState::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 	{
 		// 將點到位置對應到Scene的Item放進來
 		_destionationItem = static_cast<ItemComponent*>(_scene->itemAt(event->scenePos()));
-
-// 		if (_destionationItem != NULL)
-// 			static_cast<ItemConnection*>(_previewItem)->setDestionationItem(_destionationItem);
-// 		else
-// 			_destionationPoint->setPos(event->scenePos());
 	}
 
 	if (_sourceItem != NULL && _destionationItem != NULL)
-		_scene->addConnectionFromGUI(_sourceItem, _destionationItem, "");
-
+	{
+		// 兩個Item是Entity與Relationship的關係
+		if (_scene->checkSetCardinality(_sourceItem->getItemID(), _destionationItem->getItemID()))
+		{
+			// 輸入Cardinality的值
+			bool dialogFlag;
+			QString text = QInputDialog::getText(0, "Enter Cardinality","Please enter 1 or N:", QLineEdit::Normal,"", &dialogFlag, Qt::Dialog);
+			if (dialogFlag && !text.isEmpty() && (text == "1" || text == "N"))
+				_scene->addConnectionFromGUI(_sourceItem, _destionationItem, text);
+			else
+			{
+				// 輸入不是1或N的都預設為1
+				_scene->addConnectionFromGUI(_sourceItem, _destionationItem, "1");
+			}
+		}
+		else
+			_scene->addConnectionFromGUI(_sourceItem, _destionationItem, "");
+	}
 	_scene->changToPointerMode();
 }

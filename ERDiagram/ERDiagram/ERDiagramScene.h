@@ -76,6 +76,7 @@ public:
 	QVector<ItemComponent*> getGUIItem();
 	void changeItemText(int, QString);
 	void changePrimaryKey(int, bool);
+	bool checkSetCardinality(int, int);
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;

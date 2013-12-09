@@ -18,7 +18,7 @@ ItemComponent* ItemFactory::creatItem( int sx, int sy, QString type, QString tex
 		return new ItemRelationship(sx, sy, text);
 }
 
-ItemComponent* ItemFactory::creatItemConnection( ItemComponent* sourceItem, ItemComponent* destinationItem, QString text )
+ItemComponent* ItemFactory::creatItemConnection( ItemComponent* sourceItem, ItemComponent* destinationItem, QString text, bool isSetCardinality )
 {
-	return new ItemConnection(sourceItem, destinationItem, text);
+	return new ItemConnection(sourceItem, destinationItem, text, isSetCardinality);
 }

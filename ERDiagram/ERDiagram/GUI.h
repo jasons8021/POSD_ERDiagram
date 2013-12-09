@@ -49,6 +49,7 @@ public:
 	void changePrimaryKey(int, bool);
 	QString stringConvertQString(string);
 	string qstringConvertString(QString);
+	bool checkSetCardinality(int, int);
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();

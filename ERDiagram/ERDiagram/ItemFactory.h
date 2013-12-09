@@ -19,7 +19,7 @@ public:
 	ItemFactory();
 	virtual ~ItemFactory();
 	ItemComponent* creatItem(int, int, QString, QString);
-	ItemComponent* creatItemConnection(ItemComponent*, ItemComponent*, QString);
+	ItemComponent* creatItemConnection(ItemComponent*, ItemComponent*, QString, bool);
 };
 
 #endif

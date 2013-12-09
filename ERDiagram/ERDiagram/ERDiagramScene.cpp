@@ -101,7 +101,10 @@ ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemCom
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
 
-	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(sourceItem, destionationItem, text));
+	// 判斷是否為Cardinality，並設定進connectionItem中
+	bool isSetCardinality = checkSetCardinality(sourceItem->getItemID(), destionationItem->getItemID());
+
+	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(sourceItem, destionationItem, text, isSetCardinality));
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定編號
@@ -265,4 +268,9 @@ void ERDiagramScene::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	static_cast<ItemAttribute*>(_guiItem[targetNodeID])->setPrimaryKey(isPrimaryKey);
 	update();
+}
+
+bool ERDiagramScene::checkSetCardinality( int sourceNodeID, int destinationNodeID )
+{
+	return _gui->checkSetCardinality(sourceNodeID, destinationNodeID);
 }

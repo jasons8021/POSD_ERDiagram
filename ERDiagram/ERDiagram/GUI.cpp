@@ -214,3 +214,8 @@ void GUI::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	_presentationModel->changePrimaryKey(targetNodeID, isPrimaryKey);
 }
+
+bool GUI::checkSetCardinality( int sourceNodeID, int destinationNodeID )
+{
+	return _presentationModel->checkSetCardinality(sourceNodeID, destinationNodeID);
+}

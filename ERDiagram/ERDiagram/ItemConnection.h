@@ -19,7 +19,7 @@ class ItemConnection : public ItemComponent
 {
 public:
 	ItemConnection();
-	ItemConnection(ItemComponent*, ItemComponent*, QString);
+	ItemConnection(ItemComponent*, ItemComponent*, QString, bool);
 	virtual ~ItemConnection();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;
@@ -30,11 +30,13 @@ public:
 	void setSourceDestinationPoint();
 	void setSourceItem(ItemComponent*);
 	void setDestionationItem(ItemComponent*);
+	bool getSetCardinality();
 private:
 	ItemComponent* _sourceItem;
 	ItemComponent* _destionationItem;
 	QPointF _centerPos;
 	QLineF _connectedLine;
+	bool _isSetCardinality;
 };
 
 #endif

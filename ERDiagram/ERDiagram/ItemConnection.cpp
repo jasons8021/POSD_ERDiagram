@@ -11,12 +11,13 @@ ItemConnection::ItemConnection()
 	setAcceptsHoverEvents(true);
 }
 
-ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text)
+ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text, bool isSetCardinality)
 {
 	_sourceItem = sourceItem;
 	_destionationItem = destionationItem;
 	_type = PARAMETER_CONNECTOR;
 	_text = text;
+	_isSetCardinality = isSetCardinality;
 
 	setSourceDestinationPoint();
 
@@ -105,4 +106,9 @@ void ItemConnection::setDestionationItem( ItemComponent* destionationItem )
 	destionationItem = _destionationItem;
 	if (_sourceItem != NULL && _destionationItem != NULL)
 		setSourceDestinationPoint();
+}
+
+bool ItemConnection::getSetCardinality()
+{
+	return _isSetCardinality;
 }
