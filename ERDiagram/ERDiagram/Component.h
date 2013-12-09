@@ -10,6 +10,8 @@
 
 #define PARAMETER_NULL ""
 
+#define PARAMETER_TEXTUI_COORDINATES 0
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -22,7 +24,7 @@ class Component
 	friend class ComponentTest;
 public:
 	Component();
-	Component(int, string, string);
+	Component(int, string, string, int, int);
 	virtual ~Component();
 	int getID();
 	bool searchConnections(int);
@@ -39,6 +41,8 @@ private:
 	int _id;
 	string _type;
 	string _text;
+	int _sx;
+	int _sy;
 	vector<Component*> _connections;
 };
 

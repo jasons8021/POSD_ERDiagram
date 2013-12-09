@@ -98,6 +98,7 @@
     <ClCompile Include="..\ERDiagram\NodeEntity.cpp" />
     <ClCompile Include="..\ERDiagram\NodeRelationship.cpp" />
     <ClCompile Include="..\ERDiagram\PresentationModel.cpp" />
+    <ClCompile Include="..\ERDiagram\Subject.cpp" />
     <ClCompile Include="..\ERDiagram\TextUI.cpp" />
     <ClCompile Include="..\ERDiagram\Toolkit.cpp" />
     <ClCompile Include="AddComponentCmdTest.cpp" />

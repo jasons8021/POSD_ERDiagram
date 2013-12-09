@@ -1,7 +1,7 @@
 #include "NodeEntityTest.h"
 
 void NodeEntityTest::SetUp(){
-	_entityComponent = new NodeEntity(0, "UnitTestNodeEntityTest");
+	_entityComponent = new NodeEntity(0, "UnitTestNodeEntityTest", 0, 0);
 }
 
 void NodeEntityTest::TearDown(){
@@ -9,19 +9,19 @@ void NodeEntityTest::TearDown(){
 }
 
 TEST_F(NodeEntityTest, connectTo){
-	_entityComponent->connectTo(new NodeAttribute(1, "UnitTestNodeEntityTestA1"));
+	_entityComponent->connectTo(new NodeAttribute(1, "UnitTestNodeEntityTestA1", 0, 0));
 	EXPECT_EQ(1, _entityComponent->getConnections().size());
 }
 
 TEST_F(NodeEntityTest, canConnectTo){
-	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new NodeAttribute(1, "UnitTestNodeA1")));
-	_entityComponent->connectTo(new NodeEntity(1, "UnitTestNodeA1"));
-	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new NodeRelationship(2, "UnitTestNodeR2")));
-	_entityComponent->connectTo(new NodeRelationship(2, "UnitTestNodeR2"));
+	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new NodeAttribute(1, "UnitTestNodeA1", 0, 0)));
+	_entityComponent->connectTo(new NodeEntity(1, "UnitTestNodeA1", 0, 0));
+	EXPECT_EQ("CANCONNECT", _entityComponent->canConnectTo(new NodeRelationship(2, "UnitTestNodeR2", 0, 0)));
+	_entityComponent->connectTo(new NodeRelationship(2, "UnitTestNodeR2", 0, 0));
 
 	// 不可連結
-	EXPECT_EQ("The node '0' cannot be connected to itself.", _entityComponent->canConnectTo(new Component(0, PARAMETER_ATTRIBUTE, "UnitTestNodeAttributeTest")));
-	EXPECT_EQ("The node '3' cannot be connected by the node '0'.", _entityComponent->canConnectTo(new Component(3, PARAMETER_ENTITY, "UnitTestNodeE3")));
+	EXPECT_EQ("The node '0' cannot be connected to itself.", _entityComponent->canConnectTo(new Component(0, PARAMETER_ATTRIBUTE, "UnitTestNodeAttributeTest", 0, 0)));
+	EXPECT_EQ("The node '3' cannot be connected by the node '0'.", _entityComponent->canConnectTo(new Component(3, PARAMETER_ENTITY, "UnitTestNodeE3", 0, 0)));
 }
 
 TEST_F(NodeEntityTest, setPrimaryKey){
@@ -43,7 +43,7 @@ TEST_F(NodeEntityTest, setForeignKey){
 }
 
 TEST_F(NodeEntityTest, deleteConnectedComponent){
-	_entityComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1"));
+	_entityComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
 	_entityComponent->deleteConnectedComponent(1);
 	EXPECT_EQ(0, _entityComponent->getConnections().size());
 }

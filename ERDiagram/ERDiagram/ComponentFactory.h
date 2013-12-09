@@ -18,7 +18,7 @@ class ComponentFactory
 public:
 	ComponentFactory();
 	virtual ~ComponentFactory();
-	Component* creatComponent(int, string, string);
+	Component* creatComponent(int, string, string, int, int);
 };
 
 #endif

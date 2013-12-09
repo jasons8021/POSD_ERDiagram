@@ -1,6 +1,6 @@
 #include "NodeEntity.h"
 
-NodeEntity::NodeEntity( int id, string text ) : Node( id, PARAMETER_ENTITY, text )
+NodeEntity::NodeEntity( int id, string text, int sx, int sy ) : Node( id, PARAMETER_ENTITY, text, sx, sy )
 {
 	_isShowForeignKeyinERTable = false;
 	_foreignKeySet.clear();

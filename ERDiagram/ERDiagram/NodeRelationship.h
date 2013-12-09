@@ -27,7 +27,7 @@ class NodeRelationship : public Node
 	FRIEND_TEST(NodeRelationshipTest, deleteConnectedComponent);
 	FRIEND_TEST(NodeRelationshipTest, deleteEntityCardinality);
 public:
-	NodeRelationship(int, string);
+	NodeRelationship(int, string, int, int);
 	virtual ~NodeRelationship();
 	void setEntityCardinality(pair<int, string>);
 	void deleteEntityCardinality(int);

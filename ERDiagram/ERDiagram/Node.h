@@ -11,7 +11,7 @@ using namespace std;
 class Node : public Component{
 public:
 	Node();
-	Node(int, string, string);
+	Node(int, string, string, int, int);
 	virtual ~Node();
 	virtual void deleteConnectedComponent(int);
 	virtual void connectTo(Component*);

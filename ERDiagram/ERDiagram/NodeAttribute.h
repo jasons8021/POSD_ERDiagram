@@ -24,7 +24,7 @@ class NodeAttribute : public Node
 	FRIEND_TEST(NodeAttributeTest, connectTo);
 	FRIEND_TEST(NodeAttributeTest, deleteConnectedComponent);
 public:
-	NodeAttribute(int, string);
+	NodeAttribute(int, string, int, int);
 	virtual ~NodeAttribute();
 	bool getIsPrimaryKey();
 	void setIsPrimaryKey(bool);

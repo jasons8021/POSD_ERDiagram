@@ -76,6 +76,9 @@
     <Filter Include="Resource Files\MVC\View">
       <UniqueIdentifier>{242839db-c02b-44b4-89b7-ad053a1a9e26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\ObserverPattern">
+      <UniqueIdentifier>{2f2de3f8-f03b-49f8-ab24-1b31b409f315}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="..\ERDiagram\PresentationModel.cpp">
       <Filter>Resource Files\MVC\PresentationModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\Subject.cpp">
+      <Filter>Resource Files\ObserverPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,11 +14,11 @@ void DeleteComponentCmdTest::SetUp(){
 	for (int i = 0; i < testNum; i++)
 	{
 		if (testType[i] == PARAMETER_ATTRIBUTE)
-			_erModel->_components.push_back(new NodeAttribute(i, testText[i]));
+			_erModel->_components.push_back(new NodeAttribute(i, testText[i], 0, 0));
 		else if (testType[i] == PARAMETER_ENTITY)
-			_erModel->_components.push_back(new NodeEntity(i, testText[i]));
+			_erModel->_components.push_back(new NodeEntity(i, testText[i], 0, 0));
 		else
-			_erModel->_components.push_back(new NodeRelationship(i, testText[i]));
+			_erModel->_components.push_back(new NodeRelationship(i, testText[i], 0, 0));
 		_erModel->_componentID++;
 	}
 

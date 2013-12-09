@@ -4,11 +4,13 @@ Component::Component()
 {
 }
 
-Component::Component(int id, string type, string text)
+Component::Component( int id, string type, string text, int sx, int sy  )
 {
 	this->_id = id;
 	this->_type = type;
 	this->_text = text;
+	this->_sx = sx;
+	this->_sy = sy;
 }
 
 Component::~Component()

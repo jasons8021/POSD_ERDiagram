@@ -28,7 +28,7 @@ int ERModel::addNode( int componentID, string type, string text )
 	ComponentFactory* componentFactory = new ComponentFactory();
 	
 	Component* newComponent;
-	newComponent = static_cast<Component*>(componentFactory->creatComponent(componentID, type, text));
+	newComponent = static_cast<Component*>(componentFactory->creatComponent(componentID, type, text, PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES));
 	if (newComponent == nullptr)
 		return PARAMETER_ISERROR;
 	_isModify = true;
@@ -62,7 +62,7 @@ int ERModel::addConnection( int componentID, int sourceNodeID, int destinationNo
 
 	if (checkConnectionState(sourceNode, destinationNode) == TEXT_CONNECTION_CANCONNECT)
 	{
-		newConnection = static_cast<Component*>(componentFactory->creatComponent(componentID, PARAMETER_CONNECTOR, text));
+		newConnection = static_cast<Component*>(componentFactory->creatComponent(componentID, PARAMETER_CONNECTOR, text, PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES));
 		_components.push_back(newConnection);
 
 		static_cast<Connector*>(newConnection)->setConnectedNode(sourceNode, destinationNode);

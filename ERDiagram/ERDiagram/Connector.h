@@ -5,6 +5,7 @@
 
 #define PARAMETER_CONNECTOR "C"
 #define PARAMETER_NULL ""
+#define PARAMETER_TEXTUI_COORDINATES 0
 
 #include <vector>
 #include <gtest/gtest_prod.h>

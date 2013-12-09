@@ -1,6 +1,6 @@
 #include "Connector.h"
 
-Connector::Connector( int id, string text ) : Component( id, PARAMETER_CONNECTOR, text )
+Connector::Connector( int id, string text ) : Component( id, PARAMETER_CONNECTOR, text, PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES )
 {
 
 }

@@ -2,7 +2,7 @@
 
 void NodeRelationshipTest::SetUp()
 {
-	_relationshipComponent = new NodeRelationship(0, "UnitTestRelationshipComponent");
+	_relationshipComponent = new NodeRelationship(0, "UnitTestRelationshipComponent", 0, 0);
 }
 
 void NodeRelationshipTest::TearDown()
@@ -11,19 +11,19 @@ void NodeRelationshipTest::TearDown()
 }
 
 TEST_F(NodeRelationshipTest, connectTo){
-	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeEntityTestE1"));
+	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeEntityTestE1", 0, 0));
 	EXPECT_EQ(1, _relationshipComponent->getConnections().size());
 }
 
 TEST_F(NodeRelationshipTest, canConnectTo){
-	EXPECT_EQ("CANCONNECT", _relationshipComponent->canConnectTo(new Component(1, PARAMETER_ENTITY, "UnitTestNodeE1")));
-	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1"));
-	EXPECT_EQ("CANCONNECT", _relationshipComponent->canConnectTo(new Component(2, PARAMETER_ENTITY, "UnitTestNodeE2")));
-	_relationshipComponent->connectTo(new NodeRelationship(2, "UnitTestNodeE2"));
+	EXPECT_EQ("CANCONNECT", _relationshipComponent->canConnectTo(new Component(1, PARAMETER_ENTITY, "UnitTestNodeE1", 0, 0)));
+	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
+	EXPECT_EQ("CANCONNECT", _relationshipComponent->canConnectTo(new Component(2, PARAMETER_ENTITY, "UnitTestNodeE2", 0, 0)));
+	_relationshipComponent->connectTo(new NodeRelationship(2, "UnitTestNodeE2", 0, 0));
 
 	// 不可連結
-	EXPECT_EQ("The node '0' cannot be connected to itself.", _relationshipComponent->canConnectTo(new Component(0, PARAMETER_RELATIONSHIP, "UnitTestRelationshipComponent")));
-	EXPECT_EQ("The node '3' cannot be connected by the node '0'.", _relationshipComponent->canConnectTo(new Component(3, PARAMETER_RELATIONSHIP, "UnitTestNodeR3")));
+	EXPECT_EQ("The node '0' cannot be connected to itself.", _relationshipComponent->canConnectTo(new Component(0, PARAMETER_RELATIONSHIP, "UnitTestRelationshipComponent", 0, 0)));
+	EXPECT_EQ("The node '3' cannot be connected by the node '0'.", _relationshipComponent->canConnectTo(new Component(3, PARAMETER_RELATIONSHIP, "UnitTestNodeR3", 0, 0)));
 }
 
 TEST_F(NodeRelationshipTest, setEntityCardinality){
@@ -34,8 +34,8 @@ TEST_F(NodeRelationshipTest, setEntityCardinality){
 }
 
 TEST_F(NodeRelationshipTest, deleteConnectedComponent){
-	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1"));
-	_relationshipComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5"));
+	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
+	_relationshipComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5", 0, 0));
 
 	_relationshipComponent->setEntityCardinality(make_pair(1,"1"));
 	EXPECT_EQ(1, _relationshipComponent->_entityCardinalitySet.size());
@@ -52,8 +52,8 @@ TEST_F(NodeRelationshipTest, deleteConnectedComponent){
 }
 
 TEST_F(NodeRelationshipTest, deleteEntityCardinality){
-	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1"));
-	_relationshipComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5"));
+	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
+	_relationshipComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5", 0, 0));
 
 	_relationshipComponent->setEntityCardinality(make_pair(1,"1"));
 	EXPECT_EQ(1, _relationshipComponent->_entityCardinalitySet.size());

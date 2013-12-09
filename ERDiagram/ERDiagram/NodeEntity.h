@@ -25,7 +25,7 @@ class NodeEntity : public Node
 	FRIEND_TEST(NodeEntityTest, setForeignKey);
 	FRIEND_TEST(NodeEntityTest, deleteKeys);
 public:
-	NodeEntity(int, string);
+	NodeEntity(int, string, int, int);
 	virtual ~NodeEntity();
 	bool getIsShowForeignKeyinERTable();
 	void setPrimaryKey(int);
