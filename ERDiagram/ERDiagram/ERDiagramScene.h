@@ -71,8 +71,8 @@ public:
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
 	int getCurrentMode();
 	void changToPointerMode();
-	int findItemId(ItemComponent*);
-	void setItemID(ItemComponent*);
+	void setItemIDandERModelID(ItemComponent*);
+	void resetItemID(int);
 	QVector<ItemComponent*> getGUIItem();
 	void changeItemText(int, QString);
 	void changePrimaryKey(int, bool);
@@ -80,7 +80,10 @@ public:
 	void updateAddNewItem(QString, QString, QPointF);
 	void updateConnection(int, int, QString);
 	void changeDeleteActionEnable();
-	void deleteItem();
+	void deleteSelectedItem();
+	void deleteItem(int);
+	ItemComponent* searchItemByERModelID(int);
+	int searchItemIsSelected();
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;

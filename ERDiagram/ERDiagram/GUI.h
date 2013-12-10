@@ -49,11 +49,14 @@ public:
 	void changePrimaryKey(int, bool);
 	void updateAddNewNode(string, string, int, int);
 	void updateConnection(int, int, string);
+	void updateDeleteNode(int);
 	QString stringConvertQString(string);
 	string qstringConvertString(QString);
 	bool checkSetCardinality(int, int);
 	void changeDeleteActionEnable(bool);
 	void changeUnRedoActionEnable();
+	int getERModelComponentID();
+	void deleteTableRow(int);
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();

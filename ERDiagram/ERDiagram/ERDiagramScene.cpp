@@ -33,8 +33,9 @@ void ERDiagramScene::loadAllItem( QVector<QString> inputFileText )
 		}
 	}
 
+	// resultPrimaryKey是由ERModel傳過來的，所以要配合用erModelID
 	for ( int i = 0; i < resultPrimaryKey.size(); i++)
-		static_cast<ItemAttribute*>(_guiItem[resultPrimaryKey.at(i).toInt()])->setPrimaryKey(true);
+		static_cast<ItemAttribute*>(searchItemByERModelID(resultPrimaryKey.at(i).toInt()))->setPrimaryKey(true);
 
 }
 
@@ -58,8 +59,8 @@ ItemComponent* ERDiagramScene::addNode( QString type, QString text, QPointF poin
 	newItem = static_cast<ItemComponent*>(itemFactory->creatItem(point.x(), point.y(), type, text));
 	delete itemFactory;
 
-	// 將newItem push進_guiItem中，並設定編號
-	setItemID(newItem);
+	// 將newItem push進_guiItem中，並設定GUI上面的ItemID以及ERModel的ComponentID
+	setItemIDandERModelID(newItem);
 
 	// 將scene設給Item
 	newItem->setScene(this);
@@ -104,7 +105,7 @@ ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemCom
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定編號
-	setItemID(newItem);
+	setItemIDandERModelID(newItem);
 
 	// 將scene設給Item
 	newItem->setScene(this);
@@ -119,17 +120,18 @@ ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemCom
 // 從輸入的檔案新增兩個Item間的連結
 void  ERDiagramScene::addConnectionFromLoadFile( QStringList connecionData )
 {
-	int sourceItemId = connecionData.at(PARAMETER_SOURCEITEMID).toInt();
-	int destionationItemId = connecionData.at(PARAMETER_DESTIONATIONITEMID).toInt();
+	int sourceItemID = connecionData.at(PARAMETER_SOURCEITEMID).toInt();
+	int destionationItemID = connecionData.at(PARAMETER_DESTIONATIONITEMID).toInt();
 	QString text =  connecionData.at(PARAMETER_CONNECTIONITEMTEXT);
 
-	addConnection(_guiItem[sourceItemId], _guiItem[destionationItemId], text);
+	// 這邊的sourceItemID以及destionationItemID都是從ERModel那邊得到的ComponentID
+	addConnection(searchItemByERModelID(sourceItemID), searchItemByERModelID(destionationItemID), text);
 }
 
 // 向GUI發出Connection的要求，使GUI去告訴PM
 void ERDiagramScene::addConnectionFromGUI( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
 {
-	_gui->addConnection(findItemId(sourceItem), findItemId(destionationItem), text);
+	_gui->addConnection(sourceItem->getERModelID(), destionationItem->getERModelID(), text);
 }
 
 // 供loadFile進來的資料設定位置
@@ -231,20 +233,11 @@ void ERDiagramScene::changToPointerMode()
 	_gui->changeToPointerMode();
 }
 
-int ERDiagramScene::findItemId( ItemComponent* targetItem )
+void ERDiagramScene::setItemIDandERModelID( ItemComponent* newItem )
 {
-	for (int i = 0; i < _guiItem.size(); i++)
-	{
-		if (_guiItem[i] == targetItem)
-			return i;
-	}
-	return PARAMETER_NOTFINDID;
-}
-
-void ERDiagramScene::setItemID( ItemComponent* newComponent )
-{
-	_guiItem.push_back(newComponent);
-	newComponent->setItemID(_guiItem.size() - 1);
+	_guiItem.push_back(newItem);
+	newItem->setItemID(_guiItem.size() - 1);
+	newItem->setERModelID(_gui->getERModelComponentID() - 1);
 }
 
 QVector<ItemComponent*> ERDiagramScene::getGUIItem()
@@ -254,12 +247,14 @@ QVector<ItemComponent*> ERDiagramScene::getGUIItem()
 
 void ERDiagramScene::changeItemText( int targetNodeID, QString editedText )
 {
+	// 這邊的targetNodeID是對應到TableView的RowNumber，所以是GUI這邊的ItemID
 	_guiItem[targetNodeID]->changeItemText(editedText);
 	update();
 }
 
 void ERDiagramScene::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
+	// 這邊的targetNodeID是對應到TableView的RowNumber，所以是GUI這邊的ItemID
 	static_cast<ItemAttribute*>(_guiItem[targetNodeID])->setPrimaryKey(isPrimaryKey);
 	update();
 }
@@ -278,24 +273,76 @@ void ERDiagramScene::updateAddNewItem( QString type, QString text, QPointF point
 // 收到observer的通知，加入Connection到Scene中(畫出來)
 void ERDiagramScene::updateConnection( int sourceItemID, int destionationItemID, QString text )
 {
-	addConnection(_guiItem[sourceItemID], _guiItem[destionationItemID], text);
-}
-
-void ERDiagramScene::deleteItem()
-{
-	int deleteItemID=-1;
-	for (int i = 0; i < _guiItem.size(); i++)
-	{
-		if (_guiItem[i]->isSelected())
-		{
-			deleteItemID = i;
-			break;
-		}
-	}
-	qDebug()<<deleteItemID;
+	// 這邊收到的是ERModel那邊得到的ComponentID
+	addConnection(searchItemByERModelID(sourceItemID), searchItemByERModelID(destionationItemID), text);
 }
 
 void ERDiagramScene::changeDeleteActionEnable()
 {
 	_gui->changeDeleteActionEnable(true);
+}
+
+// 用ERModel那邊的ComponentID來搜尋Item
+ItemComponent* ERDiagramScene::searchItemByERModelID( int targetERModelID )
+{
+	for (int i = 0; i < _guiItem.size(); i++)
+	{
+		if (targetERModelID == _guiItem[i]->getERModelID())
+			return _guiItem[i];
+	}
+	return NULL;
+}
+
+// baseLineID是指刪除了row幾的數字，大於此數字的ItemID都要減1
+void ERDiagramScene::resetItemID( int baseLineID )
+{
+	for(int i = 0; i < _guiItem.size(); i++)
+	{
+		if (_guiItem[i]->getItemID() > baseLineID)
+			_guiItem[i]->setItemID(_guiItem[i]->getItemID() - 1);
+	}
+}
+
+int ERDiagramScene::searchItemIsSelected()
+{
+	int result;
+
+	result = PARAMETER_NOTFINDID;
+
+	// 找尋被點中的Item
+	for (int i = 0; i < _guiItem.size(); i++)
+	{
+		if (_guiItem[i]->isSelected())
+		{
+			// 這邊的deleteItemID是砍GUI Item的，所以使用ItemID
+			result = i;
+			break;
+		}
+	}
+	return result;
+}
+
+void ERDiagramScene::deleteItem( int deleteItemID )
+{
+	// 刪除畫面上的Item
+	this->removeItem(_guiItem[deleteItemID]);
+	// 刪除TableView的Row
+	_gui->deleteTableRow(deleteItemID);
+	// 重設ItemID
+	resetItemID(deleteItemID);
+	// 刪除_guiItem
+	for(int i = 0; i < _guiItem.size(); i++)
+	{
+		if (deleteItemID == _guiItem[i]->getItemID())
+			_guiItem.erase(_guiItem.begin()+i);
+	}
+}
+
+void ERDiagramScene::deleteSelectedItem()
+{
+	// 此deleteItemID為ItemID
+	int deleteItemID = searchItemIsSelected();
+
+	deleteItem(deleteItemID);
+
 }

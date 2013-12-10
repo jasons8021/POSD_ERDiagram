@@ -148,6 +148,7 @@ public:
 	bool addConnectionCmd_GUI(int, int, string);
 	void changePrimaryKey(int, bool);
 	void changeText(int, string);
+	int getComponentID();
 	//////////////////////////////////////////////////////
 	// ObserverPattern
 	void attachObserver(Observer*);

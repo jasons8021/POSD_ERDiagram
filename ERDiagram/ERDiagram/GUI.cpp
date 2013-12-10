@@ -281,3 +281,14 @@ void GUI::deleteItem()
 {
 	_scene->deleteItem();
 }
+
+int GUI::getERModelComponentID()
+{
+	return _presentationModel->getComponentID();
+}
+
+void GUI::deleteTableRow( int rowIndex )
+{
+	_tableViewModel->removeRow(rowIndex);
+	_tableView->updateModel(_tableViewModel);
+}

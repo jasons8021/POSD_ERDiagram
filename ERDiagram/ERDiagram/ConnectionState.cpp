@@ -35,7 +35,7 @@ void ConnectionState::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 	if (_sourceItem != NULL && _destionationItem != NULL)
 	{
 		// 兩個Item是Entity與Relationship的關係
-		if (_scene->checkSetCardinality(_sourceItem->getItemID(), _destionationItem->getItemID()))
+		if (_scene->checkSetCardinality(_sourceItem->getERModelID(), _destionationItem->getERModelID()))
 		{
 			// 輸入Cardinality的值
 			bool dialogFlag;

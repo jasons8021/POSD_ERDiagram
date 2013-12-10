@@ -448,3 +448,8 @@ int PresentationModel::getRedoCmdsSize()
 {
 	return _cmdManager.getRedoCmdsSize();
 }
+
+int PresentationModel::getComponentID()
+{
+	return _erModel->getComponentID();
+}

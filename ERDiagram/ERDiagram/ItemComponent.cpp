@@ -146,6 +146,11 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mousePressEvent(event);
 	_scene->changeDeleteActionEnable();
+	qDebug()<<"type = "<<_type;
+	qDebug()<<"text = "<<_text;
+	qDebug()<<"Item ID = " <<_itemID;
+	qDebug()<<"erModel ID = "<<_erModelID;
+	qDebug()<<"-----------------------------------";
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
@@ -191,4 +196,14 @@ QString ItemComponent::getType()
 QString ItemComponent::getText()
 {
 	return _text;
+}
+
+void ItemComponent::setERModelID( int componentID )
+{
+	_erModelID = componentID;
+}
+
+int ItemComponent::getERModelID()
+{
+	return _erModelID;
 }

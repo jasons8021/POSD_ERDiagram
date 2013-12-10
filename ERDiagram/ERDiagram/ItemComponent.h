@@ -43,6 +43,8 @@ public:
 	void changeItemText(QString);
 	int caculateTextWidth(QString);
 	void setTextBoundingRectangle(int, int);
+	void setERModelID(int);
+	int getERModelID();
 	QString getType();
 	QString getText();
 	virtual void updatePosition();
@@ -63,6 +65,7 @@ protected:
 	QString _text;
 	ERDiagramScene* _scene;
 	int _itemID;
+	int _erModelID;
 };
 
 #endif
