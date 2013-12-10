@@ -126,12 +126,10 @@ void  ERDiagramScene::addConnectionFromLoadFile( QStringList connecionData )
 	addConnection(_guiItem[sourceItemId], _guiItem[destionationItemId], text);
 }
 
-// 從GUI上新增兩個Item的連結
+// 向GUI發出Connection的要求，使GUI去告訴PM
 void ERDiagramScene::addConnectionFromGUI( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
 {
-	// 加入connection進入ERModel，成功在畫連線
-	if (_gui->addConnection(findItemId(sourceItem), findItemId(destionationItem), text))
-		addConnection(sourceItem, destionationItem, text);
+	_gui->addConnection(findItemId(sourceItem), findItemId(destionationItem), text);
 }
 
 // 供loadFile進來的資料設定位置
@@ -271,9 +269,33 @@ bool ERDiagramScene::checkSetCardinality( int sourceNodeID, int destinationNodeI
 	return _gui->checkSetCardinality(sourceNodeID, destinationNodeID);
 }
 
-// 收到observer的通知，加入新的Item進入Scene中
+// 收到observer的通知，加入新的Item進入Scene中(畫出來)
 void ERDiagramScene::updateAddNewItem( QString type, QString text, QPointF point )
 {
-	// 加入Item到GUI上
 	addNode(type, text, point);
+}
+
+// 收到observer的通知，加入Connection到Scene中(畫出來)
+void ERDiagramScene::updateConnection( int sourceItemID, int destionationItemID, QString text )
+{
+	addConnection(_guiItem[sourceItemID], _guiItem[destionationItemID], text);
+}
+
+void ERDiagramScene::deleteItem()
+{
+	int deleteItemID=-1;
+	for (int i = 0; i < _guiItem.size(); i++)
+	{
+		if (_guiItem[i]->isSelected())
+		{
+			deleteItemID = i;
+			break;
+		}
+	}
+	qDebug()<<deleteItemID;
+}
+
+void ERDiagramScene::changeDeleteActionEnable()
+{
+	_gui->changeDeleteActionEnable(true);
 }

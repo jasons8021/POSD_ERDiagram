@@ -59,3 +59,11 @@ void Subject::notifyAddNewNode( string type, string text, int sx, int sy )
 		_observerList[i]->updateAddNewNode(type, text, sx, sy);
 	}
 }
+
+void Subject::notifyNewConnection( int sourceNodeID, int destinationNodeID, string cardinality )
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updateConnection(sourceNodeID, destinationNodeID, cardinality);
+	}
+}

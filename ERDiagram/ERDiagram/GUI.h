@@ -40,7 +40,7 @@ public:
 
 	void changeToPointerMode();
 	void addNode(QString, QString, QPointF);
-	bool addConnection(int, int, QString);
+	void addConnection(int, int, QString);
 	void addNodeIntoTable(QString, QString);
 	void updateInfo();
 	void updateTextChanged(int, string);
@@ -48,12 +48,16 @@ public:
 	void updatePrimaryKeyChanged(int, bool);
 	void changePrimaryKey(int, bool);
 	void updateAddNewNode(string, string, int, int);
+	void updateConnection(int, int, string);
 	QString stringConvertQString(string);
 	string qstringConvertString(QString);
 	bool checkSetCardinality(int, int);
+	void changeDeleteActionEnable(bool);
+	void changeUnRedoActionEnable();
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();
+		void deleteItem();
 private:
 	void createActions();
 	void createMenus();
@@ -68,7 +72,9 @@ private:
 
 	QAction* _openAction;
 	QAction* _exitAction;
-	QAction* _testAction;
+	QAction* _deleteAction;
+	QAction* _undoAction;
+	QAction* _redoAction;
 
 	QToolButton* _pointerButton;
 	QToolButton* _connectionButton;

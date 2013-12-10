@@ -78,6 +78,9 @@ public:
 	void changePrimaryKey(int, bool);
 	bool checkSetCardinality(int, int);
 	void updateAddNewItem(QString, QString, QPointF);
+	void updateConnection(int, int, QString);
+	void changeDeleteActionEnable();
+	void deleteItem();
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;

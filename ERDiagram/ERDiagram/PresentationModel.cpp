@@ -416,11 +416,13 @@ void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 void PresentationModel::addNodeCmd( string type, string text, int sx, int sy )
 {
 	_cmdManager.execute(new AddComponentCmd(_erModel, type, text, sx, sy));
+	_erModel->notifyAddNewNode(type, text, sx, sy);
 }
 
 void PresentationModel::addConnectionCmd( int sourceNodeID, int destinationNodeID, string text )
 {
 	_cmdManager.execute(new ConnectComponentsCmd(_erModel, sourceNodeID, destinationNodeID, text));
+	_erModel->notifyNewConnection(sourceNodeID, destinationNodeID, text);
 }
 
 void PresentationModel::deleteCmd( int delComponentID )
@@ -435,4 +437,14 @@ bool PresentationModel::undoCmd()
 bool PresentationModel::redoCmd()
 {
 	return _cmdManager.redo();
+}
+
+int PresentationModel::getUndoCmdsSize()
+{
+	return _cmdManager.getUndoCmdsSize();
+}
+
+int PresentationModel::getRedoCmdsSize()
+{
+	return _cmdManager.getRedoCmdsSize();
 }

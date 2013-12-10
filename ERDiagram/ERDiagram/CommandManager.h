@@ -24,6 +24,8 @@ public:
 	void execute(Command* c);
 	bool redo();
 	bool undo();
+	int getUndoCmdsSize();
+	int getRedoCmdsSize();
 private:
 	stack<Command*> _undoCmds;
 	stack<Command*> _redoCmds;

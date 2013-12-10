@@ -56,3 +56,13 @@ bool CommandManager::undo()
 
 	return true;
 }
+
+int CommandManager::getUndoCmdsSize()
+{
+	return _undoCmds.size();
+}
+
+int CommandManager::getRedoCmdsSize()
+{
+	return _redoCmds.size();
+}

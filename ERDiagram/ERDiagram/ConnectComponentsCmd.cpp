@@ -1,5 +1,4 @@
 #include "ConnectComponentsCmd.h"
-#include <iostream>
 
 ConnectComponentsCmd::ConnectComponentsCmd(ERModel* erModel, int sourceNodeID, int destinationNodeID, string text)
 {

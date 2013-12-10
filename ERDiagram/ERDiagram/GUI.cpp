@@ -3,6 +3,7 @@
 GUI::GUI(PresentationModel* presentationModel)
 {
 	_presentationModel = presentationModel;
+	_presentationModel->attachObserver(this);
 	createActions();
 	createMenus();
 	createToolbars();
@@ -63,13 +64,26 @@ void GUI::createActions()
 	_exitAction->setShortcut(tr("Alt+F4"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
-	_presentationModel->attachObserver(this);
+	_deleteAction = new QAction(QIcon("images/delete.png"), tr("Delete"), this);
+	_deleteAction->setShortcut(tr("Del"));
+	connect(_deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
+	_deleteAction->setEnabled(false);
+
+	_undoAction = new QAction(QIcon("images/undo.png"), tr("Undo"), this);
+	_undoAction->setShortcut(tr("Ctrl+z"));
+	connect(_undoAction, SIGNAL(triggered()), this, SLOT(loadFile()));
+	_undoAction->setEnabled(false);
+
+	_redoAction = new QAction(QIcon("images/redo.png"), tr("Redo"), this);
+	_redoAction->setShortcut(tr("Ctrl+Y"));
+	connect(_redoAction, SIGNAL(triggered()), this, SLOT(loadFile()));
+	_redoAction->setEnabled(false);
 }
 
 void GUI::createMenus()
 {
 	// 開啟檔案 & 離開
-	_menu = menuBar()->addMenu(tr("&File","&Exit"));
+	_menu = menuBar()->addMenu(tr("File","Exit"));
 	_menu->addAction(_openAction);
 	_menu->addSeparator();
 	_menu->addAction(_exitAction);
@@ -118,24 +132,29 @@ void GUI::createButton()
 void GUI::createToolbars()
 {
 	// 開啟檔案 & 離開
-	_toolBar = addToolBar(tr("File"));
+	_toolBar = addToolBar(tr("ToolBars"));
 	_toolBar->addAction(_openAction);
 	_toolBar->addAction(_exitAction);
 
+	_toolBar->addSeparator();
+	_toolBar->addAction(_undoAction);
+	_toolBar->addAction(_redoAction);
+
+	_toolBar->addSeparator();
+	_toolBar->addAction(_deleteAction);
+
 	createButton();
 	// state的Menu
-	_toolBar = addToolBar(tr("State"));
+	_toolBar->addSeparator();
 	_toolBar->addWidget(_pointerButton);
 	_toolBar->addWidget(_connectionButton);
 
 	_toolBar->addSeparator();
-
 	_toolBar->addWidget(_addAttributeButton);
 	_toolBar->addWidget(_addEntityButton);
 	_toolBar->addWidget(_addRelationshipButton);
 
 	_toolBar->addSeparator();
-
 	_toolBar->addWidget(_setPrimaryKeyButton);
 }
 
@@ -177,10 +196,9 @@ void GUI::addNode( QString type_qstring, QString text_qstring, QPointF point )
 }
 
 // 將addConnection的要求送到PM中，讓PM去跟Model講
-bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )
+void GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )
 {
-	bool flag = _presentationModel->addConnectionCmd_GUI(sourceNodeId,destinationNodeId,"");
-	return flag;
+	_presentationModel->addConnectionCmd_GUI(sourceNodeId, destinationNodeId, qstringConvertString(cardinality));
 }
 
 // 將新的Node加入TableView中
@@ -201,6 +219,7 @@ void GUI::updateInfo()
 void GUI::updateTextChanged( int targetNodeID, string editedText )
 {
 	_scene->changeItemText(targetNodeID, stringConvertQString(editedText));
+	changeUnRedoActionEnable();
 }
 
 // TableView進行修改後，像PM發出更改通知
@@ -213,6 +232,7 @@ void GUI::changeItemText( int targetNodeID, QString editedText )
 void GUI::updatePrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
 {
 	_scene->changePrimaryKey(targetNodeID, isPrimaryKey);
+	changeUnRedoActionEnable();
 }
 
 // 向PM發出要求說，PK改變了
@@ -231,4 +251,33 @@ bool GUI::checkSetCardinality( int sourceNodeID, int destinationNodeID )
 void GUI::updateAddNewNode( string type, string text, int sx, int sy )
 {
 	_scene->updateAddNewItem(stringConvertQString(type), stringConvertQString(text), QPointF(sx, sy));
+	changeUnRedoActionEnable();
+}
+
+void GUI::changeDeleteActionEnable( bool isEnable )
+{
+	_deleteAction->setEnabled(isEnable);
+}
+
+void GUI::changeUnRedoActionEnable()
+{
+	if (_presentationModel->getUndoCmdsSize() > 0)
+		_undoAction->setEnabled(true);
+	else
+		_undoAction->setEnabled(false);
+
+	if (_presentationModel->getRedoCmdsSize() > 0)
+		_redoAction->setEnabled(true);
+	else
+		_redoAction->setEnabled(false);
+}
+
+void GUI::updateConnection( int sourceNodeID, int destinationNodeID, string text )
+{
+	_scene->updateConnection(sourceNodeID, destinationNodeID, stringConvertQString(text));
+}
+
+void GUI::deleteItem()
+{
+	_scene->deleteItem();
 }

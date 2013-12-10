@@ -139,6 +139,8 @@ public:
 	void deleteCmd(int);
 	bool undoCmd();
 	bool redoCmd();
+	int getUndoCmdsSize();
+	int getRedoCmdsSize();
 	// GUI Function
 	string getComponent_GUI();
 	string getConnection_GUI();

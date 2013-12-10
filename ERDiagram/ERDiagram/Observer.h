@@ -14,6 +14,7 @@ public:
 	virtual void updateTextChanged(int, string) = 0;
 	virtual void updatePrimaryKeyChanged(int, bool) = 0;
 	virtual void updateAddNewNode(string, string, int, int) = 0;
+	virtual void updateConnection(int, int, string) = 0;
 };
 
 #endif
