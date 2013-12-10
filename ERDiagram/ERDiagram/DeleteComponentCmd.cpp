@@ -8,6 +8,8 @@ DeleteComponentCmd::DeleteComponentCmd(ERModel* erModel, int componentID)
 	_text = PARAMETER_NULLSTRING;
 	_sourceNodeID = PARAMETER_NOVALUE;
 	_destinationNodeID = PARAMETER_NOVALUE;
+	_sx = PARAMETER_NOVALUE;
+	_sy = PARAMETER_NOVALUE;
 }
 
 DeleteComponentCmd::~DeleteComponentCmd()
@@ -26,7 +28,7 @@ void DeleteComponentCmd::unexecute()
 {
 	if (_type != PARAMETER_CONNECTOR)
 	{
-		_componentID = _erModel->addNode(_componentID, _type, _text);
+		_componentID = _erModel->addNode(_componentID, _type, _text, _sx, _sy);
 		reBuildRelatedConnection();
 
 		if (_type == PARAMETER_ENTITY)
@@ -46,6 +48,8 @@ void DeleteComponentCmd::storeInformation()
 	Component* delcomponent = _erModel->searchComponent(_componentID);
 	_type = delcomponent->getType();
 	_text = delcomponent->getText();
+	_sx = delcomponent->getSx();
+	_sy = delcomponent->getSy();
 
 	if (_type == PARAMETER_CONNECTOR)
 	{

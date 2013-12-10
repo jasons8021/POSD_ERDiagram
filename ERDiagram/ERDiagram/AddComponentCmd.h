@@ -5,6 +5,8 @@
 #define PARAMETER_PRECOMPONENTID -1
 #define PARAMETER_NEXTCOMPONENTID 1
 
+#define PARAMETER_TEXTUI_COORDINATES 0
+
 #include "Command.h"
 #include "ERModel.h"
 
@@ -15,7 +17,7 @@ class AddComponentCmd : public Command {
 	FRIEND_TEST(AddComponentCmdTest, execute);
 	FRIEND_TEST(AddComponentCmdTest, unexecute);
 public:
-	AddComponentCmd(ERModel* erModel, string, string);
+	AddComponentCmd(ERModel* erModel, string, string, int, int);
 	virtual ~AddComponentCmd();
 	virtual void execute();
 	virtual void unexecute();
@@ -24,6 +26,8 @@ private:
 	int _componentID;
 	string _type;
 	string _text;
+	int _sx;
+	int _sy;
 };
 
 #endif 

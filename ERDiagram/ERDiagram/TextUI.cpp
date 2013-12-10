@@ -90,7 +90,7 @@ void TextUI::addNewNode()
 	cout << TEXT_ADDNEWNODE_NAME;
 	cin >> text;
 
-	if (_presentationModel->addNodeCmd(type, text))
+	if (_presentationModel->addNodeCmd(type, text, 0, 0))
 		cout << _presentationModel->displayComponentTable_TextUI() << endl;
 }
 
@@ -116,7 +116,7 @@ void TextUI::addConnection()
 			cardinality = chooseCardinality();
 
 		// 如果要connection的兩個Component有問題，則回傳問題字串
-		cout << _presentationModel->addConnectionCmd(firstComponentID, secondComponentID, cardinality) << endl;
+		cout << _presentationModel->addConnectionCmd_TextUI(firstComponentID, secondComponentID, cardinality) << endl;
 
 		cout << _presentationModel->displayConnectionTable_TextUI();
 	}

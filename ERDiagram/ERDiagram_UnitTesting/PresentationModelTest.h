@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 #include "ERModel.h"
 #include "PresentationModel.h"
+#include "NodeAttribute.h"
 
 class PresentationModelTest : public :: testing :: Test
 {

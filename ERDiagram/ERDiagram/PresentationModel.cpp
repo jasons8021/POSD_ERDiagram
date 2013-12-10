@@ -9,26 +9,14 @@ PresentationModel::~PresentationModel()
 {
 }
 
-bool PresentationModel::addNodeCmd( string type, string text )
-{
-	int beforeAddNodeSize;
-	beforeAddNodeSize = _erModel->getComponentTableSize();
-
-	_erModel->addNodeCmd(type, text);
-
-	if (_erModel->getComponentTableSize() > beforeAddNodeSize)
-		return true;
-	else
-		return false;
-}
-
-string PresentationModel::addConnectionCmd( int firstComponentID, int secondComponentID, string cardinality )
+string PresentationModel::addConnectionCmd_TextUI( int firstComponentID, int secondComponentID, string cardinality )
 {
 	// 如果要connection的兩個Component有問題，則回傳問題字串
 	if(_erModel->getCheckConnectionStateMessage(firstComponentID,secondComponentID) != TEXT_CONNECTION_CANCONNECT)
 		return _erModel->getCheckConnectionStateMessage(firstComponentID,secondComponentID);
 	else
-		_erModel->addConnectionCmd(firstComponentID, secondComponentID, cardinality);
+		_cmdManager.execute(new ConnectComponentsCmd(_erModel, firstComponentID, secondComponentID, cardinality));
+		//_erModel->addConnectionCmd(firstComponentID, secondComponentID, cardinality);
 
  	return Toolkit::integerToString(_erModel->getConnectionTableSize());
 }
@@ -276,7 +264,8 @@ string PresentationModel::deleteComponent_TextUI( string delComponentID )
 {
 	string result;
 
-	_erModel->deleteCmd(atoi(delComponentID.c_str()));
+	_cmdManager.execute(new DeleteComponentCmd(_erModel, atoi(delComponentID.c_str())));
+	//_erModel->deleteCmd();
 
 	result += TEXT_DELETE_DELETEFINISH_ONE;
 	result += delComponentID;
@@ -294,7 +283,7 @@ string PresentationModel::undo_TextUI()
 {
 	string result;
 
-	if (_erModel->undoCmd())
+	if (undoCmd())
 	{
 		result += TEXT_UNDO_SUCCESS;
 		result += TEXT_ENDLINE;
@@ -315,7 +304,7 @@ string PresentationModel::redo_TextUI()
 {
 	string result;
 
-	if(_erModel->redoCmd())
+	if(redoCmd())
 	{
 		result += TEXT_REDO_SUCCESS;
 		result += TEXT_ENDLINE;
@@ -355,7 +344,7 @@ bool PresentationModel::addConnectionCmd_GUI( int firstComponentID, int secondCo
 	if(_erModel->getCheckConnectionStateMessage(firstComponentID,secondComponentID) != TEXT_CONNECTION_CANCONNECT)
 		return false;
 	else
-		_erModel->addConnectionCmd(firstComponentID, secondComponentID, cardinality);
+		addConnectionCmd(firstComponentID, secondComponentID, cardinality);
 
 	if (_erModel->getConnectionTableSize() > beforeAddNodeSize)
 		return true;
@@ -381,4 +370,41 @@ void PresentationModel::changeText( int targetNodeID, string editedText )
 void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	_erModel->changePrimaryKey(targetNodeID, isPrimaryKey);
+}
+
+//////////////////////////////////////////////////////////////////////////
+//							Command Pattern								//
+//////////////////////////////////////////////////////////////////////////
+
+bool PresentationModel::addNodeCmd( string type, string text, int sx, int sy )
+{
+	int beforeAddNodeSize;
+	beforeAddNodeSize = _erModel->getComponentTableSize();
+
+	//_erModel->addNodeCmd(type, text);
+	_cmdManager.execute(new AddComponentCmd(_erModel, type, text, sx, sy));
+
+	if (_erModel->getComponentTableSize() > beforeAddNodeSize)
+		return true;
+	else
+		return false;
+}
+
+void PresentationModel::addConnectionCmd( int sourceNodeID, int destinationNodeID, string text )
+{
+	_cmdManager.execute(new ConnectComponentsCmd(_erModel, sourceNodeID, destinationNodeID, text));
+}
+
+void PresentationModel::deleteCmd( int delComponentID )
+{
+	_cmdManager.execute(new DeleteComponentCmd(_erModel, delComponentID));
+}
+bool PresentationModel::undoCmd()
+{
+	return _cmdManager.undo();
+}
+
+bool PresentationModel::redoCmd()
+{
+	return _cmdManager.redo();
 }

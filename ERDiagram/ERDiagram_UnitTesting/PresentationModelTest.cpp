@@ -1,6 +1,5 @@
 #include "PresentationModelTest.h"
 
-
 void PresentationModelTest::SetUp()
 {
 	_erModel = new ERModel();
@@ -29,26 +28,29 @@ void PresentationModelTest::TearDown()
 	delete _erModel;
 }
 
+// 測試addNodeCmd
 TEST_F(PresentationModelTest, addNodeCmd)
 {
-	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10"));
+	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10", 0, 0));
 
 	// 錯誤型態測試
-	EXPECT_FALSE(_presentationModel->addNodeCmd("Y", "ErrorType0"));
-	EXPECT_FALSE(_presentationModel->addNodeCmd("A C", "ErrorType1"));
+	EXPECT_FALSE(_presentationModel->addNodeCmd("Y", "ErrorType0", 0, 0));
+	EXPECT_FALSE(_presentationModel->addNodeCmd("A C", "ErrorType1", 0, 0));
 }
 
-TEST_F(PresentationModelTest, addConnectionCmd)
+// 測試給TextUI用的addConnectionCmd
+TEST_F(PresentationModelTest, addConnectionCmd_TextUI)
 {
-	EXPECT_EQ("1", _presentationModel->addConnectionCmd(0, 1, ""));
-	EXPECT_EQ("2", _presentationModel->addConnectionCmd(1, 2, "1"));
+	EXPECT_EQ("1", _presentationModel->addConnectionCmd_TextUI(0, 1, ""));
+	EXPECT_EQ("2", _presentationModel->addConnectionCmd_TextUI(1, 2, "1"));
 
 	// 錯誤型態測試
-	EXPECT_EQ("The node '1' cannot be connected to itself.", _presentationModel->addConnectionCmd(1, 1, ""));
-	EXPECT_EQ("The node '3' cannot be connected by the node '0'.", _presentationModel->addConnectionCmd(0, 3, ""));
-	EXPECT_EQ("The node '2' cannot be connected to itself.", _presentationModel->addConnectionCmd(2, 2, ""));
+	EXPECT_EQ("The node '1' cannot be connected to itself.", _presentationModel->addConnectionCmd_TextUI(1, 1, ""));
+	EXPECT_EQ("The node '3' cannot be connected by the node '0'.", _presentationModel->addConnectionCmd_TextUI(0, 3, ""));
+	EXPECT_EQ("The node '2' cannot be connected to itself.", _presentationModel->addConnectionCmd_TextUI(2, 2, ""));
 }
 
+//  測試給TextUI用的搜尋Component
 TEST_F(PresentationModelTest, searchComponent_TextUI)
 {
 	EXPECT_EQ("0", _presentationModel->searchComponent_TextUI("0", PARAMETER_ALL));
@@ -57,11 +59,13 @@ TEST_F(PresentationModelTest, searchComponent_TextUI)
 	EXPECT_EQ("The node ID you entered does not exist. Please enter a valid one again.\n> ", _presentationModel->searchComponent_TextUI("11", PARAMETER_ALL));
 }
 
+// 測試取得ComponentTable大小
 TEST_F(PresentationModelTest, getComponentTableSize)
 {
 	EXPECT_EQ(10, _presentationModel->getComponentTableSize());
 }
 
+// 測試ConnectionTable大小
 TEST_F(PresentationModelTest, getConnectionTableSize)
 {
 	EXPECT_EQ(0, _presentationModel->getConnectionTableSize());
@@ -72,6 +76,7 @@ TEST_F(PresentationModelTest, getConnectionTableSize)
 	EXPECT_EQ(1, _presentationModel->getConnectionTableSize());
 }
 
+// 測試給TextUI用的搜尋Entity
 TEST_F(PresentationModelTest, searchEntity_TextUI)
 {
 	EXPECT_EQ("1", _presentationModel->searchEntity_TextUI("1"));
@@ -81,11 +86,13 @@ TEST_F(PresentationModelTest, searchEntity_TextUI)
 	EXPECT_EQ("The node '0' is not an entity. Please enter a valid one again.\n> ", _presentationModel->searchEntity_TextUI("0"));
 }
 
+// 測試給TextUI用的EntityTable字串
 TEST_F(PresentationModelTest, displayEntityTable_TextUI)
 {
 	EXPECT_EQ("Entities:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  E   |  1   |  E1\n  E   |  6   |  E6\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n", _presentationModel->displayEntityTable_TextUI());
 }
 
+// 測試給TextUI用的ConnectionTable字串
 TEST_F(PresentationModelTest, displayConnectionTable_TextUI)
 {
 	EXPECT_EQ(PARAMETER_NULL, _presentationModel->displayConnectionTable_TextUI());
@@ -97,6 +104,7 @@ TEST_F(PresentationModelTest, displayConnectionTable_TextUI)
 	EXPECT_EQ("Connections:\n--------------------------\nConnection | node | node |\n-----------+------+------|\n     10     |  1   |  0   |\n     11     |  1   |  3   |\n--------------------------\n", _presentationModel->displayConnectionTable_TextUI());
 }
 
+// 測試給TextUI用的ComponentTable字串
 TEST_F(PresentationModelTest, displayComponentTable_TextUI)
 {
 	EXPECT_EQ("Components:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n", _presentationModel->displayComponentTable_TextUI());
@@ -108,6 +116,7 @@ TEST_F(PresentationModelTest, displayComponentTable_TextUI)
 	EXPECT_EQ("Components:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n  C   |  10   |  \n  C   |  11   |  \n------------------------------------\n", _presentationModel->displayComponentTable_TextUI());
 }
 
+// 測試給TextUI用的AttributeTable字串
 TEST_F(PresentationModelTest, displayAttributeTable_TextUI)
 {
 	_presentationModel->_erModel->addConnection(10, 1, 0, "");
@@ -115,6 +124,7 @@ TEST_F(PresentationModelTest, displayAttributeTable_TextUI)
 	EXPECT_EQ("Attributes of the entity '1'\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  A   |  3   |  A3\n------------------------------------\n", _presentationModel->displayAttributeTable_TextUI(1));
 }
 
+// 測試給TextUI用的檢查此Attribute是不是某個Entity的Attribute
 TEST_F(PresentationModelTest, checkAttributeInEntity_TextUI)
 {
 	vector<int> testPrimaryKeys;
@@ -143,6 +153,7 @@ TEST_F(PresentationModelTest, checkAttributeInEntity_TextUI)
 		testPrimaryKeys.pop_back();
 }
 
+// 測試給TextUI用的設PK
 TEST_F(PresentationModelTest, setPrimaryKeys_TextUI)
 {
 	vector<int> testPrimaryKeys;
@@ -156,6 +167,7 @@ TEST_F(PresentationModelTest, setPrimaryKeys_TextUI)
 	EXPECT_EQ("The node '1' has the primary key (0,3).", _presentationModel->setPrimaryKeys_TextUI(1, testPrimaryKeys));	
 }
 
+// 測試給TextUI用的ER Table字串
 TEST_F(PresentationModelTest, displayERDiagramTable_TextUI)
 {
 	vector<int> testPrimaryKeys;
@@ -185,6 +197,7 @@ TEST_F(PresentationModelTest, displayERDiagramTable_TextUI)
 	EXPECT_EQ("----------------------------------------------------------\n Entity   |  Attribute\n----------+-----------------------------------------------\n E1       |  PK(A0, A3), FK(A4)\n E6       |  PK(A4), A5\n E8       |  \n E9       |  \n----------------------------------------------------------\n", _presentationModel->displayERDiagramTable_TextUI());
 }
 
+// 測試給TextUI用的儲存
 TEST_F(PresentationModelTest, saveERDiagram_TextUI)
 {
 	ifstream inputERDiagramFile;
@@ -205,6 +218,7 @@ TEST_F(PresentationModelTest, saveERDiagram_TextUI)
 	_rmdir("unitTest");
 }
 
+// 測試給TextUI用的讀檔
 TEST_F(PresentationModelTest, loadERDiagram_TextUI)
 {
 	// 錯誤的檔名
@@ -212,7 +226,8 @@ TEST_F(PresentationModelTest, loadERDiagram_TextUI)
 	// 正確的檔名
 	EXPECT_EQ("The ER diagram is displayed as follows:\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  E   |  0   |  Engineer\n  A   |  1   |  Emp_ID\n  R   |  2   |  Has\n  A   |  3   |  Name\n  E   |  4   |  PC\n  A   |  5   |  PC_ID\n  A   |  6   |  Purchase_Date\n  C   |  7   |  \n  C   |  8   |  \n  C   |  9   |  \n  C   |  10   |  \n  C   |  11   |  1\n  C   |  12   |  1\n  A   |  13   |  Department\n  C   |  14   |  \n------------------------------------\n\nConnections:\n--------------------------\nConnection | node | node |\n-----------+------+------|\n     7     |  0   |  1   |\n     8     |  0   |  3   |\n     9     |  4   |  5   |\n     10     |  4   |  6   |\n     11     |  0   |  2   |\n     12     |  2   |  4   |\n     14     |  0   |  13   |\n--------------------------\n", _presentationModel->loadERDiagram_TextUI("UnitTestFile.erd"));
 }
-//"A0", "E1", "R2", "A3", "A4", "A5", "E6", "R7", "E8", "E9"};
+
+// 測試檢查是否要設Cardinality
 TEST_F(PresentationModelTest, checkSetCardinality)
 {
 	EXPECT_TRUE(_presentationModel->checkSetCardinality(1,2));
@@ -225,6 +240,7 @@ TEST_F(PresentationModelTest, checkSetCardinality)
 	EXPECT_FALSE(_presentationModel->checkSetCardinality(3,2));
 }
 
+// 測試分割PK
 TEST_F(PresentationModelTest, splitPrimaryKey)
 {
 	vector<int> testPrimaryKeySet;
@@ -238,26 +254,30 @@ TEST_F(PresentationModelTest, splitPrimaryKey)
 
 }
 
+// 測試給TextUI用的deleteComponent
 TEST_F(PresentationModelTest, deleteComponent_TextUI)
 {
 	EXPECT_EQ("The component '0' has been deleted.\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n\n", _presentationModel->deleteComponent_TextUI("0"));
 	EXPECT_EQ("The component '9' has been deleted.\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n------------------------------------\n\n", _presentationModel->deleteComponent_TextUI("9"));
 }
 
+// 測試給TextUI用的undo
 TEST_F(PresentationModelTest, undo_TextUI)
 {
 	EXPECT_EQ("Undo failed\n", _presentationModel->undo_TextUI());
-	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10"));
+	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10", 0, 0));
 	EXPECT_EQ("Undo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n\n", _presentationModel->undo_TextUI());}
 
+// 測試給TextUI用的redo
 TEST_F(PresentationModelTest, redo_TextUI)
 {
 	EXPECT_EQ("Redo failed\n", _presentationModel->redo_TextUI());
-	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10"));
+	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10", 0, 0));
 	EXPECT_EQ("Undo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n\n", _presentationModel->undo_TextUI());
 	EXPECT_EQ("Redo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n  A   |  10   |  CmdA10\n------------------------------------\n\n", _presentationModel->redo_TextUI());
 }
 
+// 測試給GUI用的Component
 TEST_F(PresentationModelTest, getComponent_GUI)
 {
 	string allTypeResult = "A,A0;";
@@ -278,6 +298,7 @@ TEST_F(PresentationModelTest, getComponent_GUI)
 	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getComponent_GUI());
 }
 
+// 測試給GUI用的Connection
 TEST_F(PresentationModelTest, getConnection_GUI)
 {
 	// 一開始connections是空的沒東西，用來判斷大小為0的情況
@@ -301,6 +322,7 @@ TEST_F(PresentationModelTest, getConnection_GUI)
 	EXPECT_EQ(resultFourConnection, _presentationModel->getConnection_GUI());
 }
 
+// 測試給GUI用的PrimaryKey
 TEST_F(PresentationModelTest, getPrimaryKey_GUI)
 {
 	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getPrimaryKey_GUI());
@@ -315,6 +337,7 @@ TEST_F(PresentationModelTest, getPrimaryKey_GUI)
 	EXPECT_EQ("0,3,4", _presentationModel->getPrimaryKey_GUI());
 }
 
+// 測試給GUI用的addConnectionCmd
 TEST_F(PresentationModelTest, addConnectionCmd_GUI)
 {
 	EXPECT_TRUE(_presentationModel->addConnectionCmd_GUI(0, 1, ""));
@@ -325,4 +348,311 @@ TEST_F(PresentationModelTest, addConnectionCmd_GUI)
 	EXPECT_FALSE(_presentationModel->addConnectionCmd_GUI(0, 3, ""));
 	EXPECT_FALSE( _presentationModel->addConnectionCmd_GUI(2, 2, ""));
 	EXPECT_FALSE( _presentationModel->addConnectionCmd_GUI(6, 0, ""));
+}
+
+// 測試addConnectionCmd
+TEST_F(PresentationModelTest, addConnectionCmd)
+{
+	bool checkResult = false;
+
+	_presentationModel->addConnectionCmd(0, 1, PARAMETER_NULL);
+
+	if (_erModel->_connections[0]->getID() == 10 && _erModel->_connections[0]->getText() == PARAMETER_NULL)
+		checkResult = true;
+	else
+		checkResult = false;
+
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	_presentationModel->addConnectionCmd(1, 2, "N");
+
+	if (_erModel->_connections[1]->getID() == 11 && _erModel->_connections[1]->getText() == "N")
+		checkResult = true;
+	else
+		checkResult = false;
+	EXPECT_TRUE(checkResult);
+}
+
+// 測試deleteCmd
+TEST_F(PresentationModelTest, deleteCmd)
+{
+	bool checkDeleteResult = false;
+
+	EXPECT_EQ(10, _erModel->addConnection(10, 0, 1, PARAMETER_NULL));
+	EXPECT_EQ(11, _erModel->addConnection(11, 1, 3, PARAMETER_NULL));
+	EXPECT_EQ(12, _erModel->addConnection(12, 1, 4, PARAMETER_NULL));
+	EXPECT_EQ(13, _erModel->addConnection(13, 5, 8, PARAMETER_NULL));
+
+	_presentationModel->deleteCmd(3);
+	// 檢查與刪除掉的component的連接關係是否被移除
+	for (int i = 0; i < _erModel->_components[1]->getConnections().size(); i++)
+	{
+		if (_erModel->_components[1]->getConnections()[i]->getID() == 3)
+		{
+			checkDeleteResult = false;
+			break;
+		}
+		else
+			checkDeleteResult = true;
+	}
+	EXPECT_TRUE(checkDeleteResult);
+
+	// 檢查與A3有關係的Connector是否移除
+	checkDeleteResult = false;
+	for (int i = 0; i < _erModel->_connections.size(); i++)
+	{
+		if (_erModel->_connections[i]->getID() == 11)
+		{
+			checkDeleteResult = false;
+			break;
+		}
+		else
+			checkDeleteResult = true;
+	}
+	EXPECT_TRUE(checkDeleteResult);
+
+	// 檢查Component中的3是否移除
+	checkDeleteResult = false;
+	for (int i = 0; i < _erModel->_components.size(); i++)
+	{
+		if (_erModel->_components[i]->getID() == 3)
+		{
+			checkDeleteResult = false;
+			break;
+		}
+		else
+			checkDeleteResult = true;
+	}
+	EXPECT_TRUE(checkDeleteResult);
+}
+
+// 測試undo
+TEST_F(PresentationModelTest, undoCmd)
+{
+	bool checkResult = false;
+
+	// 還沒有用Command，所以不能undo
+	EXPECT_FALSE(_presentationModel->undoCmd());
+
+	//
+	// 測試AddNode的undo
+	//
+	_presentationModel->addNodeCmd("A", "CmdA10", 0, 0);
+	EXPECT_TRUE(_presentationModel->undoCmd());
+
+	// 檢查Component中的10是否被還原，看大小就可以知道
+	checkResult = false;
+	if (_erModel->getComponentTableSize() == 11)
+		checkResult = false;
+	else
+		checkResult = true;
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	//
+	// 測試Connection的undo
+	//
+	_presentationModel->addConnectionCmd(0, 1, PARAMETER_NULL);
+	EXPECT_TRUE(_presentationModel->undoCmd());
+
+	// 檢查與A3有關係的Connector是否移除
+	checkResult = false;
+
+	if (_erModel->getConnectionTableSize() == 1)
+		checkResult = false;
+	else
+		checkResult = true;
+
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	// 檢查與刪除掉的Connector連接的兩個Component，彼此關係是否被移除
+	// SourceNode檢查Connection大小，因為都沒有連接，所以是0
+	if (_erModel->_components[0]->getConnections().size() == 0)
+		checkResult = true;
+	else
+		checkResult = false;
+
+	// destinationNode檢查Connection大小，因為都沒有連接，所以是0
+	if (_erModel->_components[1]->getConnections().size() == 0)
+		checkResult = true;
+	else
+		checkResult = false;
+
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	//
+	// 測試Delete的undo
+	//
+	EXPECT_EQ(10, _erModel->addConnection(10, 0, 1, PARAMETER_NULL));
+	EXPECT_EQ(11, _erModel->addConnection(11, 1, 3, PARAMETER_NULL));
+	EXPECT_EQ(12, _erModel->addConnection(12, 1, 4, PARAMETER_NULL));
+	EXPECT_EQ(13, _erModel->addConnection(13, 5, 8, PARAMETER_NULL));
+
+	_presentationModel->deleteCmd(3);
+	EXPECT_TRUE(_presentationModel->undoCmd());
+
+	// 檢查大小是否有回來12(砍掉C11跟A3)->14
+	if (_erModel->_components.size() == 14)
+		checkResult = true;
+	else
+		checkResult = false;
+
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	// 檢查與刪除掉的component的連接關係是否被還原
+	for (int i = 0; i < _erModel->_components[1]->getConnections().size(); i++)
+	{
+		if (_erModel->_components[1]->getConnections()[i]->getID() == 3)
+		{
+			checkResult = true;
+			break;
+		}
+		else
+			checkResult = false;
+	}
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	// 檢查與A3有關係的Connector是否還原
+	for (int i = 0; i < _erModel->_connections.size(); i++)
+	{
+		if (_erModel->_connections[i]->getID() == 11)
+		{
+			checkResult = true;
+			break;
+		}
+		else
+			checkResult = false;
+	}
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	// 檢查Component中的3是否還原
+	for (int i = 0; i < _erModel->_components.size(); i++)
+	{
+		if (_erModel->_components[i]->getID() == 3)
+		{
+			checkResult = true;
+			break;
+		}
+		else
+			checkResult = false;
+	}
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+}
+
+// 測試redo
+TEST_F(PresentationModelTest, redoCmd)
+{
+	bool checkResult = false;
+
+	//
+	// 檢查Add的redo
+	//
+	_presentationModel->addNodeCmd("A", "CmdA10", 0 , 0);
+	EXPECT_TRUE(_presentationModel->undoCmd());
+	EXPECT_TRUE(_presentationModel->redoCmd());
+
+	if (_erModel->_components[10]->getID() == 10 && _erModel->_components[10]->getText() == "CmdA10")
+		checkResult = true;
+	else
+		checkResult = false;
+
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	//
+	// 檢查Connection的redo
+	//
+	_presentationModel->addConnectionCmd(1, 2, "N");
+	EXPECT_TRUE(_presentationModel->undoCmd());
+	EXPECT_TRUE(_presentationModel->redoCmd());
+
+	if (_erModel->_connections[0]->getID() == 11 && _erModel->_connections[0]->getText() == "N")
+		checkResult = true;
+	else
+		checkResult = false;
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	//
+	// 檢查Delete的redo
+	//
+	EXPECT_EQ(12, _erModel->addConnection(12, 0, 1, PARAMETER_NULL));
+	EXPECT_EQ(13, _erModel->addConnection(13, 1, 3, PARAMETER_NULL));
+	EXPECT_EQ(14, _erModel->addConnection(14, 1, 4, PARAMETER_NULL));
+	EXPECT_EQ(15, _erModel->addConnection(15, 5, 8, PARAMETER_NULL));
+
+	_presentationModel->deleteCmd(3);
+	EXPECT_TRUE(_presentationModel->undoCmd());
+	EXPECT_TRUE(_presentationModel->redoCmd());
+
+	// 檢查與刪除掉的component的連接關係是否被移除
+	for (int i = 0; i < _erModel->_components[1]->getConnections().size(); i++)
+	{
+		if (_erModel->_components[1]->getConnections()[i]->getID() == 3)
+		{
+			checkResult = false;
+			break;
+		}
+		else
+			checkResult = true;
+	}
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	// 檢查與A3有關係的Connector是否移除
+	for (int i = 0; i < _erModel->_connections.size(); i++)
+	{
+		if (_erModel->_connections[i]->getID() == 13)
+		{
+			checkResult = false;
+			break;
+		}
+		else
+			checkResult = true;
+	}
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+
+	// 檢查Component中的3是否移除
+	for (int i = 0; i < _erModel->_components.size(); i++)
+	{
+		if (_erModel->_components[i]->getID() == 3)
+		{
+			checkResult = false;
+			break;
+		}
+		else
+			checkResult = true;
+	}
+	EXPECT_TRUE(checkResult);
+	checkResult = false;
+}
+
+// 測試GUI的修改PK
+TEST_F(PresentationModelTest, changePrimaryKey)
+{
+	_presentationModel->changePrimaryKey(0,true);
+	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+	_presentationModel->changePrimaryKey(0,false);
+	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+}
+
+// 測試GUI的修改Text
+TEST_F(PresentationModelTest, changeText)
+{
+	_presentationModel->changeText(0,"Edited A0");
+	EXPECT_EQ("Edited A0", _erModel->_components[0]->getText());
+
+	_presentationModel->changeText(1,"Edited E1");
+	EXPECT_EQ("Edited E1", _erModel->_components[1]->getText());
+
+	_presentationModel->changeText(2,"Edited R2");
+	EXPECT_EQ("Edited R2", _erModel->_components[2]->getText());
 }

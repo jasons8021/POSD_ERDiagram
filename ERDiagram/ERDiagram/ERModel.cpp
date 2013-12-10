@@ -17,18 +17,18 @@ ERModel::~ERModel()
 //////////////////////////////////////////////////////////////////////////
 
 //	componentID遞增的情況下使用
-int ERModel::addNode( string type, string text )
+int ERModel::addNode( string type, string text, int sx, int sy )
 {
-	return addNode(_componentID++, type, text);
+	return addNode(_componentID++, type, text, sx, sy);
 }
 
 //	指定componentID的情況使用，eg:undo、redo，並回傳componentID
-int ERModel::addNode( int componentID, string type, string text )
+int ERModel::addNode( int componentID, string type, string text, int sx, int sy )
 {
 	ComponentFactory* componentFactory = new ComponentFactory();
 	
 	Component* newComponent;
-	newComponent = static_cast<Component*>(componentFactory->creatComponent(componentID, type, text, PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES));
+	newComponent = static_cast<Component*>(componentFactory->creatComponent(componentID, type, text, sx, sy));
 	if (newComponent == nullptr)
 		return PARAMETER_ISERROR;
 	_isModify = true;
@@ -434,7 +434,7 @@ void ERModel::recoveryAllComponent( vector<string> componentsSet, vector<string>
 		else if ( componentData[PARAMETER_TYPE] == PARAMETER_CONNECTOR )														//	Connector沒有Cardinality
 			connectionSetCount = recoveryConnection(connectionsSet, connectionSetCount, PARAMETER_NULL);
 		else																													//	Component是Attribute, Entity或Relationship其中一種
- 			addNode(componentData[PARAMETER_TYPE],componentData[PARAMETER_TEXT]);
+ 			addNode(componentData[PARAMETER_TYPE],componentData[PARAMETER_TEXT], PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES);
 	}
 }
 
@@ -651,35 +651,6 @@ void ERModel::deleteTableSet( int delID, vector<Component*> targetTableSet, int 
 			break;
 		}
 	}
-}
-
-//////////////////////////////////////////////////////////////////////////
-//							Command Pattern								//
-//////////////////////////////////////////////////////////////////////////
-
-void ERModel::addNodeCmd( string type, string text )
-{
-	_cmdManager.execute(new AddComponentCmd(this, type, text));
-}
-
-void ERModel::addConnectionCmd( int sourceNodeID, int destinationNodeID, string text )
-{
-	_cmdManager.execute(new ConnectComponentsCmd(this, sourceNodeID, destinationNodeID, text));
-}
-
-void ERModel::deleteCmd( int delComponentID )
-{
-	_cmdManager.execute(new DeleteComponentCmd(this, delComponentID));
-}
-
-bool ERModel::undoCmd()
-{
-	return _cmdManager.undo();
-}
-
-bool ERModel::redoCmd()
-{
-	return _cmdManager.redo();
 }
 
 //////////////////////////////////////////////////////////////////////////

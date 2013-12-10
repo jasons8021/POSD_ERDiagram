@@ -2,6 +2,8 @@
 
 Component::Component()
 {
+	this->_sx = 0;
+	this->_sy = 0;
 }
 
 Component::Component( int id, string type, string text, int sx, int sy  )
@@ -102,5 +104,15 @@ void Component::deleteConnectedComponent( int delComponentID )
 void Component::setText( string text )
 {
 	_text = text;
+}
+
+int Component::getSx()
+{
+	return _sx;
+}
+
+int Component::getSy()
+{
+	return _sy;
 }
 

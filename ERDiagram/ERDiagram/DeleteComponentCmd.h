@@ -11,6 +11,8 @@
 #define PARAMETER_RELATIONSHIP "R"
 #define PARAMETER_CONNECTOR "C"
 
+#define PARAMETER_TEXTUI_COORDINATES 0
+
 #include "command.h"
 #include "ERModel.h"
 #include "NodeEntity.h"
@@ -37,6 +39,8 @@ private:
 	int _destinationNodeID;
 	string _type;
 	string _text;
+	int _sx;
+	int _sy;
 	vector<vector<int>> _relatedConnections;
 	vector<string> _relatedConnectionText;
 	vector<int> _primaryKeys;

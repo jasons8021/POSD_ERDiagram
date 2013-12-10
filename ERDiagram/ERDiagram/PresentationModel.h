@@ -105,16 +105,19 @@ class PresentationModel
  	FRIEND_TEST(PresentationModelTest, getComponent_GUI);
  	FRIEND_TEST(PresentationModelTest, getConnection_GUI);
  	FRIEND_TEST(PresentationModelTest, getPrimaryKey_GUI);
+	FRIEND_TEST(PresentationModelTest, addConnectionCmd);
+	FRIEND_TEST(PresentationModelTest, deleteCmd);
+	FRIEND_TEST(PresentationModelTest, undoCmd);
+	FRIEND_TEST(PresentationModelTest, redoCmd);
 public:
 	PresentationModel(ERModel*);
 	virtual ~PresentationModel();
 	int getComponentTableSize();
 	int getConnectionTableSize();
-	bool addNodeCmd(string, string);
 	bool checkSetCardinality(int, int);
 	bool getIsModify();
 	void saveERDiagram_TextUI(string);
-	string addConnectionCmd(int, int, string);
+	string addConnectionCmd_TextUI(int, int, string);
 	string displayComponentTable_TextUI();
 	string displayConnectionTable_TextUI();
 	string searchComponent_TextUI(string, string);
@@ -129,15 +132,20 @@ public:
 	string undo_TextUI();
 	string redo_TextUI();
 	vector<int> splitPrimaryKey(string);
+	// Command Pattern
+	bool addNodeCmd(string, string, int, int);
+	void addConnectionCmd(int, int, string);
+	void deleteCmd(int);
+	bool undoCmd();
+	bool redoCmd();
 	// GUI Function
 	string getComponent_GUI();
 	string getConnection_GUI();
 	string getPrimaryKey_GUI();
 	bool addConnectionCmd_GUI(int, int, string);
-	
-	//////////////////////////////////////////////////////
-	void changeText(int, string);
 	void changePrimaryKey(int, bool);
+	void changeText(int, string);
+	//////////////////////////////////////////////////////
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
@@ -145,6 +153,7 @@ public:
 
 private:
 	ERModel* _erModel;
+	CommandManager _cmdManager;
 };
 
 #endif

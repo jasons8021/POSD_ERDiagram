@@ -27,11 +27,13 @@
 #include "NodeEntity.h"
 #include "NodeRelationship.h"
 #include "Toolkit.h"
+#include "PresentationModel.h"
 
 class IntegrationTest : public :: testing :: Test
 {
 protected:
 	ERModel* _erModel;
+	PresentationModel * _presentationModel;
 	virtual void SetUp();
 	virtual void TearDown();
 };

@@ -2,7 +2,7 @@
 
 void AddComponentCmdTest::SetUp(){
 	_erModel = new ERModel();
-	_addComponentCmd = new AddComponentCmd(_erModel, PARAMETER_ATTRIBUTE, "UnitTest AddComponentCmd");
+	_addComponentCmd = new AddComponentCmd(_erModel, PARAMETER_ATTRIBUTE, "UnitTest AddComponentCmd", 0, 0);
 }
 
 void AddComponentCmdTest::TearDown(){

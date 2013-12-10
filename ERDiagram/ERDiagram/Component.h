@@ -33,6 +33,8 @@ public:
 	string getType();
 	string getText();
 	void setText(string);
+	int getSx();
+	int getSy();
 	vector<Component*> getConnections();
 	virtual void deleteConnectedComponent(int);
 	virtual void connectTo(Component*);

@@ -1,5 +1,13 @@
 #include "GUI.h"
 
+/*
+void GUI::addNode( QString type_qstring, QString text_qstring )­n­×§ï
+
+
+*/
+
+
+
 GUI::GUI(PresentationModel* presentationModel)
 {
 	_presentationModel = presentationModel;
@@ -171,7 +179,12 @@ void GUI::addNode( QString type_qstring, QString text_qstring )
 {
 	string type_string = qstringConvertString(type_qstring); 
 	string text_string = qstringConvertString(text_qstring); 
-	_presentationModel->addNodeCmd(type_string, text_string);
+
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
+	_presentationModel->addNodeCmd(type_string, text_string, 0, 0);
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
 }
 
 bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )

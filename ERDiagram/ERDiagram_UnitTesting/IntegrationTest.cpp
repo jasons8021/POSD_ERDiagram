@@ -33,6 +33,7 @@ void IntegrationTest::SetUp()
 	outputFile.close();
 
 	_erModel = new ERModel();
+	_presentationModel = new PresentationModel(_erModel);
 }
 
 void IntegrationTest::TearDown()
@@ -42,6 +43,7 @@ void IntegrationTest::TearDown()
 	_rmdir("testdata");
 }
 
+// 測試LoadFileNotExist
 TEST_F(IntegrationTest, testLoadFileNotExist)
 {
 	string result;
@@ -49,6 +51,7 @@ TEST_F(IntegrationTest, testLoadFileNotExist)
 	EXPECT_EQ("File not found!!\n", result);
 }
 
+// 測試IsPrimaryExist
 TEST_F(IntegrationTest, testIsPrimaryExist)
 {
 	string result;
@@ -79,7 +82,7 @@ TEST_F(IntegrationTest, testIsPrimaryExist)
 	EXPECT_EQ(5, static_cast<NodeEntity*>(_erModel->searchComponent(4))->getPrimaryKey()[0]);
 }
 
-// 測試 testUndoDeleteComponent 
+// 測試UndoDeleteComponent 
 TEST_F(IntegrationTest, testUndoDeleteComponent)
 {
 	string inputFileTextSet;
@@ -90,22 +93,23 @@ TEST_F(IntegrationTest, testUndoDeleteComponent)
 	EXPECT_EQ("The ER diagram is displayed as follows:\n", inputFileTextSet);
 
 	// Add an entity with text “Test”
-	_erModel->addNodeCmd(PARAMETER_ENTITY, "Test");
+	_presentationModel->addNodeCmd(PARAMETER_ENTITY, "Test", 0 , 0);
 	// 新增的Test，其ComponentID為15
 	EXPECT_EQ("Test", _erModel->searchComponent(15)->getText());
 
 	// Delete the entity added above
-	_erModel->deleteCmd(15);
+	_presentationModel->deleteCmd(15);
 
 	// Assert the entity has been deleted
 	EXPECT_EQ(NULL, _erModel->searchComponent(15));
 
 	// Undo
-	_erModel->undoCmd();
+	_presentationModel->undoCmd();
 	// Assert there is an entity with text “Test” 
 	EXPECT_EQ("Test", _erModel->searchComponent(15)->getText());
 }
 
+// 測試RedoConnectComponent
 TEST_F(IntegrationTest, testRedoConnectComponent)
 {
 	string inputFileTextSet;
@@ -116,22 +120,23 @@ TEST_F(IntegrationTest, testRedoConnectComponent)
 	EXPECT_EQ("The ER diagram is displayed as follows:\n", inputFileTextSet);
 
 	// Add an entity with text “Test”
-	_erModel->addNodeCmd(PARAMETER_ENTITY, "Test");
+	_presentationModel->addNodeCmd(PARAMETER_ENTITY, "Test", 0 , 0);
+	EXPECT_EQ("Test", _erModel->searchComponent(15)->getText());
 	// 新增的Test，其ComponentID為15
 	EXPECT_EQ("Test", _erModel->searchComponent(15)->getText());
 
 	// Add an entity with text “Test Attr”
-	_erModel->addNodeCmd(PARAMETER_ATTRIBUTE, "Test Attr");
+	_presentationModel->addNodeCmd(PARAMETER_ATTRIBUTE, "Test Attr", 0 , 0);
 	// 新增的Test，其ComponentID為16
 	EXPECT_EQ("Test Attr", _erModel->searchComponent(16)->getText());
 
 	// Connect node 15 and 16
 	// Assert there is a connection between node 15 and 16 
-	_erModel->addConnectionCmd(15, 16, PARAMETER_NULL);
+	_presentationModel->addConnectionCmd(15, 16, PARAMETER_NULL);
 	EXPECT_EQ("C", _erModel->searchComponent(17)->getType());
 
 	// Undo
-	_erModel->undoCmd();
+	_presentationModel->undoCmd();
 
 	// Assert there is no connection between node 15 and 16
 	// 15跟16的connection已經空了，表示已經刪除連結
@@ -139,12 +144,13 @@ TEST_F(IntegrationTest, testRedoConnectComponent)
 	EXPECT_EQ(0, _erModel->searchRelatedComponent(16).size());
 
 	// Redo
-	_erModel->redoCmd();
+	_presentationModel->redoCmd();
 
 	// Assert node 15 and 16 are connected
 	EXPECT_EQ("C", _erModel->searchComponent(17)->getType());
 }
 
+// 測試CommonUsage
 TEST_F(IntegrationTest, testCommonUsage)
 {
 	bool checkPK = false;
@@ -157,53 +163,53 @@ TEST_F(IntegrationTest, testCommonUsage)
 	EXPECT_EQ("The ER diagram is displayed as follows:\n", inputFileTextSet);
 
 	// Add an Entity with text "Work Diary"
-	_erModel->addNodeCmd(PARAMETER_ENTITY, "Work Diary");
+	_presentationModel->addNodeCmd(PARAMETER_ENTITY, "Work Diary", 0 , 0);
 	// 新增的Work Diary，其ComponentID為15
 	EXPECT_EQ("Work Diary", _erModel->searchComponent(15)->getText());
 
 	// Add a Relationship with text "Write" 
-	_erModel->addNodeCmd(PARAMETER_RELATIONSHIP, "Write");
+	_presentationModel->addNodeCmd(PARAMETER_RELATIONSHIP, "Write", 0 , 0);
 	// 新增的Write，其ComponentID為16
 	EXPECT_EQ("Write", _erModel->searchComponent(16)->getText());
 
 	// Connect node 0 and 16, and set its cardinality as "1" 
-	_erModel->addConnectionCmd(0, 16, "1");
+	_presentationModel->addConnectionCmd(0, 16, "1");
 	// Assert node 0 and 16 are connected
 	EXPECT_EQ("C", _erModel->searchComponent(17)->getType());
 	EXPECT_EQ("1", _erModel->searchComponent(17)->getText());
 
 	// Connect node 15 and 16 
-	_erModel->addConnectionCmd(15, 16, PARAMETER_NULL);
+	_presentationModel->addConnectionCmd(15, 16, PARAMETER_NULL);
 	// Assert node 15 and 16 are connected
 	EXPECT_EQ("C", _erModel->searchComponent(18)->getType());
 
 	// Add an Attribute with text "Content"
-	_erModel->addNodeCmd(PARAMETER_ATTRIBUTE, "Content");
+	_presentationModel->addNodeCmd(PARAMETER_ATTRIBUTE, "Content", 0 , 0);
 	// 新增的Content，其ComponentID為19
 	EXPECT_EQ("Content", _erModel->searchComponent(19)->getText());
 
 	// Add an Attribute with text "WD_ID"
-	_erModel->addNodeCmd(PARAMETER_ATTRIBUTE, "WD_ID");
+	_presentationModel->addNodeCmd(PARAMETER_ATTRIBUTE, "WD_ID", 0 , 0);
 	// 新增的WD_ID，其ComponentID為20
 	EXPECT_EQ("WD_ID", _erModel->searchComponent(20)->getText());
 
 	// Add an Attribute with text "WD_date"
-	_erModel->addNodeCmd(PARAMETER_ATTRIBUTE, "WD_date");
+	_presentationModel->addNodeCmd(PARAMETER_ATTRIBUTE, "WD_date", 0 , 0);
 	// 新增的WD_ID，其ComponentID為21
 	EXPECT_EQ("WD_date", _erModel->searchComponent(21)->getText());
 
 	// Connect node 15 and 19
-	_erModel->addConnectionCmd(15, 19, PARAMETER_NULL);
+	_presentationModel->addConnectionCmd(15, 19, PARAMETER_NULL);
 	// Assert node 15 and 19 are connected
 	EXPECT_EQ("C", _erModel->searchComponent(22)->getType());
 
 	// Connect node 15 and 20
-	_erModel->addConnectionCmd(15, 20, PARAMETER_NULL);
+	_presentationModel->addConnectionCmd(15, 20, PARAMETER_NULL);
 	// Assert node 15 and 20 are connected
 	EXPECT_EQ("C", _erModel->searchComponent(23)->getType());
 
 	// Connect node 15 and 21
-	_erModel->addConnectionCmd(15, 21, PARAMETER_NULL);
+	_presentationModel->addConnectionCmd(15, 21, PARAMETER_NULL);
 	// Assert node 15 and 21 are connected
 	EXPECT_EQ("C", _erModel->searchComponent(24)->getType());
 
@@ -250,7 +256,7 @@ TEST_F(IntegrationTest, testCommonUsage)
 	checkPK = false;
 
 	// Delete the Entity he/she added above 
-	_erModel->deleteCmd(15);
+	_presentationModel->deleteCmd(15);
 
 	// Assert the Entity has been deleted
 	// 18: 15-16 | 22: 15-19 | 23 : 15-20 | 24 : 15-21 
@@ -273,7 +279,7 @@ TEST_F(IntegrationTest, testCommonUsage)
 	EXPECT_EQ(3, static_cast<NodeEntity*>(_erModel->searchComponent(0))->getPrimaryKey()[1]);
 
 	// Undo
-	_erModel->undoCmd();
+	_presentationModel->undoCmd();
 
 	// Display the table
 	EXPECT_EQ("  E   |  0   |  Engineer\n  A   |  1   |  Emp_ID\n  R   |  2   |  Has\n  A   |  3   |  Name\n  E   |  4   |  PC\n  A   |  5   |  PC_ID\n  A   |  6   |  Purchase_Date\n  C   |  7   |  \n  C   |  8   |  \n  C   |  9   |  \n  C   |  10   |  \n  C   |  11   |  1\n  C   |  12   |  1\n  A   |  13   |  Department\n  C   |  14   |  \n  E   |  15   |  Work Diary\n  R   |  16   |  Write\n  C   |  17   |  1\n  C   |  18   |  \n  A   |  19   |  Content\n  A   |  20   |  WD_ID\n  A   |  21   |  WD_date\n  C   |  22   |  \n  C   |  23   |  \n  C   |  24   |  \n", _erModel->getComponentsTable(PARAMETER_ALL));
@@ -296,7 +302,7 @@ TEST_F(IntegrationTest, testCommonUsage)
 	checkPK = false;
 
 	// Redo
-	_erModel->redoCmd();
+	_presentationModel->redoCmd();
 
 	// Assert the Entity "Work Diary" does not exist
 	EXPECT_EQ(NULL, _erModel->searchComponent(15));
