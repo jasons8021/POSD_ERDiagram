@@ -90,7 +90,7 @@ void TextUI::addNewNode()
 	cout << TEXT_ADDNEWNODE_NAME;
 	cin >> text;
 
-	if (_presentationModel->addNodeCmd(type, text, 0, 0))
+	if (_presentationModel->addNodeCmd_TextUI(type, text, 0, 0))
 		cout << _presentationModel->displayComponentTable_TextUI() << endl;
 }
 

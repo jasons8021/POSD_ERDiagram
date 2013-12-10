@@ -17,6 +17,7 @@ public:
 	void notifyObserver();
 	void notifyTextChanged(int, string);
 	void notifyPrimaryKeyChanged(int, bool);
+	void notifyAddNewNode(string, string, int, int);
 private:
 	vector<Observer*> _observerList;
 };

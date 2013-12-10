@@ -1,13 +1,5 @@
 #include "GUI.h"
 
-/*
-void GUI::addNode( QString type_qstring, QString text_qstring )要修改
-
-
-*/
-
-
-
 GUI::GUI(PresentationModel* presentationModel)
 {
 	_presentationModel = presentationModel;
@@ -49,11 +41,13 @@ GUI::~GUI()
 {
 }
 
+// string轉QString
 QString GUI::stringConvertQString( string beforeConvertString )
 {
 	return QString::fromLocal8Bit(beforeConvertString.c_str());
 }
 
+// QString轉string
 string GUI::qstringConvertString( QString beforeConvertQString )
 {
 	return string((const char *)beforeConvertQString.toLocal8Bit());
@@ -145,7 +139,7 @@ void GUI::createToolbars()
 	_toolBar->addWidget(_setPrimaryKeyButton);
 }
 
-
+// 讀檔
 void GUI::loadFile()
 {
 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
@@ -175,18 +169,14 @@ void GUI::changeToPointerMode()
 }
 
 // 將QString 轉為String後，用PM加入Model中
-void GUI::addNode( QString type_qstring, QString text_qstring )
+void GUI::addNode( QString type_qstring, QString text_qstring, QPointF point )
 {
 	string type_string = qstringConvertString(type_qstring); 
 	string text_string = qstringConvertString(text_qstring); 
-
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////
-	_presentationModel->addNodeCmd(type_string, text_string, 0, 0);
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////
+	_presentationModel->addNodeCmd(type_string, text_string, point.x(), point.y());
 }
 
+// 將addConnection的要求送到PM中，讓PM去跟Model講
 bool GUI::addConnection( int sourceNodeId, int destinationNodeId, QString cardinality )
 {
 	bool flag = _presentationModel->addConnectionCmd_GUI(sourceNodeId,destinationNodeId,"");
@@ -200,6 +190,7 @@ void GUI::addNodeIntoTable( QString type, QString text )
 	_tableViewModel->addNodeIntoModel(type, text);
 	_tableView->updateModel(_tableViewModel);
 }
+
 
 void GUI::updateInfo()
 {
@@ -218,17 +209,26 @@ void GUI::changeItemText( int targetNodeID, QString editedText )
 	_presentationModel->changeText(targetNodeID, qstringConvertString(editedText));
 }
 
+// 向Scene發出PK更改的訊息
 void GUI::updatePrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
 {
 	_scene->changePrimaryKey(targetNodeID, isPrimaryKey);
 }
 
+// 向PM發出要求說，PK改變了
 void GUI::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	_presentationModel->changePrimaryKey(targetNodeID, isPrimaryKey);
 }
 
+// 檢查是否要設Cardinality
 bool GUI::checkSetCardinality( int sourceNodeID, int destinationNodeID )
 {
 	return _presentationModel->checkSetCardinality(sourceNodeID, destinationNodeID);
+}
+
+// 向Scene發出有新的Node被加進來了
+void GUI::updateAddNewNode( string type, string text, int sx, int sy )
+{
+	_scene->updateAddNewItem(stringConvertQString(type), stringConvertQString(text), QPointF(sx, sy));
 }

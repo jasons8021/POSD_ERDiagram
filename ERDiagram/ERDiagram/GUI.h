@@ -39,7 +39,7 @@ public:
 	virtual ~GUI();
 
 	void changeToPointerMode();
-	void addNode(QString, QString);
+	void addNode(QString, QString, QPointF);
 	bool addConnection(int, int, QString);
 	void addNodeIntoTable(QString, QString);
 	void updateInfo();
@@ -47,6 +47,7 @@ public:
 	void changeItemText(int, QString);
 	void updatePrimaryKeyChanged(int, bool);
 	void changePrimaryKey(int, bool);
+	void updateAddNewNode(string, string, int, int);
 	QString stringConvertQString(string);
 	string qstringConvertString(QString);
 	bool checkSetCardinality(int, int);

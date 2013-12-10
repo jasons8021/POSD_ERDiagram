@@ -114,6 +114,7 @@ public:
 	virtual ~PresentationModel();
 	int getComponentTableSize();
 	int getConnectionTableSize();
+	bool addNodeCmd_TextUI(string, string, int, int);
 	bool checkSetCardinality(int, int);
 	bool getIsModify();
 	void saveERDiagram_TextUI(string);
@@ -133,7 +134,7 @@ public:
 	string redo_TextUI();
 	vector<int> splitPrimaryKey(string);
 	// Command Pattern
-	bool addNodeCmd(string, string, int, int);
+	void addNodeCmd(string, string, int, int);
 	void addConnectionCmd(int, int, string);
 	void deleteCmd(int);
 	bool undoCmd();

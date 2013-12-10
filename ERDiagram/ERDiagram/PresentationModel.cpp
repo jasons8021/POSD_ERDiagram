@@ -9,6 +9,21 @@ PresentationModel::~PresentationModel()
 {
 }
 
+// 提供給TextUI的addNodeCmd，會回傳加入是否成功
+bool PresentationModel::addNodeCmd_TextUI( string type, string text, int sx, int sy )
+{
+	int beforeAddNodeSize;
+	beforeAddNodeSize = _erModel->getComponentTableSize();
+
+	addNodeCmd(type, text, sx, sy);
+	
+	if (_erModel->getComponentTableSize() > beforeAddNodeSize)
+		return true;
+	else
+		return false;
+}
+
+// 提供給TextUI的addConnectionCmd，會回傳目前ConnectionTable的大小
 string PresentationModel::addConnectionCmd_TextUI( int firstComponentID, int secondComponentID, string cardinality )
 {
 	// 如果要connection的兩個Component有問題，則回傳問題字串
@@ -21,6 +36,7 @@ string PresentationModel::addConnectionCmd_TextUI( int firstComponentID, int sec
  	return Toolkit::integerToString(_erModel->getConnectionTableSize());
 }
 
+// 回傳為ComponentTable的字串
 string PresentationModel::displayComponentTable_TextUI()
 {
 	string result;
@@ -48,6 +64,7 @@ string PresentationModel::displayComponentTable_TextUI()
 	return result;
 }
 
+// 回傳為ConnectionTable的字串
 string PresentationModel::displayConnectionTable_TextUI()
 {
 	string result;
@@ -75,6 +92,7 @@ string PresentationModel::displayConnectionTable_TextUI()
 	return result;
 }
 
+// 回傳為顯示全部Entity的字串
 string PresentationModel::displayEntityTable_TextUI()
 {
 	string result;
@@ -106,11 +124,13 @@ int PresentationModel::getConnectionTableSize()
 	return _erModel->getConnectionTableSize();
 }
 
+// 判斷是否需要設定Cardinality
 bool PresentationModel::checkSetCardinality(int firstComponentID, int secondComponentID)
 {
 	return _erModel->checkSetCardinality(firstComponentID, secondComponentID);
 }
 
+// 提供給TextUI的判斷該Component是否存在
 string PresentationModel::searchComponent_TextUI( string searchID, string searchType )
 {
 	if(!(_erModel->searchComponentExist(searchID, searchType)))
@@ -119,6 +139,7 @@ string PresentationModel::searchComponent_TextUI( string searchID, string search
 		return searchID;
 }
 
+// 提供給TextUI的判斷該Entity是否存在或輸入是否為Entity
 string PresentationModel::searchEntity_TextUI( string searchID )
 {
 	if (!_erModel->searchComponentExist(searchID, PARAMETER_ALL))					// 輸入ID不存在
@@ -129,6 +150,7 @@ string PresentationModel::searchEntity_TextUI( string searchID )
 	 	return TEXT_NODENUMBEGIN + searchID + TEXT_SETPRIMARYKEY_ERRORMESSAGE;
 }
 
+// 顯示某個Entity所擁有的Attribute，回傳完Attribute所組成的字串
 string PresentationModel::displayAttributeTable_TextUI( int entityID )
 {
 	string result;
@@ -156,6 +178,7 @@ string PresentationModel::displayAttributeTable_TextUI( int entityID )
 	return result;
 }
 
+// 將輸入的PK切割
 vector<int> PresentationModel::splitPrimaryKey( string primaryKeys )
 {
 	vector<string> splitText;
@@ -169,6 +192,7 @@ vector<int> PresentationModel::splitPrimaryKey( string primaryKeys )
 	return primaryKeySet;
 }
 
+// 檢查輸入的Attribute是否在某個Entity中
 string PresentationModel::checkAttributeInEntity_TextUI( string entityID, vector<int> primaryKeys )
 {
 	string errorMessage;
@@ -184,6 +208,7 @@ string PresentationModel::checkAttributeInEntity_TextUI( string entityID, vector
 	return errorMessage;
 }
 
+// 設PK
 string PresentationModel::setPrimaryKeys_TextUI( int entityID, vector<int> primaryKeys )
 {
 	string result;
@@ -205,6 +230,7 @@ string PresentationModel::setPrimaryKeys_TextUI( int entityID, vector<int> prima
 	return result;
 }
 
+// 回傳ER Table的字串
 string PresentationModel::displayERDiagramTable_TextUI()
 {
 	string result;
@@ -260,6 +286,7 @@ string PresentationModel::loadERDiagram_TextUI( string fileName )
 	return result;
 }
 
+// TextUI的刪除Component並回傳對應的字串
 string PresentationModel::deleteComponent_TextUI( string delComponentID )
 {
 	string result;
@@ -279,6 +306,7 @@ string PresentationModel::deleteComponent_TextUI( string delComponentID )
 	return result;
 }
 
+// TextUI的undo並回傳對應字串
 string PresentationModel::undo_TextUI()
 {
 	string result;
@@ -300,6 +328,7 @@ string PresentationModel::undo_TextUI()
 	return result;
 }
 
+// TextUI的redo並回傳對應的字串
 string PresentationModel::redo_TextUI()
 {
 	string result;
@@ -321,21 +350,25 @@ string PresentationModel::redo_TextUI()
 	return result;
 }
 
+// 回傳給GUI所需要的ComponentSet的字串
 string PresentationModel::getComponent_GUI()
 {
 	return _erModel->getComponentForGUI();
 }
 
+// 回傳給GUI所需要的ConnectionSet的字串
 string PresentationModel::getConnection_GUI()
 {
 	return _erModel->getConnectionForGUI();
 }
 
+// 回傳給GUI所需要的PK Set的字串
 string PresentationModel::getPrimaryKey_GUI()
 {
 	return _erModel->getPrimaryKeyForGUI();
 }
 
+// 回傳是否GUI上面的Item是否可以連線
 bool PresentationModel::addConnectionCmd_GUI( int firstComponentID, int secondComponentID, string cardinality )
 {
 	int beforeAddNodeSize;
@@ -352,21 +385,25 @@ bool PresentationModel::addConnectionCmd_GUI( int firstComponentID, int secondCo
 		return false;
 }
 
+// 增加觀察者
 void PresentationModel::attachObserver( Observer* observer )
 {
 	_erModel->attachObserver(observer);
 }
 
+// 去除觀察者
 void PresentationModel::detachObserver( Observer* observer )
 {
 	_erModel->detachObserver(observer);
 }
 
+// GUI改變Text
 void PresentationModel::changeText( int targetNodeID, string editedText )
 {
 	_erModel->changeText(targetNodeID, editedText);
 }
 
+// GUI改變PK
 void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	_erModel->changePrimaryKey(targetNodeID, isPrimaryKey);
@@ -376,18 +413,9 @@ void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 //							Command Pattern								//
 //////////////////////////////////////////////////////////////////////////
 
-bool PresentationModel::addNodeCmd( string type, string text, int sx, int sy )
+void PresentationModel::addNodeCmd( string type, string text, int sx, int sy )
 {
-	int beforeAddNodeSize;
-	beforeAddNodeSize = _erModel->getComponentTableSize();
-
-	//_erModel->addNodeCmd(type, text);
 	_cmdManager.execute(new AddComponentCmd(_erModel, type, text, sx, sy));
-
-	if (_erModel->getComponentTableSize() > beforeAddNodeSize)
-		return true;
-	else
-		return false;
 }
 
 void PresentationModel::addConnectionCmd( int sourceNodeID, int destinationNodeID, string text )

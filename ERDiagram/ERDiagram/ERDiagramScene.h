@@ -55,9 +55,9 @@ public:
 	ERDiagramScene(QObject* parent = 0);
 	virtual ~ERDiagramScene();
 	void loadAllItem(QVector<QString>);
-	void addNodeFromGUI(QPointF, QString, QString);
+	void addNodeFromGUI(QString, QString, QPointF);
 	void addNodeFromLoadFile(QStringList);
-	ItemComponent* addNode(QPointF, QString, QString);
+	ItemComponent* addNode(QString, QString, QPointF);
 	void addConnectionFromGUI(ItemComponent*, ItemComponent*, QString);
 	ItemComponent* addConnection(ItemComponent*, ItemComponent*, QString);
 	void addConnectionFromLoadFile(QStringList);
@@ -77,6 +77,7 @@ public:
 	void changeItemText(int, QString);
 	void changePrimaryKey(int, bool);
 	bool checkSetCardinality(int, int);
+	void updateAddNewItem(QString, QString, QPointF);
 private:
 	int _currentMode;
 	ItemFactory _itemFactory;

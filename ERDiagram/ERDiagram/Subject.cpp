@@ -51,3 +51,11 @@ void Subject::notifyPrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
 		_observerList[i]->updatePrimaryKeyChanged(targetNodeID, isPrimaryKey);
 	}
 }
+
+void Subject::notifyAddNewNode( string type, string text, int sx, int sy )
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updateAddNewNode(type, text, sx, sy);
+	}
+}

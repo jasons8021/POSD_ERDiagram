@@ -16,7 +16,7 @@ void AddAttributeState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 
 	// 如果有輸入東西才新增
 	if (!_text.isEmpty())
-		_scene->addNodeFromGUI(getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0), PARAMETER_ATTRIBUTE, _text);
+		_scene->addNodeFromGUI(PARAMETER_ATTRIBUTE, _text, getPreviewItemPosition(event->scenePos())-QPointF(_textWidth/2,0));
 
 	_scene->changToPointerMode();
 }

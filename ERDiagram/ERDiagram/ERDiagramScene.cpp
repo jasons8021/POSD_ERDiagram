@@ -49,8 +49,8 @@ QVector<QStringList> ERDiagramScene::splitTextData( QString textData )
 	return resultTextData;
 }
 
-// 新增Item
-ItemComponent* ERDiagramScene::addNode( QPointF point, QString type, QString text )
+// 加入Item到Scene上
+ItemComponent* ERDiagramScene::addNode( QString type, QString text, QPointF point )
 {
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
@@ -81,18 +81,14 @@ void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
 	// 原本的erd檔沒有位置資訊，因此隨機假設位置進去
 	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
 
-	addNode(QPointF(itemPos.x(), itemPos.y()), type, text);
+	addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
 }
 
-// 從GUI介面新增Item
-void  ERDiagramScene::addNodeFromGUI( QPointF point, QString type, QString text )
+// GUI介面新增Item到ERModel中(不含畫在Scene上)
+void  ERDiagramScene::addNodeFromGUI( QString type, QString text, QPointF point )
 {
 	// 加入Item進ERModel
-	_gui->addNode(type, text);
-
-	// 加入Item到GUI上
-	addNode(point, type, text);
-
+	_gui->addNode(type, text, point);
 }
 
 // 新增連結
@@ -273,4 +269,11 @@ void ERDiagramScene::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 bool ERDiagramScene::checkSetCardinality( int sourceNodeID, int destinationNodeID )
 {
 	return _gui->checkSetCardinality(sourceNodeID, destinationNodeID);
+}
+
+// 收到observer的通知，加入新的Item進入Scene中
+void ERDiagramScene::updateAddNewItem( QString type, QString text, QPointF point )
+{
+	// 加入Item到GUI上
+	addNode(type, text, point);
 }

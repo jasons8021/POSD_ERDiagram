@@ -13,6 +13,7 @@ public:
 	virtual void updateInfo() = 0;
 	virtual void updateTextChanged(int, string) = 0;
 	virtual void updatePrimaryKeyChanged(int, bool) = 0;
+	virtual void updateAddNewNode(string, string, int, int) = 0;
 };
 
 #endif

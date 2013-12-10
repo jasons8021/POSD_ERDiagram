@@ -28,14 +28,14 @@ void PresentationModelTest::TearDown()
 	delete _erModel;
 }
 
-// 測試addNodeCmd
-TEST_F(PresentationModelTest, addNodeCmd)
+// 測試addNodeCmd_TextUI
+TEST_F(PresentationModelTest, addNodeCmd_TextUI)
 {
-	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10", 0, 0));
+	EXPECT_TRUE(_presentationModel->addNodeCmd_TextUI("A", "CmdA10", 0, 0));
 
 	// 錯誤型態測試
-	EXPECT_FALSE(_presentationModel->addNodeCmd("Y", "ErrorType0", 0, 0));
-	EXPECT_FALSE(_presentationModel->addNodeCmd("A C", "ErrorType1", 0, 0));
+	EXPECT_FALSE(_presentationModel->addNodeCmd_TextUI("Y", "ErrorType0", 0, 0));
+	EXPECT_FALSE(_presentationModel->addNodeCmd_TextUI("A C", "ErrorType1", 0, 0));
 }
 
 // 測試給TextUI用的addConnectionCmd
@@ -265,14 +265,14 @@ TEST_F(PresentationModelTest, deleteComponent_TextUI)
 TEST_F(PresentationModelTest, undo_TextUI)
 {
 	EXPECT_EQ("Undo failed\n", _presentationModel->undo_TextUI());
-	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10", 0, 0));
+	EXPECT_TRUE(_presentationModel->addNodeCmd_TextUI("A", "CmdA10", 0, 0));
 	EXPECT_EQ("Undo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n\n", _presentationModel->undo_TextUI());}
 
 // 測試給TextUI用的redo
 TEST_F(PresentationModelTest, redo_TextUI)
 {
 	EXPECT_EQ("Redo failed\n", _presentationModel->redo_TextUI());
-	EXPECT_TRUE(_presentationModel->addNodeCmd("A", "CmdA10", 0, 0));
+	EXPECT_TRUE(_presentationModel->addNodeCmd_TextUI("A", "CmdA10", 0, 0));
 	EXPECT_EQ("Undo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n------------------------------------\n\n", _presentationModel->undo_TextUI());
 	EXPECT_EQ("Redo succeed\nComponents:\n------------------------------------\n TYPE |  ID  |  NAME\n------+------+----------------------\n  A   |  0   |  A0\n  E   |  1   |  E1\n  R   |  2   |  R2\n  A   |  3   |  A3\n  A   |  4   |  A4\n  A   |  5   |  A5\n  E   |  6   |  E6\n  R   |  7   |  R7\n  E   |  8   |  E8\n  E   |  9   |  E9\n  A   |  10   |  CmdA10\n------------------------------------\n\n", _presentationModel->redo_TextUI());
 }
@@ -348,6 +348,19 @@ TEST_F(PresentationModelTest, addConnectionCmd_GUI)
 	EXPECT_FALSE(_presentationModel->addConnectionCmd_GUI(0, 3, ""));
 	EXPECT_FALSE( _presentationModel->addConnectionCmd_GUI(2, 2, ""));
 	EXPECT_FALSE( _presentationModel->addConnectionCmd_GUI(6, 0, ""));
+}
+
+
+// 測試addNodeCmd
+TEST_F(PresentationModelTest, addNodeCmd)
+{
+	int beforeAddNodeSize;
+	beforeAddNodeSize = _erModel->getComponentTableSize();
+
+	_presentationModel->addNodeCmd("A", "CmdA10", 0, 0);
+	EXPECT_TRUE(_erModel->getComponentTableSize() > beforeAddNodeSize);
+	EXPECT_EQ("CmdA10", _erModel->_components[10]->getText());
+	EXPECT_EQ("A", _erModel->_components[10]->getType());
 }
 
 // 測試addConnectionCmd
