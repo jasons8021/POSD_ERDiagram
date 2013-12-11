@@ -385,6 +385,11 @@ bool PresentationModel::addConnectionCmd_GUI( int firstComponentID, int secondCo
 		return false;
 }
 
+int PresentationModel::getComponentID()
+{
+	return _erModel->getComponentID();
+}
+
 // 增加觀察者
 void PresentationModel::attachObserver( Observer* observer )
 {
@@ -397,18 +402,6 @@ void PresentationModel::detachObserver( Observer* observer )
 	_erModel->detachObserver(observer);
 }
 
-// GUI改變Text
-void PresentationModel::changeText( int targetNodeID, string editedText )
-{
-	_erModel->changeText(targetNodeID, editedText);
-}
-
-// GUI改變PK
-void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
-{
-	_erModel->changePrimaryKey(targetNodeID, isPrimaryKey);
-}
-
 //////////////////////////////////////////////////////////////////////////
 //							Command Pattern								//
 //////////////////////////////////////////////////////////////////////////
@@ -416,19 +409,29 @@ void PresentationModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 void PresentationModel::addNodeCmd( string type, string text, int sx, int sy )
 {
 	_cmdManager.execute(new AddComponentCmd(_erModel, type, text, sx, sy));
-	_erModel->notifyAddNewNode(type, text, sx, sy);
+
 }
 
 void PresentationModel::addConnectionCmd( int sourceNodeID, int destinationNodeID, string text )
 {
 	_cmdManager.execute(new ConnectComponentsCmd(_erModel, sourceNodeID, destinationNodeID, text));
-	_erModel->notifyNewConnection(sourceNodeID, destinationNodeID, text);
 }
 
 void PresentationModel::deleteCmd( int delComponentID )
 {
 	_cmdManager.execute(new DeleteComponentCmd(_erModel, delComponentID));
 }
+
+void PresentationModel::changeTextCmd( int targetNodeID, string editedText )
+{
+	_cmdManager.execute(new ChangeTextCmd(_erModel, targetNodeID, editedText));
+}
+
+void PresentationModel::changePrimaryKeyCmd( int targetNodeID, bool isPrimaryKey )
+{
+	_cmdManager.execute(new ChangePrimaryKeyCmd(_erModel, targetNodeID, isPrimaryKey));
+}
+
 bool PresentationModel::undoCmd()
 {
 	return _cmdManager.undo();
@@ -447,9 +450,4 @@ int PresentationModel::getUndoCmdsSize()
 int PresentationModel::getRedoCmdsSize()
 {
 	return _cmdManager.getRedoCmdsSize();
-}
-
-int PresentationModel::getComponentID()
-{
-	return _erModel->getComponentID();
 }

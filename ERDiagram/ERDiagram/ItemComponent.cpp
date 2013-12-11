@@ -145,12 +145,12 @@ void ItemComponent::setPath()
 void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mousePressEvent(event);
-	_scene->changeDeleteActionEnable();
-	qDebug()<<"type = "<<_type;
-	qDebug()<<"text = "<<_text;
-	qDebug()<<"Item ID = " <<_itemID;
-	qDebug()<<"erModel ID = "<<_erModelID;
-	qDebug()<<"-----------------------------------";
+ 	_scene->changeDeleteActionEnable();
+// 	qDebug()<<"type = "<<_type;
+// 	qDebug()<<"text = "<<_text;
+// 	qDebug()<<"Item ID = " <<_itemID;
+// 	qDebug()<<"erModel ID = "<<_erModelID;
+// 	qDebug()<<"-----------------------------------";
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )

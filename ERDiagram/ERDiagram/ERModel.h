@@ -71,6 +71,8 @@
 #include "AddComponentCmd.h"
 #include "ConnectComponentsCmd.h"
 #include "DeleteComponentCmd.h"
+#include "ChangeTextCmd.h"
+#include "ChangePrimaryKeyCmd.h"
 #include "Component.h"
 #include "ComponentFactory.h"
 #include "CommandManager.h"
@@ -83,6 +85,8 @@ using namespace std;
 class AddComponentCmd;
 class ConnectComponentsCmd;
 class DeleteComponentCmd;
+class ChangeTextCmd;
+class ChangePrimaryKeyCmd;
 
 class ERModel : public Subject
 {
@@ -177,12 +181,11 @@ public:
 	void recoveryAllComponent(vector<string>, vector<string>);
 	void recoveryPrimaryKey(vector<string>);
 	void deleteFunction(int);
-	void deleteComponent(Component*);
 	void deleteTableSet(int, vector<Component*>, int);
-	void deleteConnection(Component*);
 	void sortCompoentsAndConnection();
 	void setComponentID(int);
 	void setIsModify(bool);
+	void deleteConnection(Component*);
 	bool searchComponentExist(string, string);
 	bool connectedItself(Component*, Component*);
 	bool connectedTypeCheck(Component*, Component*);
@@ -192,6 +195,7 @@ public:
 	bool searchEntityConnection(int, int, string);
 	bool checkOneToOne();
 	bool getIsModify();
+	string deleteComponent(Component*);
 	string loadERDiagram(string);
 	string checkConnectionState(Component*, Component*);
 	string getCheckConnectionStateMessage(int, int);

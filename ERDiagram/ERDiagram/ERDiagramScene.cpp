@@ -21,7 +21,7 @@ void ERDiagramScene::loadAllItem( QVector<QString> inputFileText )
 	QVector<QStringList> resultComponentData = splitTextData(inputFileText[PARAMETER_COMPONENTDATA]);
 	QVector<QStringList> resultConnectionData = splitTextData(inputFileText[PARAMETER_CONNECTIONDATA]);
 	QStringList resultPrimaryKey = inputFileText[PARAMETER_PRIMARYKEYDATA].split(COMMA);
-
+	
 	for(int i = 0; i < resultComponentData.size(); i++)
 	{
 		if (resultComponentData[i].at(PARAMETER_TYPE) != PARAMETER_CONNECTOR)
@@ -35,23 +35,12 @@ void ERDiagramScene::loadAllItem( QVector<QString> inputFileText )
 
 	// resultPrimaryKey是由ERModel傳過來的，所以要配合用erModelID
 	for ( int i = 0; i < resultPrimaryKey.size(); i++)
-		static_cast<ItemAttribute*>(searchItemByERModelID(resultPrimaryKey.at(i).toInt()))->setPrimaryKey(true);
+		;//static_cast<ItemAttribute*>(searchItemByERModelID(resultPrimaryKey.at(i).toInt()))->setPrimaryKey(true);
 
-}
-
-// QString的字串切割，QString.split()會回傳QStringList，QStringList的用法是.at(index)
-QVector<QStringList> ERDiagramScene::splitTextData( QString textData )
-{
-	QVector<QStringList> resultTextData;
-	QStringList textDataRowSet = textData.split(SEMICOLON);
-	for (int i = 0; i < textDataRowSet.size(); i++)
-		resultTextData.push_back(textDataRowSet.at(i).split(COMMA));
-
-	return resultTextData;
 }
 
 // 加入Item到Scene上
-ItemComponent* ERDiagramScene::addNode( QString type, QString text, QPointF point )
+ItemComponent* ERDiagramScene::addNode( int erModelID, QString type, QString text, QPointF point )
 {
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
@@ -60,21 +49,21 @@ ItemComponent* ERDiagramScene::addNode( QString type, QString text, QPointF poin
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定GUI上面的ItemID以及ERModel的ComponentID
-	setItemIDandERModelID(newItem);
+	setItemIDandERModelID(newItem, erModelID);
 
 	// 將scene設給Item
 	newItem->setScene(this);
 	// 將Item加入scene
 	this->addItem(newItem);
 
-	_gui->addNodeIntoTable(type,text);
+	_gui->addNodeIntoTable(newItem->getItemID(), type, text);
 
 	return newItem;
 }
 
 // 從輸入的檔案新增Item
 void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
-{
+{ 
 	QPointF itemPos;
 	QString type =  componentData.at(PARAMETER_TYPE);
 	QString text =  componentData.at(PARAMETER_TEXT);
@@ -82,37 +71,30 @@ void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
 	// 原本的erd檔沒有位置資訊，因此隨機假設位置進去
 	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
 
-	addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
-}
-
-// GUI介面新增Item到ERModel中(不含畫在Scene上)
-void  ERDiagramScene::addNodeFromGUI( QString type, QString text, QPointF point )
-{
-	// 加入Item進ERModel
-	_gui->addNode(type, text, point);
+	_gui->addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
 }
 
 // 新增連結
-ItemComponent* ERDiagramScene::addConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
+ItemComponent* ERDiagramScene::addConnection( int erModelID, ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
 {
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
 
 	// 判斷是否為Cardinality，並設定進connectionItem中
-	bool isSetCardinality = checkSetCardinality(sourceItem->getItemID(), destionationItem->getItemID());
+	bool isSetCardinality = checkSetCardinality(sourceItem->getERModelID(), destionationItem->getERModelID());
 
 	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(sourceItem, destionationItem, text, isSetCardinality));
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定編號
-	setItemIDandERModelID(newItem);
+	setItemIDandERModelID(newItem, erModelID);
 
 	// 將scene設給Item
 	newItem->setScene(this);
 	// 將Item加入scene
 	this->addItem(newItem);
 
-	_gui->addNodeIntoTable("Connector", text);
+	_gui->addNodeIntoTable(newItem->getItemID(), "Connector", text);
 
 	return newItem;
 }
@@ -125,14 +107,25 @@ void  ERDiagramScene::addConnectionFromLoadFile( QStringList connecionData )
 	QString text =  connecionData.at(PARAMETER_CONNECTIONITEMTEXT);
 
 	// 這邊的sourceItemID以及destionationItemID都是從ERModel那邊得到的ComponentID
-	addConnection(searchItemByERModelID(sourceItemID), searchItemByERModelID(destionationItemID), text);
+	//addConnection(_gui->getERModelComponentID(), , searchItemByERModelID(destionationItemID), text);
+	_gui->addConnection(sourceItemID, destionationItemID, text);
 }
 
-// 向GUI發出Connection的要求，使GUI去告訴PM
-void ERDiagramScene::addConnectionFromGUI( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
+void ERDiagramScene::deleteItem( int deleteItemID )
 {
-	_gui->addConnection(sourceItem->getERModelID(), destionationItem->getERModelID(), text);
+	// 刪除畫面上的Item
+	this->removeItem(_guiItem[deleteItemID]);
+	// 刪除TableView的Row
+	_gui->deleteTableRow(deleteItemID);
+	// 重設ItemID
+	resetItemID(deleteItemID, ITEMIDDECREASE);
+	// 刪除_guiItem
+	_guiItem.remove(deleteItemID);
 }
+
+//////////////////////////////////////////////////////////////////////////
+//						跟位置有關的Function							//
+//////////////////////////////////////////////////////////////////////////
 
 // 供loadFile進來的資料設定位置
 void ERDiagramScene::updatePlaceItemPosition( QString type )
@@ -175,6 +168,30 @@ void ERDiagramScene::updateItemPosition()
 	update(0, 0, width(), height());
 }
 
+//////////////////////////////////////////////////////////////////////////
+//					跟statePattern有關的Function						//
+//////////////////////////////////////////////////////////////////////////
+
+void ERDiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* event )
+{
+	_state->mousePressEvent(event);
+}
+
+void ERDiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
+{
+	_state->mouseMoveEvent(event);
+}
+
+void ERDiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
+{
+	_state->mouseReleaseEvent(event);
+}
+
+int ERDiagramScene::getCurrentMode()
+{
+	return _currentMode;
+}
+
 void ERDiagramScene::changeState( int stateMode )
 {
 	delete _state;
@@ -208,24 +225,50 @@ void ERDiagramScene::changeState( int stateMode )
 	}
 }
 
-void ERDiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* event )
+//////////////////////////////////////////////////////////////////////////
+//							跟update系列的Function						//
+//////////////////////////////////////////////////////////////////////////
+
+// 收到observer的通知，加入新的Item進入Scene中(畫出來)
+void ERDiagramScene::updateAddNewItem( int erModelID, QString type, QString text, QPointF point )
 {
-	_state->mousePressEvent(event);
+	addNode(erModelID, type, text, point);
 }
 
-void ERDiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
+// 收到observer的通知，加入Connection到Scene中(畫出來)
+void ERDiagramScene::updateConnection( int erModelID, int sourceItemID, int destionationItemID, QString text )
 {
-	_state->mouseMoveEvent(event);
+	// 這邊收到的是ERModel那邊得到的ComponentID
+	addConnection(erModelID, searchItemByERModelID(sourceItemID), searchItemByERModelID(destionationItemID), text);
 }
 
-void ERDiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
+// 由ERModel傳進來的，所以是ComponentID Set
+void ERDiagramScene::updateDeleteItem( QString deleteComponentIDSet )
 {
-	_state->mouseReleaseEvent(event);
+	QStringList deleteIDSet = deleteComponentIDSet.split(COMMA);
+	for(int i = 0; i < deleteIDSet.size(); i++)
+	{
+		// 由於傳進來的值是ComponentID，所以要刪除要轉成ItemID來砍
+		int deleteItemID = searchItemByERModelID(deleteIDSet.at(i).toInt())->getItemID();
+		deleteItem(deleteItemID);
+	}
 }
 
-int ERDiagramScene::getCurrentMode()
+//////////////////////////////////////////////////////////////////////////
+//								跟GUI溝通的Function						//
+//////////////////////////////////////////////////////////////////////////
+
+// GUI介面新增Item到ERModel中(不含畫在Scene上)
+void  ERDiagramScene::addNodeFromGUI( QString type, QString text, QPointF point )
 {
-	return _currentMode;
+	// 加入Item進ERModel
+	_gui->addNode(type, text, point);
+}
+
+// 向GUI發出Connection的要求，使GUI去告訴PM
+void ERDiagramScene::addConnectionFromGUI( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text )
+{
+	_gui->addConnection(sourceItem->getERModelID(), destionationItem->getERModelID(), text);
 }
 
 void ERDiagramScene::changToPointerMode()
@@ -233,22 +276,10 @@ void ERDiagramScene::changToPointerMode()
 	_gui->changeToPointerMode();
 }
 
-void ERDiagramScene::setItemIDandERModelID( ItemComponent* newItem )
-{
-	_guiItem.push_back(newItem);
-	newItem->setItemID(_guiItem.size() - 1);
-	newItem->setERModelID(_gui->getERModelComponentID() - 1);
-}
-
-QVector<ItemComponent*> ERDiagramScene::getGUIItem()
-{
-	return _guiItem;
-}
-
+// 這邊的targetNodeID是由Model傳過來的，所以targetNodeID是ERModelID
 void ERDiagramScene::changeItemText( int targetNodeID, QString editedText )
 {
-	// 這邊的targetNodeID是對應到TableView的RowNumber，所以是GUI這邊的ItemID
-	_guiItem[targetNodeID]->changeItemText(editedText);
+	searchItemByERModelID(targetNodeID)->changeItemText(editedText);
 	update();
 }
 
@@ -259,27 +290,71 @@ void ERDiagramScene::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 	update();
 }
 
+void ERDiagramScene::changeDeleteActionEnable()
+{
+	_gui->changeDeleteActionEnable(true);
+}
+
 bool ERDiagramScene::checkSetCardinality( int sourceNodeID, int destinationNodeID )
 {
 	return _gui->checkSetCardinality(sourceNodeID, destinationNodeID);
 }
 
-// 收到observer的通知，加入新的Item進入Scene中(畫出來)
-void ERDiagramScene::updateAddNewItem( QString type, QString text, QPointF point )
+//////////////////////////////////////////////////////////////////////////
+//							Scene要用的Tool Function					//
+//////////////////////////////////////////////////////////////////////////
+
+// QString的字串切割，QString.split()會回傳QStringList，QStringList的用法是.at(index)
+QVector<QStringList> ERDiagramScene::splitTextData( QString textData )
 {
-	addNode(type, text, point);
+	QVector<QStringList> resultTextData;
+	QStringList textDataRowSet = textData.split(SEMICOLON);
+	for (int i = 0; i < textDataRowSet.size(); i++)
+		resultTextData.push_back(textDataRowSet.at(i).split(COMMA));
+
+	return resultTextData;
 }
 
-// 收到observer的通知，加入Connection到Scene中(畫出來)
-void ERDiagramScene::updateConnection( int sourceItemID, int destionationItemID, QString text )
+void ERDiagramScene::setItemIDandERModelID( ItemComponent* newItem, int erModelID )
 {
-	// 這邊收到的是ERModel那邊得到的ComponentID
-	addConnection(searchItemByERModelID(sourceItemID), searchItemByERModelID(destionationItemID), text);
+	newItem->setERModelID(erModelID);
+	newItem->setItemID(_guiItem.size());
+	//newItem->setItemID(adjustItemID(erModelID));
+	_guiItem.push_back(newItem);
 }
 
-void ERDiagramScene::changeDeleteActionEnable()
+// 重新調整ItemID，並回傳插入進去的ItemID
+int ERDiagramScene::adjustItemID( int erModelID )
 {
-	_gui->changeDeleteActionEnable(true);
+	// 假如_guiItem裡面是空的
+	int baseLineItemID = 0;
+
+	for(int i = 0; i < _guiItem.size(); i++)
+	{
+		if (_guiItem[i]->getERModelID() > erModelID)
+			baseLineItemID = i;
+		else
+			baseLineItemID = _guiItem.size();
+	}
+
+	resetItemID(baseLineItemID, ITEMIDINCREASE);
+
+	return baseLineItemID;
+}
+
+// isAdd為True時，reset比baseLineItemID大的ItemID+1 ; false則是-1
+void ERDiagramScene::resetItemID( int baseLineItemID, bool isAdd )
+{
+	for(int i = 0; i < _guiItem.size(); i++)
+	{
+		if (_guiItem[i]->getItemID() >= baseLineItemID)
+		{
+			if(isAdd)
+				_guiItem[i]->setItemID(_guiItem[i]->getItemID() + 1);
+			else
+				_guiItem[i]->setItemID(_guiItem[i]->getItemID() - 1);
+		}
+	}
 }
 
 // 用ERModel那邊的ComponentID來搜尋Item
@@ -293,16 +368,7 @@ ItemComponent* ERDiagramScene::searchItemByERModelID( int targetERModelID )
 	return NULL;
 }
 
-// baseLineID是指刪除了row幾的數字，大於此數字的ItemID都要減1
-void ERDiagramScene::resetItemID( int baseLineID )
-{
-	for(int i = 0; i < _guiItem.size(); i++)
-	{
-		if (_guiItem[i]->getItemID() > baseLineID)
-			_guiItem[i]->setItemID(_guiItem[i]->getItemID() - 1);
-	}
-}
-
+// 回傳被選中Item的ERModelID
 int ERDiagramScene::searchItemIsSelected()
 {
 	int result;
@@ -314,35 +380,47 @@ int ERDiagramScene::searchItemIsSelected()
 	{
 		if (_guiItem[i]->isSelected())
 		{
-			// 這邊的deleteItemID是砍GUI Item的，所以使用ItemID
-			result = i;
+			result = _guiItem[i]->getERModelID();
+			result;
 			break;
 		}
 	}
 	return result;
 }
 
-void ERDiagramScene::deleteItem( int deleteItemID )
+void ERDiagramScene::updateReBuildConnection( QString relatedConnectionSet )
 {
-	// 刪除畫面上的Item
-	this->removeItem(_guiItem[deleteItemID]);
-	// 刪除TableView的Row
-	_gui->deleteTableRow(deleteItemID);
-	// 重設ItemID
-	resetItemID(deleteItemID);
-	// 刪除_guiItem
-	for(int i = 0; i < _guiItem.size(); i++)
+	QStringList ReBuildConnectionSet = relatedConnectionSet.split(SEMICOLON);
+
+	// 最後一組是空白，所以不用加
+	for(int i = 0; i < ReBuildConnectionSet.size()-1; i++)
 	{
-		if (deleteItemID == _guiItem[i]->getItemID())
-			_guiItem.erase(_guiItem.begin()+i);
+		// ReBuildConnectionContent格式為ReBuildConnectionContent[0]是ConnectorID、ReBuildConnectionContent[1]是sourceNodeID(erModelID)、
+		//ReBuildConnectionContent[2]是destinationNodeID(erModelID)、ReBuildConnectionContent[3]是ConnectorText
+		QStringList ReBuildConnectionContent = ReBuildConnectionSet.at(i).split(COMMA);
+
+		addConnection(ReBuildConnectionContent.at(0).toInt(), searchItemByERModelID(ReBuildConnectionContent.at(1).toInt()), 
+					  searchItemByERModelID(ReBuildConnectionContent.at(2).toInt()), ReBuildConnectionContent.at(3));
 	}
 }
 
-void ERDiagramScene::deleteSelectedItem()
+int ERDiagramScene::searchERModelIDByItemID( int itemID )
 {
-	// 此deleteItemID為ItemID
-	int deleteItemID = searchItemIsSelected();
+	return _guiItem[itemID]->getERModelID();
+}
 
-	deleteItem(deleteItemID);
+// 用ERModel那邊的ComponentID來找ItemID
+int ERDiagramScene::searchItemIDByERModelID( int targetERModelID )
+{
+	for (int i = 0; i < _guiItem.size(); i++)
+	{
+		if (targetERModelID == _guiItem[i]->getERModelID())
+			return _guiItem[i]->getItemID();
+	}
+	return NULL;
+}
 
+QString ERDiagramScene::getTargetItemType( int itemID )
+{
+	return _guiItem[itemID]->getType();
 }

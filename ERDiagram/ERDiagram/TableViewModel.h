@@ -18,7 +18,8 @@ class TableViewModel : public QStandardItemModel
 public:
 	TableViewModel();
 	virtual ~TableViewModel();
-	void addNodeIntoModel(QString, QString);
+	void addNodeIntoModel(int, QString, QString);
+	void changeTargetRowText(int, QString, QString);
 };
 
 #endif

@@ -14,11 +14,12 @@ public:
 	virtual ~Subject();
 	void attachObserver(Observer* observer);
 	void detachObserver(Observer* observer);
-	void notifyObserver();
 	void notifyTextChanged(int, string);
 	void notifyPrimaryKeyChanged(int, bool);
-	void notifyAddNewNode(string, string, int, int);
-	void notifyNewConnection(int, int, string);
+	void notifyAddNewNode(int, string, string, int, int);
+	void notifyNewConnection(int, int, int, string);
+	void notifyDeleteComplete(string);
+	void notifyReBuildConnection(string);
 private:
 	vector<Observer*> _observerList;
 };

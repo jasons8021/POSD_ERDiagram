@@ -16,6 +16,7 @@
 #include "command.h"
 #include "ERModel.h"
 #include "NodeEntity.h"
+#include "Toolkit.h"
 
 class ERModel;
 
@@ -31,7 +32,7 @@ public:
 	virtual void unexecute();
 	void storeInformation();
 	void relatedComponentInformation();
-	void reBuildRelatedConnection();
+	string reBuildRelatedConnection();
 private:
 	ERModel* _erModel;
 	int _componentID;

@@ -85,6 +85,8 @@
     <ClCompile Include="AddEntityState.cpp" />
     <ClCompile Include="AddNodeState.cpp" />
     <ClCompile Include="AddRelationshipState.cpp" />
+    <ClCompile Include="ChangePrimaryKeyCmd.cpp" />
+    <ClCompile Include="ChangeTextCmd.cpp" />
     <ClCompile Include="ComponentTableView.cpp" />
     <ClCompile Include="ConnectionState.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ComponentTableView.cpp">
@@ -159,6 +161,8 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui"</Command>
     </CustomBuild>
+    <ClInclude Include="ChangePrimaryKeyCmd.h" />
+    <ClInclude Include="ChangeTextCmd.h" />
     <ClInclude Include="ConnectionState.h" />
     <ClInclude Include="GuiState.h" />
     <ClInclude Include="ItemAttribute.h" />

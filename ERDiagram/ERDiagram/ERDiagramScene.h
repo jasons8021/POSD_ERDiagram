@@ -21,6 +21,9 @@
 #define PRIVIEWITEMORIGINAL_Y 0
 #define NULLTEXT ""
 
+#define ITEMIDINCREASE true
+#define ITEMIDDECREASE false
+
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
@@ -54,46 +57,50 @@ public:
 
 	ERDiagramScene(QObject* parent = 0);
 	virtual ~ERDiagramScene();
-	void loadAllItem(QVector<QString>);
+	int searchItemIsSelected();
+	int getCurrentMode();
+	int adjustItemID(int);
+	int searchERModelIDByItemID(int);
+	int searchItemIDByERModelID(int);
+	bool checkSetCardinality(int, int);
 	void addNodeFromGUI(QString, QString, QPointF);
 	void addNodeFromLoadFile(QStringList);
-	ItemComponent* addNode(QString, QString, QPointF);
 	void addConnectionFromGUI(ItemComponent*, ItemComponent*, QString);
-	ItemComponent* addConnection(ItemComponent*, ItemComponent*, QString);
 	void addConnectionFromLoadFile(QStringList);
-	void updatePlaceItemPosition(QString);
-	QPointF getPlaceItemPosition(QString);
-	QVector<QStringList> splitTextData(QString);
-	void updateItemPosition();
 	void changeState(int);
+	void changToPointerMode();
+	void changeDeleteActionEnable();
+	void changeItemText(int, QString);
+	void changePrimaryKey(int, bool);
+	void deleteItem(int);
+	void resetItemID(int, bool);
+	void loadAllItem(QVector<QString>);
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
-	int getCurrentMode();
-	void changToPointerMode();
-	void setItemIDandERModelID(ItemComponent*);
-	void resetItemID(int);
-	QVector<ItemComponent*> getGUIItem();
-	void changeItemText(int, QString);
-	void changePrimaryKey(int, bool);
-	bool checkSetCardinality(int, int);
-	void updateAddNewItem(QString, QString, QPointF);
-	void updateConnection(int, int, QString);
-	void changeDeleteActionEnable();
-	void deleteSelectedItem();
-	void deleteItem(int);
+	void setItemIDandERModelID(ItemComponent*, int);
+	void updatePlaceItemPosition(QString);
+	void updateItemPosition();
+	void updateAddNewItem(int, QString, QString, QPointF);
+	void updateConnection(int, int, int, QString);
+	void updateDeleteItem(QString);
+	void updateReBuildConnection(QString);
+	QString getTargetItemType(int);
+	QPointF getPlaceItemPosition(QString);
 	ItemComponent* searchItemByERModelID(int);
-	int searchItemIsSelected();
+	ItemComponent* addNode(int, QString, QString, QPointF);
+	ItemComponent* addConnection(int, ItemComponent*, ItemComponent*, QString);
+	QVector<QStringList> splitTextData(QString);
 private:
 	int _currentMode;
-	ItemFactory _itemFactory;
-	QVector<ItemComponent*> _guiItem;
+	GUI* _gui;
 	QPointF _itemAttributePos;
 	QPointF _itemEntityPos;
 	QPointF _itemRelationshipPos;
 	GuiState* _state;
+	ItemFactory _itemFactory;
 	ItemComponent* _previewItem;
-	GUI* _gui;
+	QVector<ItemComponent*> _guiItem;
 };
 
 #endif

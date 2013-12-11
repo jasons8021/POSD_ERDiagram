@@ -29,15 +29,24 @@ void DeleteComponentCmd::unexecute()
 	if (_type != PARAMETER_CONNECTOR)
 	{
 		_componentID = _erModel->addNode(_componentID, _type, _text, _sx, _sy);
-		reBuildRelatedConnection();
+		string relatedConnectionSet = reBuildRelatedConnection();
 
 		if (_type == PARAMETER_ENTITY)
 			_erModel->setPrimaryKey(_componentID, _primaryKeys);
 		else if (_type == PARAMETER_ATTRIBUTE && !_primaryKeys.empty())
 			_erModel->reBuildPrimaryKeyFromAttribute(_componentID, _primaryKeys[0]);
+
+		//	通知GUI重新加入Item
+		_erModel->notifyAddNewNode(_componentID, _type, _text, _sx, _sy);
+		// 通知GUI重新加入跟Item有關的Connection
+		_erModel->notifyReBuildConnection(relatedConnectionSet);
 	}
 	else	//	Connector
+	{
 		_componentID = _erModel->addConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
+		// NotifyNewConnection
+		_erModel->notifyNewConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
+	}
 	_erModel->setIsModify(false);
 	_erModel->sortCompoentsAndConnection();
 }
@@ -106,11 +115,19 @@ void DeleteComponentCmd::relatedComponentInformation()
 }
 
 //	重建被刪掉Component的Connection
-void DeleteComponentCmd::reBuildRelatedConnection()
+string DeleteComponentCmd::reBuildRelatedConnection()
 {
+	string relatedConnectionSet;
+
 	for (int i = 0; i < _relatedConnections.size(); i++)
 	{
 		//	_relatedConnections[i][0]是ConnectorID、_relatedConnections[i][1]是sourceNodeID、_relatedConnections[i][2]是destinationNodeID、_relatedConnectionText[i]是Cardinatlity
 		_erModel->addConnection(_relatedConnections[i][0], _relatedConnections[i][1], _relatedConnections[i][2], _relatedConnectionText[i]);
+		relatedConnectionSet += Toolkit::integerToString(_relatedConnections[i][0]) + "," 
+							 + Toolkit::integerToString(_relatedConnections[i][1]) + "," 
+							 + Toolkit::integerToString(_relatedConnections[i][2]) + "," 
+							 + _relatedConnectionText[i] + ";";
+	
 	}
+	return relatedConnectionSet;
 }

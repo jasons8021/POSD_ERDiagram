@@ -137,6 +137,8 @@ public:
 	void addNodeCmd(string, string, int, int);
 	void addConnectionCmd(int, int, string);
 	void deleteCmd(int);
+	void changeTextCmd(int, string);
+	void changePrimaryKeyCmd(int, bool);
 	bool undoCmd();
 	bool redoCmd();
 	int getUndoCmdsSize();
@@ -146,8 +148,6 @@ public:
 	string getConnection_GUI();
 	string getPrimaryKey_GUI();
 	bool addConnectionCmd_GUI(int, int, string);
-	void changePrimaryKey(int, bool);
-	void changeText(int, string);
 	int getComponentID();
 	//////////////////////////////////////////////////////
 	// ObserverPattern

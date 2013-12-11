@@ -27,15 +27,6 @@ void Subject::detachObserver( Observer* observer )
 	}
 }
 
-// 通知每個observer
-// void Subject::notifyObserver()
-// {
-// 	for (int i = 0; i < _observerList.size(); i++)
-// 	{
-// 		_observerList[i]->updateInfo();
-// 	}
-// }
-
 void Subject::notifyTextChanged( int targetNodeID, string editedText )
 {
 	for (int i = 0; i < _observerList.size(); i++)
@@ -52,18 +43,34 @@ void Subject::notifyPrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
 	}
 }
 
-void Subject::notifyAddNewNode( string type, string text, int sx, int sy )
+void Subject::notifyAddNewNode( int componentID, string type, string text, int sx, int sy )
 {
 	for (int i = 0; i < _observerList.size(); i++)
 	{
-		_observerList[i]->updateAddNewNode(type, text, sx, sy);
+		_observerList[i]->updateAddNewNode(componentID, type, text, sx, sy);
 	}
 }
 
-void Subject::notifyNewConnection( int sourceNodeID, int destinationNodeID, string cardinality )
+void Subject::notifyNewConnection( int componentID, int sourceNodeID, int destinationNodeID, string cardinality )
 {
 	for (int i = 0; i < _observerList.size(); i++)
 	{
-		_observerList[i]->updateConnection(sourceNodeID, destinationNodeID, cardinality);
+		_observerList[i]->updateConnection(componentID, sourceNodeID, destinationNodeID, cardinality);
+	}
+}
+
+void Subject::notifyDeleteComplete( string deleteComponentIDSet )
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updateDeleteComplete(deleteComponentIDSet);
+	}
+}
+
+void Subject::notifyReBuildConnection( string relatedConnectionSet )
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updateReBuildConnection(relatedConnectionSet);
 	}
 }

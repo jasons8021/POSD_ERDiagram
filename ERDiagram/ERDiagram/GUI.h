@@ -38,29 +38,37 @@ public:
 	GUI(PresentationModel*);
 	virtual ~GUI();
 
-	void changeToPointerMode();
+	int getERModelComponentID();
+	bool checkSetCardinality(int, int);
+	void addNodeIntoTable(int, QString, QString);
+	// 向PM發出要求
 	void addNode(QString, QString, QPointF);
 	void addConnection(int, int, QString);
-	void addNodeIntoTable(QString, QString);
-	void updateInfo();
-	void updateTextChanged(int, string);
-	void changeItemText(int, QString);
-	void updatePrimaryKeyChanged(int, bool);
 	void changePrimaryKey(int, bool);
-	void updateAddNewNode(string, string, int, int);
-	void updateConnection(int, int, string);
-	void updateDeleteNode(int);
-	QString stringConvertQString(string);
-	string qstringConvertString(QString);
-	bool checkSetCardinality(int, int);
+	void changeItemText(int, QString);
+	void changeToPointerMode();
+	// 改變Button的enable
 	void changeDeleteActionEnable(bool);
 	void changeUnRedoActionEnable();
-	int getERModelComponentID();
+	// 向Scene發出要求
+	void updateAddNewNode(int, string, string, int, int);
+	void updateConnection(int, int, int, string);
+	void updateDeleteNode(int);
+	void updatePrimaryKeyChanged(int, bool);
+	void updateTextChanged(int, string);
+	void updateDeleteComplete(string);
+	void updateReBuildConnection(string);
+	// 更改TableView
 	void deleteTableRow(int);
+	// Tool
+	string qstringConvertString(QString);
+	QString stringConvertQString(string);
 	private slots:
 		void loadFile();
 		void buttonGroupClicked();
 		void deleteItem();
+		void undo();
+		void redo();
 private:
 	void createActions();
 	void createMenus();

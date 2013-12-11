@@ -247,6 +247,12 @@
     <ClCompile Include="SetPrimaryKeyState.cpp">
       <Filter>Source Files\StatePattern_GUI</Filter>
     </ClCompile>
+    <ClCompile Include="ChangeTextCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangePrimaryKeyCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -344,6 +350,12 @@
     </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeTextCmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangePrimaryKeyCmd.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

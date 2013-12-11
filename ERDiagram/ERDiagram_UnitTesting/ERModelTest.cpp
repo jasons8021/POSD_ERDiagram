@@ -910,7 +910,9 @@ TEST_F(ERModelTest, deleteComponent)
 	EXPECT_EQ(12, _erModel->addConnection(12, 1, 4, PARAMETER_NULL));
 	EXPECT_EQ(13, _erModel->addConnection(13, 5, 8, PARAMETER_NULL));
 
-	_erModel->deleteComponent(_erModel->_components[3]);
+	// 檢查刪除回傳的字串是否符合，DelComponentID,ConnectorID的格式
+	EXPECT_EQ("3,11", _erModel->deleteComponent(_erModel->_components[3]));
+
 	// 檢查與刪除掉的component的連接關係是否被移除
 	for (int i = 0; i < _erModel->_components[1]->getConnections().size(); i++)
 	{

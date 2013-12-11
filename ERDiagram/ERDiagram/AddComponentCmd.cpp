@@ -24,6 +24,9 @@ void AddComponentCmd::execute()
 		_componentID = _erModel->addNode(_componentID, _type, _text, _sx, _sy);
 		_erModel->setComponentID(_erModel->getComponentID() + PARAMETER_NEXTCOMPONENTID);		//	因為redo的關係，所以componentID+1
 	}
+	// NotifyAddNewNode
+	_erModel->notifyAddNewNode(_componentID, _type, _text, _sx, _sy);
+
 }
 
 void AddComponentCmd::unexecute()

@@ -24,6 +24,8 @@ void ConnectComponentsCmd::execute()
 		_erModel->setComponentID(_erModel->getComponentID() + PARAMETER_NEXTCOMPONENTID);
 		_componentID = _erModel->addConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
 	}
+	// NotifyNewConnection
+	_erModel->notifyNewConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
 }
 
 void ConnectComponentsCmd::unexecute()

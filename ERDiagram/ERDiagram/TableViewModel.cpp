@@ -1,5 +1,4 @@
 #include "TableViewModel.h"
-#include "..\src\corelib\io\qdebug.h"
 
 TableViewModel::TableViewModel()
 {
@@ -11,7 +10,7 @@ TableViewModel::~TableViewModel()
 {
 }
 
-void TableViewModel::addNodeIntoModel( QString type, QString text )
+void TableViewModel::addNodeIntoModel( int rowNumber, QString type, QString text )
 {
 	// 將簡寫轉為單字
 	if (type == LETTER_ATTRIBUTE)
@@ -30,7 +29,15 @@ void TableViewModel::addNodeIntoModel( QString type, QString text )
 	typeItem->setFlags(typeItem->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
 
 	// 新增row
-	QList<QStandardItem*> row;
-	row << typeItem << textItem;
-	appendRow(row);
+	QList<QStandardItem*> rowContent;
+	rowContent << typeItem << textItem;
+	//appendRow(row);
+	insertRow(rowNumber, rowContent);
 }
+
+void TableViewModel::changeTargetRowText( int rowNumber, QString type, QString text )
+{
+	this->removeRow(rowNumber);
+	addNodeIntoModel(rowNumber, type, text);
+}
+

@@ -584,20 +584,36 @@ string ERModel::savePrimaryKeyTable()
 void ERModel::deleteFunction( int componentID )
 {
 	Component* delComponent = searchComponent(componentID);
+	string deleteComponentIDSet;
 
 	if (delComponent->getType() != PARAMETER_CONNECTOR)
-		deleteComponent(delComponent);
+	{
+		deleteComponentIDSet = deleteComponent(delComponent);
+	}
 	else
+	{
 		deleteConnection(delComponent);
+		deleteComponentIDSet = Toolkit::integerToString(componentID);
+	}
+
+	//	刪除完畢，通知observer更新
+	notifyDeleteComplete(deleteComponentIDSet);
 }
 
 //	刪除Component(非Connector的)
-void ERModel::deleteComponent( Component* delComponent )
+string ERModel::deleteComponent( Component* delComponent )
 {
+	//	將要刪除的ID記錄下來
+	string deleteComponentIDSet = Toolkit::integerToString(delComponent->getID());
 	//	與要刪除的Component有關連的Component
-	vector<Component*> relatedComponents = searchRelatedComponent(delComponent->getID());
+	vector<Component*> relatedComponents = searchRelatedComponent(delComponent->getID());		// ComponentIDSet
 	//	與要刪除的Component有關連的Connector ID
-	vector<Component*> relatedConnectors = searchConnection(delComponent->getID());
+	vector<Component*> relatedConnectors = searchConnection(delComponent->getID());				// ConnectionIDSet
+
+	// 記錄要刪除的ConnectorID
+	for(int i = 0; i < relatedConnectors.size(); i++)
+		deleteComponentIDSet += COMMA + Toolkit::integerToString(relatedConnectors[i]->getID());
+
 	int relatedConnectionsEndIndex = relatedConnectors.size() - 1;
 	int delID;
 
@@ -616,6 +632,8 @@ void ERModel::deleteComponent( Component* delComponent )
 		relatedConnectionsEndIndex = relatedConnectors.size() - 1;
 	}
 	deleteTableSet(delComponent->getID(), _components, PARAMETER_COMPONENTSTABLE);
+
+	return deleteComponentIDSet;
 }
 
 //	刪除Connector
@@ -880,12 +898,10 @@ string ERModel::getPrimaryKeyForGUI()
 void ERModel::changeText( int targetNodeID, string editedText )
 {
 	searchComponent(targetNodeID)->setText(editedText);
-	notifyTextChanged(targetNodeID, editedText);
 }
 
 void ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	static_cast<NodeAttribute*>(searchComponent(targetNodeID))->setIsPrimaryKey(isPrimaryKey);
-	notifyPrimaryKeyChanged(targetNodeID, isPrimaryKey);
 }
 
