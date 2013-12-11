@@ -23,8 +23,6 @@ ComponentTableView::~ComponentTableView()
 {
 }
 
-
-
 void ComponentTableView::doubleClickedEvent( const QModelIndex& index )
 {
 	_clickedIndex = index;

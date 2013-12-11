@@ -451,3 +451,8 @@ int PresentationModel::getRedoCmdsSize()
 {
 	return _cmdManager.getRedoCmdsSize();
 }
+
+void PresentationModel::clearERModelComponent()
+{
+	_erModel->resetERModel();
+}

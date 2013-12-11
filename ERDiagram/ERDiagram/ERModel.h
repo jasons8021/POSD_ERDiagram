@@ -186,6 +186,7 @@ public:
 	void setComponentID(int);
 	void setIsModify(bool);
 	void deleteConnection(Component*);
+	void notifyTextChanged(int, string);
 	bool searchComponentExist(string, string);
 	bool connectedItself(Component*, Component*);
 	bool connectedTypeCheck(Component*, Component*);

@@ -73,7 +73,7 @@ public:
 	void changeItemText(int, QString);
 	void changePrimaryKey(int, bool);
 	void deleteItem(int);
-	void resetItemID(int, bool);
+	void resetItemID();
 	void loadAllItem(QVector<QString>);
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);

@@ -214,16 +214,39 @@ void GUI::deleteTableRow( int rowIndex )
 // 讀檔
 void GUI::loadFile()
 {
+// 	QVector<QStringList> inputFileTextSet;
+// 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
+// 	if (directory != "")
+// 	{
+// 		QFile file(directory);
+// 		if(!file.open(QIODevice::ReadOnly)) {
+// 			QMessageBox::information(0, "error", file.errorString());
+// 		}
+// 
+// 		QTextStream in(&file);
+// 
+// 		while(!in.atEnd()) {
+// 			QString line = in.readLine();    
+// 			QStringList fields = line.split("\n");
+// 			inputFileTextSet.push_back(fields);    
+// 		}
+// 
+// 		file.close();
+// 
+// 		qDebug()<<inputFileTextSet;
+//	}
 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
 	if (directory != "")
 	{
 		QVector<QString> inputFileText;
+		
 		_presentationModel->loadERDiagram_TextUI(directory.toStdString());
 
 		// 取得Component、Connection、PK的資訊，並轉成QT物件
 		inputFileText.push_back(stringConvertQString(_presentationModel->getComponent_GUI()));
 		inputFileText.push_back(stringConvertQString(_presentationModel->getConnection_GUI()));
 		inputFileText.push_back(stringConvertQString(_presentationModel->getPrimaryKey_GUI()));
+		_presentationModel->clearERModelComponent();
 		_scene->loadAllItem(inputFileText);
 	}
 }

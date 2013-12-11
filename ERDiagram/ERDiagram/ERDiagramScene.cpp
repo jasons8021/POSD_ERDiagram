@@ -1,4 +1,5 @@
 #include "ERDiagramScene.h"
+#include "..\src\corelib\io\qdebug.h"
 
 ERDiagramScene::ERDiagramScene(QObject* parent) : QGraphicsScene(parent)
 {
@@ -72,6 +73,8 @@ void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
 	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
 
 	_gui->addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
+	for(int i=0;i<_guiItem.size();i++)
+		qDebug()<<_guiItem[i]->getERModelID();
 }
 
 // 新增連結
@@ -106,8 +109,6 @@ void  ERDiagramScene::addConnectionFromLoadFile( QStringList connecionData )
 	int destionationItemID = connecionData.at(PARAMETER_DESTIONATIONITEMID).toInt();
 	QString text =  connecionData.at(PARAMETER_CONNECTIONITEMTEXT);
 
-	// 這邊的sourceItemID以及destionationItemID都是從ERModel那邊得到的ComponentID
-	//addConnection(_gui->getERModelComponentID(), , searchItemByERModelID(destionationItemID), text);
 	_gui->addConnection(sourceItemID, destionationItemID, text);
 }
 
@@ -117,8 +118,6 @@ void ERDiagramScene::deleteItem( int deleteItemID )
 	this->removeItem(_guiItem[deleteItemID]);
 	// 刪除TableView的Row
 	_gui->deleteTableRow(deleteItemID);
-	// 重設ItemID
-	resetItemID(deleteItemID, ITEMIDDECREASE);
 	// 刪除_guiItem
 	_guiItem.remove(deleteItemID);
 }
@@ -251,6 +250,7 @@ void ERDiagramScene::updateDeleteItem( QString deleteComponentIDSet )
 		// 由於傳進來的值是ComponentID，所以要刪除要轉成ItemID來砍
 		int deleteItemID = searchItemByERModelID(deleteIDSet.at(i).toInt())->getItemID();
 		deleteItem(deleteItemID);
+		resetItemID();
 	}
 }
 
@@ -318,9 +318,8 @@ QVector<QStringList> ERDiagramScene::splitTextData( QString textData )
 void ERDiagramScene::setItemIDandERModelID( ItemComponent* newItem, int erModelID )
 {
 	newItem->setERModelID(erModelID);
-	newItem->setItemID(_guiItem.size());
-	//newItem->setItemID(adjustItemID(erModelID));
-	_guiItem.push_back(newItem);
+	_guiItem.insert(adjustItemID(erModelID), newItem);
+	resetItemID();
 }
 
 // 重新調整ItemID，並回傳插入進去的ItemID
@@ -337,24 +336,14 @@ int ERDiagramScene::adjustItemID( int erModelID )
 			baseLineItemID = _guiItem.size();
 	}
 
-	resetItemID(baseLineItemID, ITEMIDINCREASE);
-
 	return baseLineItemID;
 }
 
 // isAdd為True時，reset比baseLineItemID大的ItemID+1 ; false則是-1
-void ERDiagramScene::resetItemID( int baseLineItemID, bool isAdd )
+void ERDiagramScene::resetItemID()
 {
 	for(int i = 0; i < _guiItem.size(); i++)
-	{
-		if (_guiItem[i]->getItemID() >= baseLineItemID)
-		{
-			if(isAdd)
-				_guiItem[i]->setItemID(_guiItem[i]->getItemID() + 1);
-			else
-				_guiItem[i]->setItemID(_guiItem[i]->getItemID() - 1);
-		}
-	}
+		_guiItem[i]->setItemID(i);
 }
 
 // 用ERModel那邊的ComponentID來搜尋Item

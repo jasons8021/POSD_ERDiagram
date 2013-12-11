@@ -905,3 +905,22 @@ void ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 	static_cast<NodeAttribute*>(searchComponent(targetNodeID))->setIsPrimaryKey(isPrimaryKey);
 }
 
+void ERModel::notifyTextChanged( int targetNodeID, string editedText )
+{
+	Component* connectorComponent = searchComponent(targetNodeID);
+	if (connectorComponent->getType() == PARAMETER_CONNECTOR)
+	{
+		int sourceNodeID = static_cast<Connector*>(connectorComponent)->getSourceNodeID();
+		int destinationNodeID = static_cast<Connector*>(connectorComponent)->getDestinationNodeID();
+		cout << editedText <<endl;
+		if (checkSetCardinality(sourceNodeID, destinationNodeID))
+		{
+			if (editedText != "1" && editedText != "N")
+				editedText = "1";
+		}
+		else
+			editedText = "";
+	}
+
+	Subject::notifyTextChanged(targetNodeID, editedText);
+}

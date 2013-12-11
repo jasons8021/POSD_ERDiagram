@@ -154,6 +154,7 @@ public:
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
 	//////////////////////////////////////////////////////
+	void clearERModelComponent();
 
 private:
 	ERModel* _erModel;
