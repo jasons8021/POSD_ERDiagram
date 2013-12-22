@@ -1,16 +1,6 @@
 #include "ItemConnection.h"
 #include "..\src\corelib\io\qdebug.h"
 
-ItemConnection::ItemConnection()
-{
-	// 之後再設定要使用的sourceItem跟destinationItem，可以做點對點的功能(item rect=(0,0,0,0))
-	_sourceItem = NULL;
-	_destionationItem = NULL;
-	setZValue(-1);
-	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
-	setAcceptsHoverEvents(true);
-}
-
 ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text, bool isSetCardinality)
 {
 	_sourceItem = sourceItem;
@@ -32,12 +22,12 @@ ItemConnection::~ItemConnection()
 
 QRectF ItemConnection::boundingRect() const
 {
-	return _qPainterPath.boundingRect();
+	return ItemComponent::boundingRect();
 }
 
 QPainterPath ItemConnection::shape() const
 {
-	return _qPainterPath;
+	return ItemComponent::shape();
 }
 
 void ItemConnection::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
@@ -58,11 +48,20 @@ void ItemConnection::paint( QPainter* painter, const QStyleOptionGraphicsItem* o
 	paintBorder(painter);
 }
 
+void ItemConnection::paintBorder( QPainter* painter )
+{
+	if (this->isSelected())
+	{
+		ItemComponent::setPaintBorderFont(painter);
+		painter->drawPath(_qPainterPath);
+	}
+}
+
 void ItemConnection::setPath( QVector<QPointF> pointSet )
 {
 	_qPainterPath.~QPainterPath();
-	_qPainterPath = QPainterPath();
-	_qPainterPath.addPolygon(pointSet);
+	_qPainterPath = QPainterPath(pointSet[0]);
+	_qPainterPath.lineTo(pointSet[1]);
 }
 void ItemConnection::updatePosition()
 {

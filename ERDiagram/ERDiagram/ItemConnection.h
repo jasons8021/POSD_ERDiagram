@@ -18,7 +18,7 @@
 class ItemConnection : public ItemComponent
 {
 public:
-	ItemConnection();
+	//ItemConnection();
 	ItemConnection(ItemComponent*, ItemComponent*, QString, bool);
 	virtual ~ItemConnection();
 	QRectF boundingRect() const;
@@ -26,6 +26,7 @@ public:
 	QPointF getScenePosition(ItemComponent*);
 	void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
 	void setPath(QVector<QPointF>);
+	void paintBorder(QPainter*);
 	void updatePosition();
 	void setSourceDestinationPoint();
 	void setSourceItem(ItemComponent*);

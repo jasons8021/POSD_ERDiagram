@@ -9,6 +9,7 @@ ERDiagramScene::ERDiagramScene(QObject* parent) : QGraphicsScene(parent)
 	_itemRelationshipPos = QPointF(700,50);
 	_state = new PointerState(this);
 	_gui = static_cast<GUI*>(parent);
+	_currentMode = PointerMode;
 }
 
 ERDiagramScene::~ERDiagramScene()
@@ -36,7 +37,7 @@ void ERDiagramScene::loadAllItem( QVector<QString> inputFileText )
 
 	// resultPrimaryKey是由ERModel傳過來的，所以要配合用erModelID
 	for ( int i = 0; i < resultPrimaryKey.size(); i++)
-		;//static_cast<ItemAttribute*>(searchItemByERModelID(resultPrimaryKey.at(i).toInt()))->setPrimaryKey(true);
+		static_cast<ItemAttribute*>(searchItemByERModelID(resultPrimaryKey.at(i).toInt()))->setPrimaryKey(true);
 
 }
 
@@ -73,8 +74,10 @@ void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
 	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
 
 	_gui->addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
-	for(int i=0;i<_guiItem.size();i++)
-		qDebug()<<_guiItem[i]->getERModelID();
+	update();
+	_gui->update();
+// 	for(int i=0;i<_guiItem.size();i++)
+// 		qDebug()<<_guiItem[i]->getERModelID();
 }
 
 // 新增連結
@@ -198,12 +201,10 @@ void ERDiagramScene::changeState( int stateMode )
 	switch(stateMode)
 	{
 	case PointerMode:
-		_previewItem = new ItemComponent();
 		_state = new PointerState(this);
 		break;
 	case ConnectionMode:
-		_previewItem = new ItemConnection();
-		_state = new ConnectionState(this, _previewItem);
+		_state = new ConnectionState(this);
 		break;
 	case AttributeMode:
 		_previewItem = new ItemAttribute(PRIVIEWITEMORIGINAL_X, PRIVIEWITEMORIGINAL_Y, NULLTEXT);
@@ -370,7 +371,6 @@ int ERDiagramScene::searchItemIsSelected()
 		if (_guiItem[i]->isSelected())
 		{
 			result = _guiItem[i]->getERModelID();
-			result;
 			break;
 		}
 	}
@@ -385,7 +385,7 @@ void ERDiagramScene::updateReBuildConnection( QString relatedConnectionSet )
 	for(int i = 0; i < ReBuildConnectionSet.size()-1; i++)
 	{
 		// ReBuildConnectionContent格式為ReBuildConnectionContent[0]是ConnectorID、ReBuildConnectionContent[1]是sourceNodeID(erModelID)、
-		//ReBuildConnectionContent[2]是destinationNodeID(erModelID)、ReBuildConnectionContent[3]是ConnectorText
+		// ReBuildConnectionContent[2]是destinationNodeID(erModelID)、ReBuildConnectionContent[3]是ConnectorText
 		QStringList ReBuildConnectionContent = ReBuildConnectionSet.at(i).split(COMMA);
 
 		addConnection(ReBuildConnectionContent.at(0).toInt(), searchItemByERModelID(ReBuildConnectionContent.at(1).toInt()), 

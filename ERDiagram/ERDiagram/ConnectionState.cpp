@@ -1,7 +1,7 @@
 #include "ConnectionState.h"
 #include "ERDiagramScene.h"
 
-ConnectionState::ConnectionState( ERDiagramScene* scene, ItemComponent* previewItem ) : GuiState(scene)
+ConnectionState::ConnectionState( ERDiagramScene* scene ) : GuiState(scene)
 {
 	_sourceItem = NULL;
 	_destionationItem = NULL;

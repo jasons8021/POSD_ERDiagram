@@ -21,6 +21,7 @@ void PointerState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 		{
 			// 去call那個Item的mouse事件
 			_clickedItem->mousePressEvent(event);
+			qDebug()<<_clickedItem->getItemID();
 		}
 	}
 }

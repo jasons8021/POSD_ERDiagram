@@ -12,7 +12,6 @@ ItemComponent::ItemComponent( int sx, int sy, QString type, QString text )
 	_sy = sy;
 	_type = type;
 	_text = text;
-
 	setTextBoundingRectangle(sx, sy);
 }
 
@@ -146,12 +145,17 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mousePressEvent(event);
  	_scene->changeDeleteActionEnable();
-
-	qDebug()<<"type = "<<_type;
-	qDebug()<<"text = "<<_text;
-	qDebug()<<"Item ID = " <<_itemID;
-	qDebug()<<"erModel ID = "<<_erModelID;
-	qDebug()<<"-----------------------------------";
+// 	// 找尋被點中的Item
+// 	for (int i = 0; i < _scene->_guiItem.size(); i++)
+// 	{
+// 		qDebug()<<"i is selected = "<< _scene->_guiItem[i]->isSelected();
+// 	}
+// 	qDebug()<<"=======================================";
+// 	qDebug()<<"type = "<<_type;
+// 	qDebug()<<"text = "<<_text;
+// 	qDebug()<<"Item ID = " <<_itemID;
+// 	qDebug()<<"erModel ID = "<<_erModelID;
+// 	qDebug()<<"-----------------------------------";
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )

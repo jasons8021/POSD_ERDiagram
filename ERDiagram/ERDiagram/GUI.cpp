@@ -214,27 +214,6 @@ void GUI::deleteTableRow( int rowIndex )
 // ÅªÀÉ
 void GUI::loadFile()
 {
-// 	QVector<QStringList> inputFileTextSet;
-// 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
-// 	if (directory != "")
-// 	{
-// 		QFile file(directory);
-// 		if(!file.open(QIODevice::ReadOnly)) {
-// 			QMessageBox::information(0, "error", file.errorString());
-// 		}
-// 
-// 		QTextStream in(&file);
-// 
-// 		while(!in.atEnd()) {
-// 			QString line = in.readLine();    
-// 			QStringList fields = line.split("\n");
-// 			inputFileTextSet.push_back(fields);    
-// 		}
-// 
-// 		file.close();
-// 
-// 		qDebug()<<inputFileTextSet;
-//	}
 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
 	if (directory != "")
 	{

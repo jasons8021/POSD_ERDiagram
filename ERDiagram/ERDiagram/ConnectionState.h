@@ -7,7 +7,7 @@
 class ConnectionState :	public GuiState
 {
 public:
-	ConnectionState(ERDiagramScene*, ItemComponent*);
+	ConnectionState(ERDiagramScene*);
 	virtual ~ConnectionState();
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
