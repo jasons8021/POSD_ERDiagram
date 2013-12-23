@@ -18,6 +18,7 @@
 #include <QLabel>
 #include <QRect>
 #include <QPainterPath>
+#include <QGraphicsLineItem>
 
 class ERDiagramScene;
 

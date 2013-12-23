@@ -6,6 +6,8 @@
 #define VIEW_MINWIDTH 1200
 #define VIEW_MAXWIDTH 1300
 
+#define ABOUT "Entity Relation Diagraming Tool 1.0\nAuthor : 102598018@ntut"
+
 #include <QtGui>
 #include <QtGui/QMainWindow>
 #include <QMenu>
@@ -69,6 +71,10 @@ public:
 		void deleteItem();
 		void undo();
 		void redo();
+		void addAttributeClicked();
+		void addEntityClicked();
+		void addRelationshipClicked();
+		void information();
 private:
 	void createActions();
 	void createMenus();
@@ -83,9 +89,18 @@ private:
 
 	QAction* _openAction;
 	QAction* _exitAction;
+	QAction* _addAttributeAction;
+	QAction* _addEntityAction;
+	QAction* _addRelationshipAction;
 	QAction* _deleteAction;
 	QAction* _undoAction;
 	QAction* _redoAction;
+	QAction* _cutAction;
+	QAction* _copyAction;
+	QAction* _pasteAction;
+	QAction* _aboutAction;
+
+	QLabel* _informationLabel;
 
 	QToolButton* _pointerButton;
 	QToolButton* _connectionButton;

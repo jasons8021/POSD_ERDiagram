@@ -10,6 +10,11 @@ ERDiagramScene::ERDiagramScene(QObject* parent) : QGraphicsScene(parent)
 	_state = new PointerState(this);
 	_gui = static_cast<GUI*>(parent);
 	_currentMode = PointerMode;
+
+	QLineF lineTest = QLineF(QPointF(100,100),QPointF(200,200));
+	QGraphicsLineItem* lineItem = new QGraphicsLineItem();
+	lineItem->setLine(lineTest);
+	addItem(lineItem);
 }
 
 ERDiagramScene::~ERDiagramScene()
@@ -359,22 +364,18 @@ ItemComponent* ERDiagramScene::searchItemByERModelID( int targetERModelID )
 }
 
 // 回傳被選中Item的ERModelID
-int ERDiagramScene::searchItemIsSelected()
+QVector<int> ERDiagramScene::searchItemIsSelected()
 {
-	int result;
-
-	result = PARAMETER_NOTFINDID;
+	QVector<int> resultSet;
 
 	// 找尋被點中的Item
 	for (int i = 0; i < _guiItem.size(); i++)
 	{
 		if (_guiItem[i]->isSelected())
-		{
-			result = _guiItem[i]->getERModelID();
-			break;
-		}
+			resultSet.push_back(_guiItem[i]->getERModelID());
 	}
-	return result;
+
+	return resultSet;
 }
 
 void ERDiagramScene::updateReBuildConnection( QString relatedConnectionSet )

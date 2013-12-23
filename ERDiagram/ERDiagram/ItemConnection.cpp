@@ -83,6 +83,7 @@ void ItemConnection::setSourceDestinationPoint()
 	pointSet.push_back(QPointF(_connectedLine.p2()));
 
 	setPath(pointSet);
+	//setLine(_connectedLine);
 }
 
 QPointF ItemConnection::getScenePosition( ItemComponent* item )

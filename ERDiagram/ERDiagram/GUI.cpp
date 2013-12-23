@@ -20,6 +20,8 @@ GUI::GUI(PresentationModel* presentationModel)
 	QVBoxLayout* layout_v = new QVBoxLayout;
 	QLabel* label = new QLabel("<p align=\"center\" style=\"background-color: #BFBFC0\"><font size=\"10\">Components</font></p>");
 
+	_informationLabel = new QLabel;
+
 	_tableViewModel = new TableViewModel();
 	_tableView = new ComponentTableView(this, _tableViewModel);
 
@@ -64,13 +66,22 @@ void GUI::createActions()
 	_exitAction->setShortcut(tr("Alt+F4"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
+	_addAttributeAction = new QAction(QIcon("images/circle.png"), tr("Add Attribute"), this);
+	connect(_addAttributeAction, SIGNAL(triggered()), this, SLOT(addAttributeClicked()));
+
+	_addEntityAction = new QAction(QIcon("images/rectangle.png"), tr("Add Entity"), this);
+	connect(_addEntityAction, SIGNAL(triggered()), this, SLOT(addEntityClicked()));
+
+	_addRelationshipAction = new QAction(QIcon("images/diamond.png"), tr("Add Relationship"), this);
+	connect(_addRelationshipAction, SIGNAL(triggered()), this, SLOT(addRelationshipClicked()));
+
 	_deleteAction = new QAction(QIcon("images/delete.png"), tr("Delete"), this);
 	_deleteAction->setShortcut(tr("Del"));
 	connect(_deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
 	_deleteAction->setEnabled(false);
 
 	_undoAction = new QAction(QIcon("images/undo.png"), tr("Undo"), this);
-	_undoAction->setShortcut(tr("Ctrl+z"));
+	_undoAction->setShortcut(tr("Ctrl+Z"));
 	connect(_undoAction, SIGNAL(triggered()), this, SLOT(undo()));
 	_undoAction->setEnabled(false);
 
@@ -78,15 +89,50 @@ void GUI::createActions()
 	_redoAction->setShortcut(tr("Ctrl+Y"));
 	connect(_redoAction, SIGNAL(triggered()), this, SLOT(redo()));
 	_redoAction->setEnabled(false);
+
+	_cutAction = new QAction(QIcon("images/cut.png"), tr("Cut"), this);
+	_cutAction->setShortcut(tr("Ctrl+X"));
+// 	connect(_cutAction, SIGNAL(triggered()), this, SLOT(()));
+// 	_cutAction->setEnabled(false);
+
+	_copyAction = new QAction(QIcon("images/copy.png"), tr("Copy"), this);
+	_copyAction->setShortcut(tr("Ctrl+C"));
+// 	connect(_copyAction, SIGNAL(triggered()), this, SLOT());
+// 	_copyAction->setEnabled(false);
+
+	_pasteAction = new QAction(QIcon("images/paste.png"), tr("Paste"), this);
+	_pasteAction->setShortcut(tr("Ctrl+V"));
+// 	connect(_pasteAction, SIGNAL(triggered()), this, SLOT(()));
+// 	_pasteAction->setEnabled(false);
+
+	_aboutAction = new QAction(QIcon("images/about.png"), tr("About"), this);
+	connect(_aboutAction, SIGNAL(triggered()), this, SLOT(information()));
+	// 	_aboutAction->setEnabled(false);
 }
 
 void GUI::createMenus()
 {
 	// 開啟檔案 & 離開
-	_menu = menuBar()->addMenu(tr("File","Exit"));
+	_menu = menuBar()->addMenu(tr("File"));
 	_menu->addAction(_openAction);
 	_menu->addSeparator();
 	_menu->addAction(_exitAction);
+
+	_menu = menuBar()->addMenu(tr("Add"));
+	_menu->addAction(_addAttributeAction);
+	_menu->addAction(_addEntityAction);
+	_menu->addAction(_addRelationshipAction);
+
+	_menu = menuBar()->addMenu(tr("Edit"));
+	_menu->addAction(_undoAction);
+	_menu->addAction(_redoAction);
+	_menu->addAction(_deleteAction);
+	_menu->addAction(_cutAction);
+	_menu->addAction(_copyAction);
+	_menu->addAction(_pasteAction);
+
+	_menu = menuBar()->addMenu(tr("Help"));
+	_menu->addAction(_aboutAction);
 }
 
 // 產生Button
@@ -143,6 +189,15 @@ void GUI::createToolbars()
 	_toolBar->addSeparator();
 	_toolBar->addAction(_deleteAction);
 
+	_toolBar->addSeparator();
+	_toolBar->addAction(_cutAction);
+
+	_toolBar->addSeparator();
+	_toolBar->addAction(_copyAction);
+
+	_toolBar->addSeparator();
+	_toolBar->addAction(_pasteAction);
+
 	createButton();
 	// state的Menu
 	_toolBar->addSeparator();
@@ -159,7 +214,7 @@ void GUI::createToolbars()
 }
 
 //////////////////////////////////////////////////////////////////////////
-//							使用到GUI的Function							//
+//								SLOT Function							//
 //////////////////////////////////////////////////////////////////////////
 
 // GUI提供按了哪個按鈕，由Scene去根據按鈕決定該去的State
@@ -167,6 +222,37 @@ void GUI::buttonGroupClicked()
 {
 	_scene->changeState(_buttonGroup->checkedId());
 }
+
+// 利用Menu新增物件
+void GUI::addAttributeClicked()
+{
+	_scene->changeState(ERDiagramScene::AttributeMode);
+}
+
+void GUI::addEntityClicked()
+{
+	_scene->changeState(ERDiagramScene::EntityMode);
+}
+
+void GUI::addRelationshipClicked()
+{
+	_scene->changeState(ERDiagramScene::RelationshipMode);
+}
+
+// about的功能
+void GUI::information()
+{
+	QMessageBox::StandardButton reply;
+	reply = QMessageBox::information(this, tr("QMessageBox::information()"), ABOUT);
+	if (reply == QMessageBox::Ok)
+		_informationLabel->setText(tr("OK"));
+	else
+		_informationLabel->setText(tr("Escape"));
+}
+
+//////////////////////////////////////////////////////////////////////////
+//							使用到GUI的Function							//
+//////////////////////////////////////////////////////////////////////////
 
 // buttonGroup轉為PointerButton
 void GUI::changeToPointerMode()
@@ -207,11 +293,13 @@ void GUI::deleteTableRow( int rowIndex )
 	_tableViewModel->removeRow(rowIndex);
 	_tableView->updateModel(_tableViewModel);
 }
+
 //////////////////////////////////////////////////////////////////////////
 //							跟Scene溝通的Function						//
 //////////////////////////////////////////////////////////////////////////
 
 // 讀檔
+// slot function
 void GUI::loadFile()
 {
 	QString directory = QFileDialog::getOpenFileName(this, tr("Find File"), "C://", tr("ERD File (*.erd)"));
@@ -309,11 +397,18 @@ bool GUI::checkSetCardinality( int sourceNodeID, int destinationNodeID )
 }
 
 // 按下delete鍵後，向PM發出刪除要求
+// slot Function
 void GUI::deleteItem()
 {
-	int itemIsSelected = _scene->searchItemIsSelected();
-	_presentationModel->deleteCmd(itemIsSelected);
-	changeUnRedoActionEnable();
+	QVector<int> beSelectedItemSet = _scene->searchItemIsSelected();
+
+	for (int i = 0; i < beSelectedItemSet.size(); i++)
+	{
+		int itemIsSelected = beSelectedItemSet[i];
+		_presentationModel->deleteCmd(itemIsSelected);
+		changeUnRedoActionEnable();
+	}
+
 	_deleteAction->setEnabled(false);
 }
 
@@ -324,6 +419,7 @@ int GUI::getERModelComponentID()
 }
 
 // 復原
+// slot function
 void GUI::undo()
 {
 	_presentationModel->undoCmd();
@@ -331,6 +427,7 @@ void GUI::undo()
 }
 
 // 重做
+// slot function
 void GUI::redo()
 {
 	_presentationModel->redoCmd();

@@ -57,7 +57,7 @@ public:
 
 	ERDiagramScene(QObject* parent = 0);
 	virtual ~ERDiagramScene();
-	int searchItemIsSelected();
+//	int searchItemIsSelected();
 	int getCurrentMode();
 	int adjustItemID(int);
 	int searchERModelIDByItemID(int);
@@ -91,6 +91,7 @@ public:
 	ItemComponent* addNode(int, QString, QString, QPointF);
 	ItemComponent* addConnection(int, ItemComponent*, ItemComponent*, QString);
 	QVector<QStringList> splitTextData(QString);
+	QVector<int> searchItemIsSelected();
 private:
 	int _currentMode;
 	GUI* _gui;

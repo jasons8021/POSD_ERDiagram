@@ -17,11 +17,14 @@ void PointerState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 		// 將點到位置對應到Scene的Item放進來
 		_clickedItem = static_cast<ItemComponent*>(_scene->itemAt(event->scenePos()));
 		// 如果點到沒東西，不作用
+		//qDebug()<<"-"<<event->scenePos().rx()<< "  "<<event->scenePos().ry();
 		if (_clickedItem != NULL)
 		{
 			// 去call那個Item的mouse事件
 			_clickedItem->mousePressEvent(event);
-			qDebug()<<_clickedItem->getItemID();
+			//qDebug()<<event->scenePos().rx()<< "  "<<event->scenePos().ry();
+
+			//qDebug()<<_clickedItem->getItemID();
 		}
 	}
 }
