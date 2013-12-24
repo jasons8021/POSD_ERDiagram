@@ -78,12 +78,6 @@
 
 using namespace std;
 
-class AddComponentCmd;
-class ConnectComponentsCmd;
-class DeleteComponentCmd;
-class ChangeTextCmd;
-class ChangePrimaryKeyCmd;
-
 class ERModel : public Subject
 {
 	friend class ERModelTest;
@@ -120,6 +114,13 @@ class ERModel : public Subject
 	FRIEND_TEST(ERModelTest, resetERModel);
 	FRIEND_TEST(ERModelTest, sortCompoentsAndConnection);
 	FRIEND_TEST(ERModelTest, getComponentForGUI);
+	FRIEND_TEST(ERModelTest, changeText);
+	FRIEND_TEST(ERModelTest, changePrimaryKey);
+	FRIEND_TEST(ERModelTest, cutComponentGroup);
+	FRIEND_TEST(ERModelTest, copyComponentGroup);
+	FRIEND_TEST(ERModelTest, cloneItemIntoClipboard);
+// 	FRIEND_TEST(ERModelTest, pasteComponentGroup);
+	FRIEND_TEST(ERModelTest, resetClipboard);
 
 	friend class AddComponentCmdTest;
 	FRIEND_TEST(AddComponentCmdTest, execute);
@@ -152,8 +153,8 @@ class ERModel : public Subject
 	FRIEND_TEST(PresentationModelTest, deleteCmd);
 	FRIEND_TEST(PresentationModelTest, undoCmd);
 	FRIEND_TEST(PresentationModelTest, redoCmd);
- 	FRIEND_TEST(PresentationModelTest, changePrimaryKey);
- 	FRIEND_TEST(PresentationModelTest, changeText);
+ 	FRIEND_TEST(PresentationModelTest, changePrimaryKeyCmd);
+ 	FRIEND_TEST(PresentationModelTest, changeTextCmd);
 // 	FRIEND_TEST(PresentationModelTest, );
 public:
 	ERModel();
@@ -183,6 +184,12 @@ public:
 	void setIsModify(bool);
 	void deleteConnection(Component*);
 	void notifyTextChanged(int, string);
+	void changeText(int, string);
+	void changePrimaryKey(int, bool);
+	void cutComponentGroup(vector<int>);
+	void copyComponentGroup(vector<int>);
+	void cloneItemIntoClipboard(vector<int>);
+	void resetClipboard();
 	bool searchComponentExist(string, string);
 	bool connectedItself(Component*, Component*);
 	bool connectedTypeCheck(Component*, Component*);
@@ -220,14 +227,14 @@ public:
 	string getPrimaryKeyForGUI();
 
 	///////////////////////////////////////////////////////////////////
-	void changeText(int, string);
-	void changePrimaryKey(int, bool);
+	void pasteComponentGroup();
 	///////////////////////////////////////////////////////////////////
 private:
 	int _componentID;
 	bool _isModify;
 	vector<Component*> _components;
 	vector<Component*> _connections;
+	vector<Component*> _clipboard;
 };
 
 #endif

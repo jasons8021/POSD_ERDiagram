@@ -171,11 +171,20 @@
     <ClCompile Include="..\ERDiagram\Toolkit.cpp">
       <Filter>Resource Files\Toolkit</Filter>
     </ClCompile>
+    <ClCompile Include="..\ERDiagram\Subject.cpp">
+      <Filter>Resource Files\ObserverPattern</Filter>
+    </ClCompile>
     <ClCompile Include="..\ERDiagram\PresentationModel.cpp">
       <Filter>Resource Files\MVC\PresentationModel</Filter>
     </ClCompile>
-    <ClCompile Include="..\ERDiagram\Subject.cpp">
-      <Filter>Resource Files\ObserverPattern</Filter>
+    <ClCompile Include="..\ERDiagram\ChangePrimaryKeyCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\ChangeTextCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\DeleteGroupCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

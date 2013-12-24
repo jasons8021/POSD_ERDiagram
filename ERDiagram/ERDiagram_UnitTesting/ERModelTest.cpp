@@ -1270,3 +1270,128 @@ TEST_F(ERModelTest, getPrimaryKeyForGUI)
 	_erModel->setPrimaryKey(1, primaryKeys);
 	EXPECT_EQ("0,3,4", _erModel->getPrimaryKeyForGUI());
 }
+
+// 測試修改PK
+TEST_F(ERModelTest, changePrimaryKey)
+{
+	_erModel->changePrimaryKey(0,true);
+	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+	_erModel->changePrimaryKey(0,false);
+	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+}
+
+// 測試修改Text
+TEST_F(ERModelTest, changeText)
+{
+	_erModel->changeText(0,"Edited A0");
+	EXPECT_EQ("Edited A0", _erModel->_components[0]->getText());
+
+	_erModel->changeText(1,"Edited E1");
+	EXPECT_EQ("Edited E1", _erModel->_components[1]->getText());
+
+	_erModel->changeText(2,"Edited R2");
+	EXPECT_EQ("Edited R2", _erModel->_components[2]->getText());
+}
+
+// "A0", "E1", "R2", "A3", "A4", "A5", "E6", "R7", "E8", "E9"
+TEST_F(ERModelTest, resetClipboard)
+{
+	EXPECT_EQ(0, _erModel->_clipboard.size());
+
+	_erModel->_clipboard.push_back(_erModel->_components[0]->deepClone());
+	_erModel->_clipboard.push_back(_erModel->_components[2]->deepClone());
+	_erModel->_clipboard.push_back(_erModel->_components[5]->deepClone());
+
+	EXPECT_EQ(3, _erModel->_clipboard.size());
+	_erModel->resetClipboard();
+	EXPECT_EQ(0, _erModel->_clipboard.size());
+}
+
+// 測試剪下功能
+TEST_F(ERModelTest, cutComponentGroup)
+{
+	EXPECT_EQ(0, _erModel->_clipboard.size());
+
+	vector<int> targetNodeIDSet;
+	targetNodeIDSet.push_back(0);
+	targetNodeIDSet.push_back(1);
+
+	_erModel->cutComponentGroup(targetNodeIDSet);
+
+	EXPECT_EQ(2, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
+
+	targetNodeIDSet.push_back(2);
+	targetNodeIDSet.push_back(7);
+	_erModel->cutComponentGroup(targetNodeIDSet);
+	
+	EXPECT_EQ(4, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
+	EXPECT_EQ("R2", _erModel->_clipboard[2]->getText());
+	EXPECT_EQ("R7", _erModel->_clipboard[3]->getText());
+}
+
+// 測試複製功能
+TEST_F(ERModelTest, copyComponentGroup)
+{
+	EXPECT_EQ(0, _erModel->_clipboard.size());
+
+	vector<int> targetNodeIDSet;
+	targetNodeIDSet.push_back(0);
+	targetNodeIDSet.push_back(1);
+
+	_erModel->cutComponentGroup(targetNodeIDSet);
+
+	EXPECT_EQ(2, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
+
+	targetNodeIDSet.push_back(2);
+	targetNodeIDSet.push_back(7);
+	_erModel->cutComponentGroup(targetNodeIDSet);
+
+	EXPECT_EQ(4, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
+	EXPECT_EQ("R2", _erModel->_clipboard[2]->getText());
+	EXPECT_EQ("R7", _erModel->_clipboard[3]->getText());
+}
+
+
+// 測試複製Component到剪貼簿
+TEST_F(ERModelTest, cloneItemIntoClipboard)
+{
+	EXPECT_EQ(0, _erModel->_clipboard.size());
+
+	vector<int> targetNodeIDSet;
+	targetNodeIDSet.push_back(0);
+	targetNodeIDSet.push_back(1);
+
+	_erModel->cloneItemIntoClipboard(targetNodeIDSet);
+
+	EXPECT_EQ(2, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
+
+	targetNodeIDSet.push_back(2);
+	targetNodeIDSet.push_back(7);
+	// 繼續往上疊
+	_erModel->cloneItemIntoClipboard(targetNodeIDSet);
+	EXPECT_EQ(6, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[2]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[3]->getText());
+	EXPECT_EQ("R2", _erModel->_clipboard[4]->getText());
+	EXPECT_EQ("R7", _erModel->_clipboard[5]->getText());
+
+	// 清空後再測試一次
+	_erModel->resetClipboard();
+	_erModel->cloneItemIntoClipboard(targetNodeIDSet);
+	EXPECT_EQ(4, _erModel->_clipboard.size());
+	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
+	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
+	EXPECT_EQ("R2", _erModel->_clipboard[2]->getText());
+	EXPECT_EQ("R7", _erModel->_clipboard[3]->getText());
+}
+

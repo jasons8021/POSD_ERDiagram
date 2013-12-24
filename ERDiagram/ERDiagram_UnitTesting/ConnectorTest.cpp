@@ -15,3 +15,17 @@ TEST_F(ConnectorTest, setConnectedNode){
 	EXPECT_EQ(0, _connectorComponent->getSourceNodeID());
 	EXPECT_EQ(1, _connectorComponent->getDestinationNodeID());
 }
+
+TEST_F(ConnectorTest, deepClone){
+	Component* cloneComponent = _connectorComponent->deepClone();
+
+	EXPECT_TRUE(_connectorComponent != static_cast<Connector*>(cloneComponent));
+
+	// ´ú¸Õ¬O§_¬°deep clone
+	cloneComponent->setText("cloneTest");
+	EXPECT_EQ("cloneTest", cloneComponent->getText());
+	EXPECT_EQ("UnitTestNodeConnectorTest", _connectorComponent->getText());
+
+	delete cloneComponent;
+	EXPECT_EQ("UnitTestNodeConnectorTest", _connectorComponent->getText());
+}

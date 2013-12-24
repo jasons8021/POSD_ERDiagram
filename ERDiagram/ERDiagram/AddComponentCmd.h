@@ -7,10 +7,9 @@
 
 #define PARAMETER_TEXTUI_COORDINATES 0
 
+#include <gtest/gtest_prod.h> 
 #include "Command.h"
 #include "ERModel.h"
-
-class ERModel;
 
 class AddComponentCmd : public Command {
 	friend class AddComponentCmdTest;

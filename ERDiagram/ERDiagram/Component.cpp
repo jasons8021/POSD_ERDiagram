@@ -115,3 +115,8 @@ int Component::getSy()
 {
 	return _sy;
 }
+
+Component* Component::deepClone()
+{
+	return NULL;
+}

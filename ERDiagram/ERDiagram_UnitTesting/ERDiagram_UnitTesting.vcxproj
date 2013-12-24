@@ -85,6 +85,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\ERDiagram\AddComponentCmd.cpp" />
+    <ClCompile Include="..\ERDiagram\ChangePrimaryKeyCmd.cpp" />
+    <ClCompile Include="..\ERDiagram\ChangeTextCmd.cpp" />
     <ClCompile Include="..\ERDiagram\Command.cpp" />
     <ClCompile Include="..\ERDiagram\CommandManager.cpp" />
     <ClCompile Include="..\ERDiagram\Component.cpp" />
@@ -92,6 +94,7 @@
     <ClCompile Include="..\ERDiagram\ConnectComponentsCmd.cpp" />
     <ClCompile Include="..\ERDiagram\Connector.cpp" />
     <ClCompile Include="..\ERDiagram\DeleteComponentCmd.cpp" />
+    <ClCompile Include="..\ERDiagram\DeleteGroupCmd.cpp" />
     <ClCompile Include="..\ERDiagram\ERModel.cpp" />
     <ClCompile Include="..\ERDiagram\Node.cpp" />
     <ClCompile Include="..\ERDiagram\NodeAttribute.cpp" />

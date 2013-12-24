@@ -61,3 +61,17 @@ TEST_F(NodeEntityTest, deleteKeys){
 	_entityComponent->deleteKeys(4);
 	EXPECT_EQ(0, _entityComponent->_foreignKeySet.size());
 }
+
+TEST_F(NodeEntityTest, deepClone){
+	Component* cloneComponent = _entityComponent->deepClone();
+
+	EXPECT_TRUE(_entityComponent != static_cast<NodeEntity*>(cloneComponent));
+
+	// ´ú¸Õ¬O§_¬°deep clone
+	cloneComponent->setText("cloneTest");
+	EXPECT_EQ("cloneTest", cloneComponent->getText());
+	EXPECT_EQ("UnitTestNodeEntityTest", _entityComponent->getText());
+
+	delete cloneComponent;
+	EXPECT_EQ("UnitTestNodeEntityTest", _entityComponent->getText());
+}

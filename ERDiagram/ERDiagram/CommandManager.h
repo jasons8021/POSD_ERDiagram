@@ -8,6 +8,7 @@
 #ifndef COMMANDMANAGER_H_
 #define COMMANDMANAGER_H_
 
+#include <gtest/gtest_prod.h> 
 #include "Command.h"
 #include <stack>
 

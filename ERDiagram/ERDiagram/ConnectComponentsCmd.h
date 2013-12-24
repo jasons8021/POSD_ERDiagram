@@ -5,10 +5,9 @@
 #define PARAMETER_PRECOMPONENTID -1
 #define PARAMETER_NEXTCOMPONENTID 1
 
+#include <gtest/gtest_prod.h> 
 #include "command.h"
 #include "ERModel.h"
-
-class ERModel;
 
 class ConnectComponentsCmd : public Command
 {

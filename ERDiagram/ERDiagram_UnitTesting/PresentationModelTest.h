@@ -11,6 +11,12 @@
 #include "ERModel.h"
 #include "PresentationModel.h"
 #include "NodeAttribute.h"
+#include "AddComponentCmd.h"
+#include "ConnectComponentsCmd.h"
+#include "DeleteComponentCmd.h"
+#include "ChangeTextCmd.h"
+#include "ChangePrimaryKeyCmd.h"
+#include "DeleteGroupCmd.h"
 
 class PresentationModelTest : public :: testing :: Test
 {

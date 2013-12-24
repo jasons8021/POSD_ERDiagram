@@ -27,3 +27,17 @@ TEST_F(NodeAttributeTest, deleteConnectedComponent){
 	_attributeComponent->deleteConnectedComponent(1);
 	EXPECT_FALSE(_attributeComponent->_connectedEntity);
 }
+
+TEST_F(NodeAttributeTest, deepClone){
+	Component* cloneComponent = _attributeComponent->deepClone();
+
+	EXPECT_TRUE(_attributeComponent != static_cast<NodeAttribute*>(cloneComponent));
+
+	// ´ú¸Õ¬O§_¬°deep clone
+	cloneComponent->setText("cloneTest");
+	EXPECT_EQ("cloneTest", cloneComponent->getText());
+	EXPECT_EQ("UnitTestNodeAttributeTest", _attributeComponent->getText());
+
+	delete cloneComponent;
+	EXPECT_EQ("UnitTestNodeAttributeTest", _attributeComponent->getText());
+}

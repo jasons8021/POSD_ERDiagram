@@ -649,23 +649,24 @@ TEST_F(PresentationModelTest, redoCmd)
 }
 
 // 測試GUI的修改PK
-TEST_F(PresentationModelTest, changePrimaryKey)
+TEST_F(PresentationModelTest, changePrimaryKeyCmd)
 {
-	_presentationModel->changePrimaryKey(0,true);
+	_presentationModel->changePrimaryKeyCmd(0,true);
 	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
-	_presentationModel->changePrimaryKey(0,false);
+
+	_presentationModel->changePrimaryKeyCmd(0,false);
 	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
 }
 
 // 測試GUI的修改Text
-TEST_F(PresentationModelTest, changeText)
+TEST_F(PresentationModelTest, changeTextCmd)
 {
-	_presentationModel->changeText(0,"Edited A0");
+	_presentationModel->changeTextCmd(0,"Edited A0");
 	EXPECT_EQ("Edited A0", _erModel->_components[0]->getText());
 
-	_presentationModel->changeText(1,"Edited E1");
+	_presentationModel->changeTextCmd(1,"Edited E1");
 	EXPECT_EQ("Edited E1", _erModel->_components[1]->getText());
 
-	_presentationModel->changeText(2,"Edited R2");
+	_presentationModel->changeTextCmd(2,"Edited R2");
 	EXPECT_EQ("Edited R2", _erModel->_components[2]->getText());
 }

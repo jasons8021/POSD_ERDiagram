@@ -1,6 +1,7 @@
 #ifndef CHANGETEXTCMD_H_
 #define CHANGETEXTCMD_H_
 
+#include <gtest/gtest_prod.h> 
 #include "Command.h"
 #include "ERModel.h"
 #include "Component.h"

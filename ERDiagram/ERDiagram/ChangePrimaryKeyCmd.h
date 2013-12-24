@@ -1,6 +1,7 @@
 #ifndef CHANGEPRIMARYKEYCMD_H_
 #define CHANGEPRIMARYKEYCMD_H_
 
+#include <gtest/gtest_prod.h> 
 #include "Command.h"
 #include "ERModel.h"
 

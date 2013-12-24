@@ -924,3 +924,38 @@ void ERModel::notifyTextChanged( int targetNodeID, string editedText )
 
 	Subject::notifyTextChanged(targetNodeID, editedText);
 }
+
+void ERModel::cutComponentGroup( vector<int> targetNodeIDSet )
+{
+	resetClipboard();
+	cloneItemIntoClipboard(targetNodeIDSet);
+}
+
+void ERModel::copyComponentGroup( vector<int> targetNodeIDSet )
+{
+	resetClipboard();
+	cloneItemIntoClipboard(targetNodeIDSet);
+}
+
+void ERModel::pasteComponentGroup()
+{
+
+}
+
+void ERModel::resetClipboard()
+{
+	for (int i = 0 ; i < _clipboard.size(); i++)
+		delete _clipboard[i];
+	_clipboard.clear();
+}
+
+void ERModel::cloneItemIntoClipboard( vector<int> targetNodeIDSet )
+{
+	Component* targetNode;
+	for (int i = 0; i < targetNodeIDSet.size(); i++)
+	{
+		targetNode = searchComponent(targetNodeIDSet[i]);
+		Component* cloneNode = targetNode->deepClone();
+		_clipboard.push_back(cloneNode);
+	}
+}

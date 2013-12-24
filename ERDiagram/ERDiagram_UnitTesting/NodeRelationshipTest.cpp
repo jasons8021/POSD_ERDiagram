@@ -63,3 +63,17 @@ TEST_F(NodeRelationshipTest, deleteEntityCardinality){
 	_relationshipComponent->deleteEntityCardinality(5);
 	EXPECT_EQ(1, _relationshipComponent->_entityCardinalitySet.size());
 }
+
+TEST_F(NodeRelationshipTest, deepClone){
+	Component* cloneComponent = _relationshipComponent->deepClone();
+
+	EXPECT_TRUE(_relationshipComponent != static_cast<NodeRelationship*>(cloneComponent));
+
+	// ´ú¸Õ¬O§_¬°deep clone
+	cloneComponent->setText("cloneTest");
+	EXPECT_EQ("cloneTest", cloneComponent->getText());
+	EXPECT_EQ("UnitTestRelationshipComponent", _relationshipComponent->getText());
+
+	delete cloneComponent;
+	EXPECT_EQ("UnitTestRelationshipComponent", _relationshipComponent->getText());
+}

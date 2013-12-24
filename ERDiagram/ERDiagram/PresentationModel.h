@@ -144,7 +144,7 @@ public:
 	void addNodeCmd(string, string, int, int);
 	void addConnectionCmd(int, int, string);
 	void deleteCmd(int);
-	void deleteGroupCmd(vector<int>);
+//	void deleteGroupCmd(vector<int>);
 	void changeTextCmd(int, string);
 	void changePrimaryKeyCmd(int, bool);
 	bool undoCmd();
@@ -161,6 +161,7 @@ public:
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
+	void deleteGroupCmd(vector<int>);
 	//////////////////////////////////////////////////////
 	void clearERModelComponent();
 

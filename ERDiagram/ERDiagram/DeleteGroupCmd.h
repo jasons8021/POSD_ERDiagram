@@ -4,6 +4,7 @@
 #define PARAMETER_CONNECTOR "C"
 
 #include <vector>
+#include <gtest/gtest_prod.h>
 #include "ERModel.h"
 #include "Command.h"
 #include "DeleteComponentCmd.h"

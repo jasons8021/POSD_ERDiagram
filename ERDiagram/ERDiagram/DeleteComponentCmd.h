@@ -13,12 +13,11 @@
 
 #define PARAMETER_TEXTUI_COORDINATES 0
 
+#include <gtest/gtest_prod.h> 
 #include "Command.h"
 #include "ERModel.h"
 #include "NodeEntity.h"
 #include "Toolkit.h"
-
-class ERModel;
 
 class DeleteComponentCmd : public Command
 {
