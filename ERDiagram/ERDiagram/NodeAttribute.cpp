@@ -53,3 +53,8 @@ bool NodeAttribute::getIsConnectedEntity()
 {
 	return _connectedEntity;
 }
+
+Component* NodeAttribute::deepClone()
+{
+	return new NodeAttribute(*this);
+}

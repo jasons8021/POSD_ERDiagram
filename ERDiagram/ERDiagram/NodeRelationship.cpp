@@ -54,3 +54,8 @@ void NodeRelationship::deleteEntityCardinality( int delComponentID )
 			_entityCardinalitySet.erase(_entityCardinalitySet.begin()+i);
 	}
 }
+
+Component* NodeRelationship::deepClone()
+{
+	return new NodeRelationship(*this);
+}

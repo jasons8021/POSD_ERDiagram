@@ -106,3 +106,8 @@ void NodeEntity::setIsShowForeignKeyinERTable( bool isShowForeignKey )
 {
 	_isShowForeignKeyinERTable = isShowForeignKey;
 }
+
+Component* NodeEntity::deepClone()
+{
+	return new NodeEntity(*this);
+}

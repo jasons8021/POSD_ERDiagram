@@ -107,11 +107,11 @@
     <Filter Include="Source Files\ComponentFactory\GUI Item Factory">
       <UniqueIdentifier>{0218c9c6-f37f-4787-91d2-1f88c9defe65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ComponentFactory\TextUI Item Factory">
-      <UniqueIdentifier>{f846f937-91ad-4aef-a9ef-6be372d46c98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ComponentFactory\TextUI Item Factory">
+    <Filter Include="Source Files\ComponentFactory\Item Factory">
       <UniqueIdentifier>{913b5369-6ee1-42bf-94b4-b85761e96407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ComponentFactory\Item Factory">
+      <UniqueIdentifier>{f846f937-91ad-4aef-a9ef-6be372d46c98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -239,28 +239,28 @@
       <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="NodeRelationship.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="ComponentFactory.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="Connector.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="NodeAttribute.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="NodeEntity.cpp">
-      <Filter>Source Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
     <ClCompile Include="DeleteGroupCmd.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,28 +346,28 @@
       <Filter>Header Files\CommandPattern</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="NodeRelationship.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="ComponentFactory.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="Connector.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="NodeAttribute.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="NodeEntity.h">
-      <Filter>Header Files\ComponentFactory\TextUI Item Factory</Filter>
+      <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
     <ClInclude Include="DeleteGroupCmd.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\CommandPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

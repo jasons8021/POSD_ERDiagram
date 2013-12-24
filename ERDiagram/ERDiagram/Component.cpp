@@ -115,4 +115,3 @@ int Component::getSy()
 {
 	return _sy;
 }
-

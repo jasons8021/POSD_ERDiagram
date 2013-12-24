@@ -1,6 +1,8 @@
 #ifndef DELETEGROUPCMD_H_
 #define DELETEGROUPCMD_H_
 
+#define PARAMETER_CONNECTOR "C"
+
 #include <vector>
 #include "ERModel.h"
 #include "Command.h"
@@ -15,6 +17,7 @@ public:
 	virtual ~DeleteGroupCmd();
 	virtual void execute();
 	virtual void unexecute();
+	void arrangeIDSet(vector<int>);
 private:
 	ERModel* _erModel;
 	vector<int> _componentIDSet;

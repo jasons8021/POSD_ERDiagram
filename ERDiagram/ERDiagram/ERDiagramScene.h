@@ -57,7 +57,6 @@ public:
 
 	ERDiagramScene(QObject* parent = 0);
 	virtual ~ERDiagramScene();
-//	int searchItemIsSelected();
 	int getCurrentMode();
 	int adjustItemID(int);
 	int searchERModelIDByItemID(int);
@@ -78,6 +77,9 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+	void sceneMousePress(QGraphicsSceneMouseEvent*);
+	void sceneMouseMove(QGraphicsSceneMouseEvent*);
+	void sceneMouseRelease(QGraphicsSceneMouseEvent*);
 	void setItemIDandERModelID(ItemComponent*, int);
 	void updatePlaceItemPosition(QString);
 	void updateItemPosition();

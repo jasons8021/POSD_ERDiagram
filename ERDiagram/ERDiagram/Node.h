@@ -16,6 +16,7 @@ public:
 	virtual void deleteConnectedComponent(int);
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
+	virtual Component* deepClone() = 0;
 };
 
 #endif

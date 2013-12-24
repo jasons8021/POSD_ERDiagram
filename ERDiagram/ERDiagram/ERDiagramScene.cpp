@@ -411,3 +411,18 @@ ItemComponent* ERDiagramScene::getItemInPosition( QPointF pos )
 {
 	return static_cast<ItemComponent*>(itemAt(pos));
 }
+
+void ERDiagramScene::sceneMousePress( QGraphicsSceneMouseEvent* event )
+{
+	QGraphicsScene::mousePressEvent(event);
+}
+
+void ERDiagramScene::sceneMouseMove( QGraphicsSceneMouseEvent* event )
+{
+	QGraphicsScene::mouseMoveEvent(event);
+}
+
+void ERDiagramScene::sceneMouseRelease( QGraphicsSceneMouseEvent* event )
+{
+	QGraphicsScene::mouseReleaseEvent(event);
+}

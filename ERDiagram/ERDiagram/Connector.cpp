@@ -74,3 +74,8 @@ std::string Connector::getDestinationNodeText()
 {
 	return (this->_destinationNode)->getText();
 }
+
+Component* Connector::deepClone()
+{
+	return new Connector(*this);
+}

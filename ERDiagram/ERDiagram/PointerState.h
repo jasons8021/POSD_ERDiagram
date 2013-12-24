@@ -14,8 +14,6 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
-protected:
-	ItemComponent* _clickedItem;
 };
 
 #endif
