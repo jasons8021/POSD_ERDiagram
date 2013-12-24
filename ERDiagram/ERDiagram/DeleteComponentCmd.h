@@ -13,7 +13,7 @@
 
 #define PARAMETER_TEXTUI_COORDINATES 0
 
-#include "command.h"
+#include "Command.h"
 #include "ERModel.h"
 #include "NodeEntity.h"
 #include "Toolkit.h"

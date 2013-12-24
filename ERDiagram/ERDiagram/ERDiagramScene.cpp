@@ -3,18 +3,12 @@
 
 ERDiagramScene::ERDiagramScene(QObject* parent) : QGraphicsScene(parent)
 {
-	_previewItem = new ItemComponent();
 	_itemAttributePos = QPointF(0,50);
 	_itemEntityPos = QPointF(350,50);
 	_itemRelationshipPos = QPointF(700,50);
 	_state = new PointerState(this);
 	_gui = static_cast<GUI*>(parent);
 	_currentMode = PointerMode;
-
-	QLineF lineTest = QLineF(QPointF(100,100),QPointF(200,200));
-	QGraphicsLineItem* lineItem = new QGraphicsLineItem();
-	lineItem->setLine(lineTest);
-	addItem(lineItem);
 }
 
 ERDiagramScene::~ERDiagramScene()
@@ -52,7 +46,7 @@ ItemComponent* ERDiagramScene::addNode( int erModelID, QString type, QString tex
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
 
-	newItem = static_cast<ItemComponent*>(itemFactory->creatItem(point.x(), point.y(), type, text));
+	newItem = itemFactory->creatItem(point.x(), point.y(), type, text);
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定GUI上面的ItemID以及ERModel的ComponentID
@@ -81,8 +75,6 @@ void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
 	_gui->addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
 	update();
 	_gui->update();
-// 	for(int i=0;i<_guiItem.size();i++)
-// 		qDebug()<<_guiItem[i]->getERModelID();
 }
 
 // 新增連結
@@ -94,7 +86,8 @@ ItemComponent* ERDiagramScene::addConnection( int erModelID, ItemComponent* sour
 	// 判斷是否為Cardinality，並設定進connectionItem中
 	bool isSetCardinality = checkSetCardinality(sourceItem->getERModelID(), destionationItem->getERModelID());
 
-	newItem = static_cast<ItemComponent*>(itemFactory->creatItemConnection(sourceItem, destionationItem, text, isSetCardinality));
+	newItem = itemFactory->creatItemConnection(sourceItem, destionationItem, text, isSetCardinality);
+	
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定編號
@@ -224,7 +217,6 @@ void ERDiagramScene::changeState( int stateMode )
 		_state = new AddRelationshipState(this, _previewItem);
 		break;
 	case SetPrimaryKeyMode:
-		_previewItem = new ItemComponent();
 		_state = new SetPrimaryKeyState(_gui, this);
 		break;
 	}
@@ -413,4 +405,9 @@ int ERDiagramScene::searchItemIDByERModelID( int targetERModelID )
 QString ERDiagramScene::getTargetItemType( int itemID )
 {
 	return _guiItem[itemID]->getType();
+}
+
+ItemComponent* ERDiagramScene::getItemInPosition( QPointF pos )
+{
+	return static_cast<ItemComponent*>(itemAt(pos));
 }

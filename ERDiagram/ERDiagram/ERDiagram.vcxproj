@@ -89,6 +89,7 @@
     <ClCompile Include="ChangeTextCmd.cpp" />
     <ClCompile Include="ComponentTableView.cpp" />
     <ClCompile Include="ConnectionState.cpp" />
+    <ClCompile Include="DeleteGroupCmd.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ComponentTableView.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -164,6 +165,7 @@
     <ClInclude Include="ChangePrimaryKeyCmd.h" />
     <ClInclude Include="ChangeTextCmd.h" />
     <ClInclude Include="ConnectionState.h" />
+    <ClInclude Include="DeleteGroupCmd.h" />
     <ClInclude Include="GuiState.h" />
     <ClInclude Include="ItemAttribute.h" />
     <ClInclude Include="Command.h" />

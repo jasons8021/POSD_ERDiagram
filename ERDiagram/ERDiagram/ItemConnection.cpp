@@ -1,7 +1,6 @@
 #include "ItemConnection.h"
-#include "..\src\corelib\io\qdebug.h"
 
-ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text, bool isSetCardinality)
+ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text, bool isSetCardinality) : ItemComponent( PARAMETER_CONNECTOR, text )
 {
 	_sourceItem = sourceItem;
 	_destionationItem = destionationItem;
@@ -11,8 +10,10 @@ ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destio
 
 	setSourceDestinationPoint();
 
+	setTextBoundingRectangle(_centerPos.rx(), _centerPos.ry());
+
 	setZValue(-1);
-	setFlags(QGraphicsItem::ItemIsSelectable /*| QGraphicsItem::ItemIsMovable*/);
+	setFlags(QGraphicsItem::ItemIsSelectable);
 	setAcceptsHoverEvents(true);
 }
 
@@ -32,6 +33,12 @@ QPainterPath ItemConnection::shape() const
 
 void ItemConnection::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
+	QPen qPen;
+	qPen.setStyle(Qt::SolidLine);
+	qPen.setWidth(2);
+	qPen.setBrush(Qt::black);
+	painter->setPen(qPen);
+
 	updatePosition();
 	painter->drawLine(_connectedLine);
 	
@@ -83,7 +90,6 @@ void ItemConnection::setSourceDestinationPoint()
 	pointSet.push_back(QPointF(_connectedLine.p2()));
 
 	setPath(pointSet);
-	//setLine(_connectedLine);
 }
 
 QPointF ItemConnection::getScenePosition( ItemComponent* item )
@@ -111,4 +117,9 @@ void ItemConnection::setDestionationItem( ItemComponent* destionationItem )
 bool ItemConnection::getSetCardinality()
 {
 	return _isSetCardinality;
+}
+
+QLineF ItemConnection::getConnectedLine()
+{
+	return _connectedLine;
 }

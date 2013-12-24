@@ -86,6 +86,13 @@
 #include <gtest/gtest_prod.h>
 
 #include "ERModel.h"
+#include "CommandManager.h"
+#include "AddComponentCmd.h"
+#include "ConnectComponentsCmd.h"
+#include "DeleteComponentCmd.h"
+#include "ChangeTextCmd.h"
+#include "ChangePrimaryKeyCmd.h"
+#include "DeleteGroupCmd.h"
 #include "Toolkit.h"
 #include "Observer.h"
 
@@ -137,6 +144,7 @@ public:
 	void addNodeCmd(string, string, int, int);
 	void addConnectionCmd(int, int, string);
 	void deleteCmd(int);
+	void deleteGroupCmd(vector<int>);
 	void changeTextCmd(int, string);
 	void changePrimaryKeyCmd(int, bool);
 	bool undoCmd();

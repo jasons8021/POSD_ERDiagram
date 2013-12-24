@@ -401,14 +401,16 @@ bool GUI::checkSetCardinality( int sourceNodeID, int destinationNodeID )
 void GUI::deleteItem()
 {
 	QVector<int> beSelectedItemSet = _scene->searchItemIsSelected();
-
-	for (int i = 0; i < beSelectedItemSet.size(); i++)
+	int itemIsSelected;
+	if (beSelectedItemSet.size() == 1)
 	{
-		int itemIsSelected = beSelectedItemSet[i];
+		itemIsSelected = beSelectedItemSet[0];
 		_presentationModel->deleteCmd(itemIsSelected);
 		changeUnRedoActionEnable();
 	}
-
+	else
+		_presentationModel->deleteGroupCmd(beSelectedItemSet.toStdVector());
+	
 	_deleteAction->setEnabled(false);
 }
 

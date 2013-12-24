@@ -24,11 +24,11 @@
 #define ITEMIDINCREASE true
 #define ITEMIDDECREASE false
 
-
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QPointF>
 #include "ItemComponent.h"
+#include "ItemNode.h"
 #include "ItemFactory.h"
 #include "GuiState.h"
 #include "PointerState.h"
@@ -87,6 +87,7 @@ public:
 	void updateReBuildConnection(QString);
 	QString getTargetItemType(int);
 	QPointF getPlaceItemPosition(QString);
+	ItemComponent* getItemInPosition(QPointF);
 	ItemComponent* searchItemByERModelID(int);
 	ItemComponent* addNode(int, QString, QString, QPointF);
 	ItemComponent* addConnection(int, ItemComponent*, ItemComponent*, QString);

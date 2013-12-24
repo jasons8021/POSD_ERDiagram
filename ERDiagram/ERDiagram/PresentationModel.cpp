@@ -422,6 +422,11 @@ void PresentationModel::deleteCmd( int delComponentID )
 	_cmdManager.execute(new DeleteComponentCmd(_erModel, delComponentID));
 }
 
+void PresentationModel::deleteGroupCmd( vector<int> delComponentIDSet )
+{
+	_cmdManager.execute(new DeleteGroupCmd(_erModel, delComponentIDSet));
+}
+
 void PresentationModel::changeTextCmd( int targetNodeID, string editedText )
 {
 	_cmdManager.execute(new ChangeTextCmd(_erModel, targetNodeID, editedText));

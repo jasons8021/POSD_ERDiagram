@@ -25,7 +25,7 @@ class ERDiagramScene;
 class ItemComponent : public QGraphicsItem
 {
 public:
-	ItemComponent();
+	ItemComponent(QString, QString);
 	ItemComponent(int, int, QString, QString);
 	virtual ~ItemComponent();
 	int getItemWidth();

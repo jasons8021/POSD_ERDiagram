@@ -1,9 +1,10 @@
 #include "ItemComponent.h"
 #include "ERDiagramScene.h"
 
-ItemComponent::ItemComponent()
+ItemComponent::ItemComponent( QString type, QString text )
 {
-	_textBoundingRectangle = QRect(0, 0, 0, 0);
+	_type = type;
+	_text = text;
 }
 
 ItemComponent::ItemComponent( int sx, int sy, QString type, QString text )

@@ -68,14 +68,10 @@
 #include <vector>
 #include <gtest/gtest_prod.h> 
 #include <direct.h>
-#include "AddComponentCmd.h"
-#include "ConnectComponentsCmd.h"
-#include "DeleteComponentCmd.h"
-#include "ChangeTextCmd.h"
-#include "ChangePrimaryKeyCmd.h"
+
 #include "Component.h"
 #include "ComponentFactory.h"
-#include "CommandManager.h"
+
 #include "Toolkit.h"
 #include "Subject.h"
 #include "Observer.h"
@@ -230,7 +226,6 @@ public:
 private:
 	int _componentID;
 	bool _isModify;
-	CommandManager _cmdManager;
 	vector<Component*> _components;
 	vector<Component*> _connections;
 };

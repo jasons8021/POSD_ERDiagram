@@ -32,6 +32,7 @@ public:
 	void setSourceItem(ItemComponent*);
 	void setDestionationItem(ItemComponent*);
 	bool getSetCardinality();
+	QLineF getConnectedLine();
 private:
 	ItemComponent* _sourceItem;
 	ItemComponent* _destionationItem;
