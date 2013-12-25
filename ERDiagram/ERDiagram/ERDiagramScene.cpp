@@ -288,9 +288,9 @@ void ERDiagramScene::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 	update();
 }
 
-void ERDiagramScene::changeDeleteActionEnable()
+void ERDiagramScene::changeEditActionEnable( bool isEnable )
 {
-	_gui->changeDeleteActionEnable(true);
+	_gui->changeEditActionEnable(isEnable);
 }
 
 bool ERDiagramScene::checkSetCardinality( int sourceNodeID, int destinationNodeID )
@@ -425,4 +425,21 @@ void ERDiagramScene::sceneMouseMove( QGraphicsSceneMouseEvent* event )
 void ERDiagramScene::sceneMouseRelease( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsScene::mouseReleaseEvent(event);
+}
+
+void ERDiagramScene::resetSelectedItem()
+{
+	for (int i = 0; i < _guiItem.size(); i++)
+		_guiItem[i]->setSelected(false);
+}
+
+// ¿é¤J¬OERModelªºComponentID
+void ERDiagramScene::setSelectedItem( QVector<int> pasteComponentIDSet )
+{
+	int pasteItemID;
+	for(int i = 0; i < pasteComponentIDSet.size(); i++)
+	{
+		pasteItemID = searchItemIDByERModelID(pasteComponentIDSet[i]);
+		_guiItem[pasteItemID]->setSelected(true);
+	}
 }

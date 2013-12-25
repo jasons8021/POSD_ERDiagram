@@ -18,7 +18,6 @@ public:
 	virtual ~DeleteGroupCmd();
 	virtual void execute();
 	virtual void unexecute();
-	void arrangeIDSet(vector<int>);
 private:
 	ERModel* _erModel;
 	vector<int> _componentIDSet;

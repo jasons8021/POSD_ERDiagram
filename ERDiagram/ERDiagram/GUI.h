@@ -50,7 +50,7 @@ public:
 	void changeItemText(int, QString);
 	void changeToPointerMode();
 	// 改變Button的enable
-	void changeDeleteActionEnable(bool);
+	void changeEditActionEnable(bool);
 	void changeUnRedoActionEnable();
 	// 向Scene發出要求
 	void updateAddNewNode(int, string, string, int, int);
@@ -60,6 +60,7 @@ public:
 	void updateTextChanged(int, string);
 	void updateDeleteComplete(string);
 	void updateReBuildConnection(string);
+	void updatePasteComponent(vector<int>);
 	// 更改TableView
 	void deleteTableRow(int);
 	// Tool
@@ -75,6 +76,9 @@ public:
 		void addEntityClicked();
 		void addRelationshipClicked();
 		void information();
+		void cutComponent();
+		void copyComponent();
+		void pasteComponent();
 private:
 	void createActions();
 	void createMenus();

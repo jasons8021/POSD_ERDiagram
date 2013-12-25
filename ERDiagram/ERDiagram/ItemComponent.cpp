@@ -145,7 +145,11 @@ void ItemComponent::setPath()
 void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mousePressEvent(event);
- 	_scene->changeDeleteActionEnable();
+ 	_scene->changeEditActionEnable(true);
+
+// 	qDebug()<<"ERModel ID = "<<_erModelID;
+// 	qDebug()<<"Item ID = "<<_itemID;
+
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )

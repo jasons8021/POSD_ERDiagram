@@ -103,20 +103,35 @@ void Component::deleteConnectedComponent( int delComponentID )
 
 void Component::setText( string text )
 {
-	_text = text;
+	this->_text = text;
 }
 
 int Component::getSx()
 {
-	return _sx;
+	return this->_sx;
 }
 
 int Component::getSy()
 {
-	return _sy;
+	return this->_sy;
 }
 
 Component* Component::deepClone()
 {
 	return NULL;
+}
+
+void Component::setID( int componentID )
+{
+	this->_id = componentID;
+}
+
+void Component::setSx( int newSx )
+{
+	this->_sx = newSx;
+}
+
+void Component::setSy( int newSy )
+{
+	this->_sy = newSy;
 }

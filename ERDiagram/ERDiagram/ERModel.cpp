@@ -671,6 +671,29 @@ void ERModel::deleteTableSet( int delID, vector<Component*> targetTableSet, int 
 	}
 }
 
+// 提供deleteGroup將componentIDSet的Connector抽出來，放到最前面
+vector<int> ERModel::arrangeConnectorFirst( vector<int> componentIDSet )
+{
+	vector<int> resultSet;
+	vector<int> nodeIDSet;
+
+	// 區分Connector與其他Node(Attribute, Entity, Relationship)
+	for (int i = 0; i < componentIDSet.size(); i++)
+	{
+		Component* targetComponent = searchComponent(componentIDSet[i]);
+		if (targetComponent->getType() != PARAMETER_CONNECTOR)	// 把Attribute, Entity, Relationship與Connector分離
+			nodeIDSet.push_back(componentIDSet[i]);
+		else													// 先放入Connector
+			resultSet.push_back(componentIDSet[i]);
+	}
+
+	// 合併
+	for (int i = 0; i < nodeIDSet.size(); i++)
+		resultSet.push_back(nodeIDSet[i]);
+
+	return resultSet;
+}
+
 //////////////////////////////////////////////////////////////////////////
 //							General Function							//
 //////////////////////////////////////////////////////////////////////////
@@ -925,21 +948,10 @@ void ERModel::notifyTextChanged( int targetNodeID, string editedText )
 	Subject::notifyTextChanged(targetNodeID, editedText);
 }
 
-void ERModel::cutComponentGroup( vector<int> targetNodeIDSet )
+void ERModel::copyComponent( vector<int> targetNodeIDSet )
 {
 	resetClipboard();
 	cloneItemIntoClipboard(targetNodeIDSet);
-}
-
-void ERModel::copyComponentGroup( vector<int> targetNodeIDSet )
-{
-	resetClipboard();
-	cloneItemIntoClipboard(targetNodeIDSet);
-}
-
-void ERModel::pasteComponentGroup()
-{
-
 }
 
 void ERModel::resetClipboard()
@@ -958,4 +970,32 @@ void ERModel::cloneItemIntoClipboard( vector<int> targetNodeIDSet )
 		Component* cloneNode = targetNode->deepClone();
 		_clipboard.push_back(cloneNode);
 	}
+}
+
+vector<Component*> ERModel::getClipboard()
+{
+	return _clipboard;
+}
+
+// CloneComponent做調整後放入，並回傳調整過後的ID
+int ERModel::addCloneComponent( Component* cloneComponent )
+{
+
+	// 對clone的ComponentID做修正
+	cloneComponent->setID(_componentID);
+	// ComponentID往後加
+	_componentID++;
+
+	// 稍微位移
+	cloneComponent->setSx(cloneComponent->getSx() + PARAMETER_ADJUSTPOSITION);
+	cloneComponent->setSy(cloneComponent->getSy() + PARAMETER_ADJUSTPOSITION);
+
+	_components.push_back(cloneComponent);
+
+	for (int i = 0; i < _components.size(); i++)
+		cout << _components[i]->getID()<<"\n";
+
+	notifyAddNewNode(cloneComponent->getID(), cloneComponent->getType(), cloneComponent->getText(), cloneComponent->getSx(), cloneComponent->getSy());
+
+	return cloneComponent->getID();
 }

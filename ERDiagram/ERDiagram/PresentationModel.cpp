@@ -437,6 +437,16 @@ void PresentationModel::changePrimaryKeyCmd( int targetNodeID, bool isPrimaryKey
 	_cmdManager.execute(new ChangePrimaryKeyCmd(_erModel, targetNodeID, isPrimaryKey));
 }
 
+void PresentationModel::cutComponentCmd( vector<int> cutComponentIDSet )
+{
+	_cmdManager.execute(new CutComponentCmd(_erModel, cutComponentIDSet));
+}
+
+void PresentationModel::pasteComponentCmd()
+{
+	_cmdManager.execute(new PasteComponentCmd(_erModel));
+}
+
 bool PresentationModel::undoCmd()
 {
 	return _cmdManager.undo();
@@ -460,4 +470,9 @@ int PresentationModel::getRedoCmdsSize()
 void PresentationModel::clearERModelComponent()
 {
 	_erModel->resetERModel();
+}
+
+void PresentationModel::copyComponent( vector<int> componentIDSet )
+{
+	_erModel->copyComponent(componentIDSet);
 }

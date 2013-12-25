@@ -92,22 +92,21 @@ void GUI::createActions()
 
 	_cutAction = new QAction(QIcon("images/cut.png"), tr("Cut"), this);
 	_cutAction->setShortcut(tr("Ctrl+X"));
-// 	connect(_cutAction, SIGNAL(triggered()), this, SLOT(()));
-// 	_cutAction->setEnabled(false);
+ 	connect(_cutAction, SIGNAL(triggered()), this, SLOT(cutComponent()));
+ 	_cutAction->setEnabled(false);
 
 	_copyAction = new QAction(QIcon("images/copy.png"), tr("Copy"), this);
 	_copyAction->setShortcut(tr("Ctrl+C"));
-// 	connect(_copyAction, SIGNAL(triggered()), this, SLOT());
-// 	_copyAction->setEnabled(false);
+ 	connect(_copyAction, SIGNAL(triggered()), this, SLOT(copyComponent()));
+ 	_copyAction->setEnabled(false);
 
 	_pasteAction = new QAction(QIcon("images/paste.png"), tr("Paste"), this);
 	_pasteAction->setShortcut(tr("Ctrl+V"));
-// 	connect(_pasteAction, SIGNAL(triggered()), this, SLOT(()));
+ 	connect(_pasteAction, SIGNAL(triggered()), this, SLOT(pasteComponent()));
 // 	_pasteAction->setEnabled(false);
 
 	_aboutAction = new QAction(QIcon("images/about.png"), tr("About"), this);
 	connect(_aboutAction, SIGNAL(triggered()), this, SLOT(information()));
-	// 	_aboutAction->setEnabled(false);
 }
 
 void GUI::createMenus()
@@ -268,9 +267,11 @@ void GUI::addNodeIntoTable( int rowNumber, QString type, QString text )
 	_tableView->updateModel(_tableViewModel);
 }
 
-void GUI::changeDeleteActionEnable( bool isEnable )
+void GUI::changeEditActionEnable( bool isEnable )
 {
 	_deleteAction->setEnabled(isEnable);
+	_cutAction->setEnabled(isEnable);
+	_copyAction->setEnabled(isEnable);
 }
 
 // 設定Undo/Redo的Enable
@@ -410,8 +411,38 @@ void GUI::deleteItem()
 	}
 	else
 		_presentationModel->deleteGroupCmd(beSelectedItemSet.toStdVector());
-	
-	_deleteAction->setEnabled(false);
+
+	_scene->resetSelectedItem();
+	changeEditActionEnable(false);
+}
+
+// 按下Ctrl+X後，向PM發出剪下要求
+// slot Function
+void GUI::cutComponent()
+{
+	QVector<int> beSelectedItemSet = _scene->searchItemIsSelected();
+
+	_presentationModel->cutComponentCmd(beSelectedItemSet.toStdVector());
+
+	_scene->resetSelectedItem();
+	changeEditActionEnable(false);
+}
+
+// 按下Ctrl+C後，向PM發出複製要求
+// slot Function
+void GUI::copyComponent()
+{
+	QVector<int> beSelectedItemSet = _scene->searchItemIsSelected();
+
+	_presentationModel->copyComponent(beSelectedItemSet.toStdVector());
+}
+
+// 按下Ctrl+V後，向PM發出貼上要求
+// slot function
+void GUI::pasteComponent()
+{
+	_scene->resetSelectedItem();
+	_presentationModel->pasteComponentCmd();
 }
 
 // 取得現在的Model中的ComponentID是多少
@@ -434,4 +465,9 @@ void GUI::redo()
 {
 	_presentationModel->redoCmd();
 	changeUnRedoActionEnable();
+}
+
+void GUI::updatePasteComponent( vector<int> pasteComponentIDSet )
+{
+	_scene->setSelectedItem(QVector<int>::fromStdVector(pasteComponentIDSet));
 }

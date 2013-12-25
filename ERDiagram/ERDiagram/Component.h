@@ -27,6 +27,7 @@ public:
 	Component(int, string, string, int, int);
 	virtual ~Component();
 	int getID();
+	void setID(int);
 	bool searchConnections(int);
 	void pushConnection(Component*);
 	string getIDString();
@@ -34,7 +35,9 @@ public:
 	string getText();
 	void setText(string);
 	int getSx();
+	void setSx(int);
 	int getSy();
+	void setSy(int);
 	vector<Component*> getConnections();
 	virtual void deleteConnectedComponent(int);
 	virtual void connectTo(Component*);

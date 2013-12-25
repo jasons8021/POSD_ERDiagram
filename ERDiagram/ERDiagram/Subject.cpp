@@ -74,3 +74,11 @@ void Subject::notifyReBuildConnection( string relatedConnectionSet )
 		_observerList[i]->updateReBuildConnection(relatedConnectionSet);
 	}
 }
+
+void Subject::notifyPasteComponent( vector<int> pasteComponentIDSet )
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updatePasteComponent(pasteComponentIDSet);
+	}
+}

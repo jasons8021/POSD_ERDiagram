@@ -20,6 +20,7 @@ public:
 	void notifyNewConnection(int, int, int, string);
 	void notifyDeleteComplete(string);
 	void notifyReBuildConnection(string);
+	void notifyPasteComponent(vector<int>);
 private:
 	vector<Observer*> _observerList;
 };

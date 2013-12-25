@@ -61,6 +61,8 @@
 
 #define PARAMETER_ADJUSTSTRING -1
 
+#define PARAMETER_ADJUSTPOSITION 10
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -117,7 +119,7 @@ class ERModel : public Subject
 	FRIEND_TEST(ERModelTest, changeText);
 	FRIEND_TEST(ERModelTest, changePrimaryKey);
 	FRIEND_TEST(ERModelTest, cutComponentGroup);
-	FRIEND_TEST(ERModelTest, copyComponentGroup);
+	FRIEND_TEST(ERModelTest, copyComponent);
 	FRIEND_TEST(ERModelTest, cloneItemIntoClipboard);
 // 	FRIEND_TEST(ERModelTest, pasteComponentGroup);
 	FRIEND_TEST(ERModelTest, resetClipboard);
@@ -186,8 +188,7 @@ public:
 	void notifyTextChanged(int, string);
 	void changeText(int, string);
 	void changePrimaryKey(int, bool);
-	void cutComponentGroup(vector<int>);
-	void copyComponentGroup(vector<int>);
+	void copyComponent(vector<int>);
 	void cloneItemIntoClipboard(vector<int>);
 	void resetClipboard();
 	bool searchComponentExist(string, string);
@@ -218,6 +219,7 @@ public:
 	vector<Component*> searchSpecificTypeComponentSet(string, vector<Component*>);
 	vector<Component*> searchConnection(int);
 	vector<Component*> searchRelatedComponent(int);
+	vector<Component*> getClipboard();
 	vector<vector<string>> classifyInputFile(string);
 	pair<string,vector<string>> splitter(string);
 
@@ -227,7 +229,8 @@ public:
 	string getPrimaryKeyForGUI();
 
 	///////////////////////////////////////////////////////////////////
-	void pasteComponentGroup();
+	vector<int> arrangeConnectorFirst(vector<int>);
+	int addCloneComponent(Component*);
 	///////////////////////////////////////////////////////////////////
 private:
 	int _componentID;

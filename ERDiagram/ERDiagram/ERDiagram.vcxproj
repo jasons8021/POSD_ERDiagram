@@ -89,6 +89,7 @@
     <ClCompile Include="ChangeTextCmd.cpp" />
     <ClCompile Include="ComponentTableView.cpp" />
     <ClCompile Include="ConnectionState.cpp" />
+    <ClCompile Include="CutComponentCmd.cpp" />
     <ClCompile Include="DeleteGroupCmd.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ComponentTableView.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -137,6 +138,7 @@
     <ClCompile Include="NodeEntity.cpp" />
     <ClCompile Include="NodeRelationship.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="PasteComponentCmd.cpp" />
     <ClCompile Include="PointerState.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
     <ClCompile Include="ItemRelationship.cpp" />
@@ -165,6 +167,7 @@
     <ClInclude Include="ChangePrimaryKeyCmd.h" />
     <ClInclude Include="ChangeTextCmd.h" />
     <ClInclude Include="ConnectionState.h" />
+    <ClInclude Include="CutComponentCmd.h" />
     <ClInclude Include="DeleteGroupCmd.h" />
     <ClInclude Include="GuiState.h" />
     <ClInclude Include="ItemAttribute.h" />
@@ -206,6 +209,7 @@
     <ClInclude Include="NodeEntity.h" />
     <ClInclude Include="NodeRelationship.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="PasteComponentCmd.h" />
     <ClInclude Include="PointerState.h" />
     <ClInclude Include="PresentationModel.h" />
     <ClInclude Include="ItemRelationship.h" />

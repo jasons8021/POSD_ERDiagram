@@ -68,7 +68,7 @@ public:
 	void addConnectionFromLoadFile(QStringList);
 	void changeState(int);
 	void changToPointerMode();
-	void changeDeleteActionEnable();
+	void changeEditActionEnable(bool);
 	void changeItemText(int, QString);
 	void changePrimaryKey(int, bool);
 	void deleteItem(int);
@@ -77,6 +77,7 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+	void resetSelectedItem();
 	void sceneMousePress(QGraphicsSceneMouseEvent*);
 	void sceneMouseMove(QGraphicsSceneMouseEvent*);
 	void sceneMouseRelease(QGraphicsSceneMouseEvent*);
@@ -87,6 +88,7 @@ public:
 	void updateConnection(int, int, int, QString);
 	void updateDeleteItem(QString);
 	void updateReBuildConnection(QString);
+	void setSelectedItem(QVector<int>);
 	QString getTargetItemType(int);
 	QPointF getPlaceItemPosition(QString);
 	ItemComponent* getItemInPosition(QPointF);

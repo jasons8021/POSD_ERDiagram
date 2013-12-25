@@ -11,6 +11,7 @@ PointerState::~PointerState()
 
 void PointerState::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
+	_scene->changeEditActionEnable(false);
 	_scene->sceneMousePress(event);
 }
 

@@ -93,6 +93,8 @@
 #include "ChangeTextCmd.h"
 #include "ChangePrimaryKeyCmd.h"
 #include "DeleteGroupCmd.h"
+#include "CutComponentCmd.h"
+#include "pasteComponentCmd.h"
 #include "Toolkit.h"
 #include "Observer.h"
 
@@ -144,9 +146,9 @@ public:
 	void addNodeCmd(string, string, int, int);
 	void addConnectionCmd(int, int, string);
 	void deleteCmd(int);
-//	void deleteGroupCmd(vector<int>);
 	void changeTextCmd(int, string);
 	void changePrimaryKeyCmd(int, bool);
+	
 	bool undoCmd();
 	bool redoCmd();
 	int getUndoCmdsSize();
@@ -162,6 +164,9 @@ public:
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
 	void deleteGroupCmd(vector<int>);
+	void cutComponentCmd(vector<int>);
+	void copyComponent(vector<int>);
+	void pasteComponentCmd();
 	//////////////////////////////////////////////////////
 	void clearERModelComponent();
 

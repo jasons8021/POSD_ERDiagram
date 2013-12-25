@@ -2,6 +2,7 @@
 #define OBSERVER_H_
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -16,6 +17,7 @@ public:
 	virtual void updateConnection(int, int, int, string) = 0;
 	virtual void updateDeleteComplete(string) = 0;
 	virtual void updateReBuildConnection(string) = 0;
+	virtual void updatePasteComponent(vector<int>) = 0;
 };
 
 #endif
