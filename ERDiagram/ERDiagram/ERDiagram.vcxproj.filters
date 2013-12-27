@@ -259,13 +259,16 @@
     <ClCompile Include="NodeEntity.cpp">
       <Filter>Source Files\ComponentFactory\Item Factory</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteGroupCmd.cpp">
-      <Filter>Source Files\CommandPattern</Filter>
-    </ClCompile>
     <ClCompile Include="CutComponentCmd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PasteComponentCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteGroupCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveItemCmd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -372,13 +375,16 @@
     <ClInclude Include="NodeEntity.h">
       <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteGroupCmd.h">
-      <Filter>Header Files\CommandPattern</Filter>
-    </ClInclude>
     <ClInclude Include="CutComponentCmd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PasteComponentCmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteGroupCmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveItemCmd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

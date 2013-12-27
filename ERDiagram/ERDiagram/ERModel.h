@@ -59,6 +59,8 @@
 
 #define PARAMETER_ISERROR -1
 
+#define PARAMETER_NOTFINDID -1
+
 #define PARAMETER_ADJUSTSTRING -1
 
 #define PARAMETER_ADJUSTPOSITION 10
@@ -118,11 +120,11 @@ class ERModel : public Subject
 	FRIEND_TEST(ERModelTest, getComponentForGUI);
 	FRIEND_TEST(ERModelTest, changeText);
 	FRIEND_TEST(ERModelTest, changePrimaryKey);
-	FRIEND_TEST(ERModelTest, cutComponentGroup);
 	FRIEND_TEST(ERModelTest, copyComponent);
 	FRIEND_TEST(ERModelTest, cloneItemIntoClipboard);
-// 	FRIEND_TEST(ERModelTest, pasteComponentGroup);
+ 	FRIEND_TEST(ERModelTest, connectionSetting);
 	FRIEND_TEST(ERModelTest, resetClipboard);
+	FRIEND_TEST(ERModelTest, getTargetAttributeIsPrimaryKey);
 
 	friend class AddComponentCmdTest;
 	FRIEND_TEST(AddComponentCmdTest, execute);
@@ -176,6 +178,7 @@ public:
 	void setForeignKey();
 	void saveERDiagram(string);
 	void creatFilePath(string);
+	void connectionSetting(Component* sourceNode, Component* destinationNode, string text);
 	void recoveryFile(vector<vector<string>>);
 	void recoveryAllComponent(vector<string>, vector<string>);
 	void recoveryPrimaryKey(vector<string>);
@@ -200,6 +203,7 @@ public:
 	bool searchEntityConnection(int, int, string);
 	bool checkOneToOne();
 	bool getIsModify();
+	bool getTargetAttributeIsPrimaryKey(int);
 	string deleteComponent(Component*);
 	string loadERDiagram(string);
 	string checkConnectionState(Component*, Component*);
@@ -230,7 +234,12 @@ public:
 
 	///////////////////////////////////////////////////////////////////
 	vector<int> arrangeConnectorFirst(vector<int>);
+	void recordNewCloneComponentID(int, int);
+	void movedComponentPosition(int, int, int);
+	int addClone(Component*);
 	int addCloneComponent(Component*);
+	int addCloneConnection(Component*);
+	int retrieveNewCloneID(int);
 	///////////////////////////////////////////////////////////////////
 private:
 	int _componentID;
@@ -238,6 +247,7 @@ private:
 	vector<Component*> _components;
 	vector<Component*> _connections;
 	vector<Component*> _clipboard;
+	vector<pair<int,int>> _recoredIDBoard;
 };
 
 #endif

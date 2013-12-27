@@ -15,6 +15,7 @@ class ItemRelationship : public ItemNode
 {
 public:
 	ItemRelationship(int, int, QString);
+	ItemRelationship(int, int, int, QString);
 	virtual ~ItemRelationship();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

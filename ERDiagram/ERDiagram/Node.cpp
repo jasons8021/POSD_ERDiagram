@@ -28,3 +28,8 @@ void Node::deleteConnectedComponent( int )
 
 }
 
+void Node::deleteAllConnected()
+{
+
+}
+

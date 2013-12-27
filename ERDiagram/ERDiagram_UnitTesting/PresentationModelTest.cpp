@@ -323,9 +323,9 @@ TEST_F(PresentationModelTest, getConnection_GUI)
 }
 
 // 測試給GUI用的PrimaryKey
-TEST_F(PresentationModelTest, getPrimaryKey_GUI)
+TEST_F(PresentationModelTest, getPrimaryKeySet_GUI)
 {
-	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getPrimaryKey_GUI());
+	EXPECT_EQ(PARAMETER_NULL, _presentationModel->getPrimaryKeySet_GUI());
 
 	vector<int> primaryKeys;
 
@@ -334,7 +334,7 @@ TEST_F(PresentationModelTest, getPrimaryKey_GUI)
 	primaryKeys.push_back(3);
 	primaryKeys.push_back(4);
 	_erModel->setPrimaryKey(1, primaryKeys);
-	EXPECT_EQ("0,3,4", _presentationModel->getPrimaryKey_GUI());
+	EXPECT_EQ("0,3,4", _presentationModel->getPrimaryKeySet_GUI());
 }
 
 // 測試給GUI用的addConnectionCmd

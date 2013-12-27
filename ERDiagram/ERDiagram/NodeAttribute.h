@@ -23,6 +23,7 @@ class NodeAttribute : public Node
 	friend class NodeAttributeTest;
 	FRIEND_TEST(NodeAttributeTest, connectTo);
 	FRIEND_TEST(NodeAttributeTest, deleteConnectedComponent);
+	FRIEND_TEST(NodeAttributeTest, deleteAllConnected);
 public:
 	NodeAttribute(int, string, int, int);
 	virtual ~NodeAttribute();
@@ -30,6 +31,7 @@ public:
 	void setIsPrimaryKey(bool);
 	bool getIsConnectedEntity();
 	virtual void deleteConnectedComponent(int);
+	virtual void deleteAllConnected();
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();

@@ -1,5 +1,11 @@
 #include "ItemRelationship.h"
 
+ItemRelationship::ItemRelationship( int erModelID, int sx, int sy, QString relationshipText ) : ItemNode( erModelID, sx, sy, PARAMETER_RELATIONSHIP, relationshipText )
+{
+	setPath(setPointSet(sx, sy));
+}
+
+// preview Item¨Ï¥Î
 ItemRelationship::ItemRelationship( int sx, int sy, QString relationshipText ) : ItemNode( sx, sy, PARAMETER_RELATIONSHIP, relationshipText )
 {
 	setPath(setPointSet(sx, sy));

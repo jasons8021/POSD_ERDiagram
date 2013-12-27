@@ -9,7 +9,6 @@ ChangeTextCmd::ChangeTextCmd( ERModel* erModel, int componentID, string editedTe
 
 	Component* editedTextComponent = _erModel->searchComponent(_componentID);
 	_textBeforeChanged = editedTextComponent->getText();
-	
 }
 
 

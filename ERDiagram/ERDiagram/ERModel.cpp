@@ -68,16 +68,23 @@ int ERModel::addConnection( int componentID, int sourceNodeID, int destinationNo
 		static_cast<Connector*>(newConnection)->setConnectedNode(sourceNode, destinationNode);
 		_connections.push_back(newConnection);
 
-		sourceNode->connectTo(destinationNode);
+		connectionSetting(sourceNode, destinationNode, text);
 
-		if (checkSetCardinality(sourceNodeID, destinationNodeID))
-			setCardinality(sourceNode, destinationNode, text);
 	}
 	else
 		return PARAMETER_ISERROR;
 	delete componentFactory;
 
 	return newConnection->getID();
+}
+
+// 兩個Component的Connection的設定
+void ERModel::connectionSetting( Component* sourceNode, Component* destinationNode, string text )
+{
+	sourceNode->connectTo(destinationNode);
+
+	if (checkSetCardinality(sourceNode->getID(), destinationNode->getID()))
+		setCardinality(sourceNode, destinationNode, text);
 }
 
 //	Check Connection hasn't any error. If it has, return error message.
@@ -935,7 +942,6 @@ void ERModel::notifyTextChanged( int targetNodeID, string editedText )
 	{
 		int sourceNodeID = static_cast<Connector*>(connectorComponent)->getSourceNodeID();
 		int destinationNodeID = static_cast<Connector*>(connectorComponent)->getDestinationNodeID();
-		cout << editedText <<endl;
 		if (checkSetCardinality(sourceNodeID, destinationNodeID))
 		{
 			if (editedText != "1" && editedText != "N")
@@ -959,6 +965,9 @@ void ERModel::resetClipboard()
 	for (int i = 0 ; i < _clipboard.size(); i++)
 		delete _clipboard[i];
 	_clipboard.clear();
+
+	_recoredIDBoard.clear();
+	
 }
 
 void ERModel::cloneItemIntoClipboard( vector<int> targetNodeIDSet )
@@ -977,9 +986,21 @@ vector<Component*> ERModel::getClipboard()
 	return _clipboard;
 }
 
+int ERModel::addClone( Component* cloneComponent )
+{
+	// 處理非Connector
+	if (cloneComponent->getType() != PARAMETER_CONNECTOR)
+		return addCloneComponent(cloneComponent);
+	// 處理Connector
+	else
+		return addCloneConnection(cloneComponent);
+}
+
 // CloneComponent做調整後放入，並回傳調整過後的ID
 int ERModel::addCloneComponent( Component* cloneComponent )
 {
+	// 清除Clone過來的Connection資料，因為Clone的Connection資料是連回原本的Component
+	cloneComponent->deleteAllConnected();
 
 	// 對clone的ComponentID做修正
 	cloneComponent->setID(_componentID);
@@ -992,10 +1013,76 @@ int ERModel::addCloneComponent( Component* cloneComponent )
 
 	_components.push_back(cloneComponent);
 
-	for (int i = 0; i < _components.size(); i++)
-		cout << _components[i]->getID()<<"\n";
-
 	notifyAddNewNode(cloneComponent->getID(), cloneComponent->getType(), cloneComponent->getText(), cloneComponent->getSx(), cloneComponent->getSy());
 
 	return cloneComponent->getID();
+}
+
+int ERModel::addCloneConnection( Component* cloneConnector )
+{
+	Connector* tempCloneConnector = static_cast<Connector*>(cloneConnector);
+
+	int newSourceID = retrieveNewCloneID(tempCloneConnector->getSourceNodeID());
+	int newDestinationID = retrieveNewCloneID(tempCloneConnector->getDestinationNodeID());
+
+	if (newSourceID != PARAMETER_NOTFINDID && newDestinationID != PARAMETER_NOTFINDID)
+	{
+		Component* newSourceNode = searchComponent(newSourceID);
+		Component* newDestinationNode = searchComponent(newDestinationID);
+
+		// 對clone的ComponentID做修正
+		tempCloneConnector->setID(_componentID);
+		// ComponentID往後加
+		_componentID++;
+		// 設定兩個Clone的Component重新Connect
+		connectionSetting(newSourceNode, newDestinationNode, tempCloneConnector->getText());
+		// Connector設定新的Source及Destination
+		tempCloneConnector->setSourceNode(newSourceNode);
+		tempCloneConnector->setDestinationNode(newDestinationNode);
+
+		_components.push_back(cloneConnector);
+		_connections.push_back(tempCloneConnector);
+
+		notifyNewConnection(tempCloneConnector->getID(), tempCloneConnector->getSourceNodeID(), tempCloneConnector->getDestinationNodeID(), tempCloneConnector->getText());
+
+		return cloneConnector->getID();
+	}
+
+	return PARAMETER_ISERROR;
+}
+
+// 儲存CloneComponent的ID變化
+void ERModel::recordNewCloneComponentID( int originalCloneComponentID,int newCloneComponentID )
+{
+	_recoredIDBoard.push_back(make_pair(originalCloneComponentID, newCloneComponentID));
+}
+
+int ERModel::retrieveNewCloneID( int originalID )
+{
+	int newCloneID = PARAMETER_NOTFINDID;
+
+	for (int i = 0; i < _recoredIDBoard.size(); i++)
+	{
+		if (_recoredIDBoard[i].first == originalID)
+		{
+			newCloneID = _recoredIDBoard[i].second;
+			_recoredIDBoard.erase(_recoredIDBoard.begin()+i);
+			break;
+		}
+	}
+	return newCloneID;
+}
+
+bool ERModel::getTargetAttributeIsPrimaryKey( int targetNodeID )
+{
+	NodeAttribute* targetAttribute = static_cast<NodeAttribute*>(searchComponent(targetNodeID));
+
+	return targetAttribute->getIsPrimaryKey();
+}
+
+void ERModel::movedComponentPosition( int targetNodeID, int newSx, int newSy )
+{
+	Component* movedComponent = searchComponent(targetNodeID);
+	movedComponent->setSx(newSx);
+	movedComponent->setSy(newSy);
 }

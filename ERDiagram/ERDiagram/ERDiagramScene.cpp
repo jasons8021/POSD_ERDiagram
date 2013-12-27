@@ -46,7 +46,7 @@ ItemComponent* ERDiagramScene::addNode( int erModelID, QString type, QString tex
 	ItemComponent* newItem;
 	ItemFactory* itemFactory = new ItemFactory();
 
-	newItem = itemFactory->creatItem(point.x(), point.y(), type, text);
+	newItem = itemFactory->creatItem(erModelID, point.x(), point.y(), type, text);
 	delete itemFactory;
 
 	// 將newItem push進_guiItem中，並設定GUI上面的ItemID以及ERModel的ComponentID
@@ -54,6 +54,11 @@ ItemComponent* ERDiagramScene::addNode( int erModelID, QString type, QString tex
 
 	// 將scene設給Item
 	newItem->setScene(this);
+
+	// 如果type為A，用erModelID去抓是否為PK
+	if (type == PARAMETER_ATTRIBUTE)
+		static_cast<ItemAttribute*>(newItem)->setPrimaryKey(getTargetAttributeIsPrimaryKey(erModelID));
+
 	// 將Item加入scene
 	this->addItem(newItem);
 
@@ -86,7 +91,7 @@ ItemComponent* ERDiagramScene::addConnection( int erModelID, ItemComponent* sour
 	// 判斷是否為Cardinality，並設定進connectionItem中
 	bool isSetCardinality = checkSetCardinality(sourceItem->getERModelID(), destionationItem->getERModelID());
 
-	newItem = itemFactory->creatItemConnection(sourceItem, destionationItem, text, isSetCardinality);
+	newItem = itemFactory->creatItemConnection(erModelID, sourceItem, destionationItem, text, isSetCardinality);
 	
 	delete itemFactory;
 
@@ -95,6 +100,7 @@ ItemComponent* ERDiagramScene::addConnection( int erModelID, ItemComponent* sour
 
 	// 將scene設給Item
 	newItem->setScene(this);
+
 	// 將Item加入scene
 	this->addItem(newItem);
 
@@ -158,7 +164,7 @@ QPointF ERDiagramScene::getPlaceItemPosition( QString type )
 }
 
 // 更新Item移動後的位置
-void ERDiagramScene::updateItemPosition()
+void ERDiagramScene::updateItemPositionInScene()
 {
 	for (QVector<ItemComponent *>::iterator index = _guiItem.begin(); index < _guiItem.end(); index++)
 	{
@@ -315,7 +321,7 @@ QVector<QStringList> ERDiagramScene::splitTextData( QString textData )
 
 void ERDiagramScene::setItemIDandERModelID( ItemComponent* newItem, int erModelID )
 {
-	newItem->setERModelID(erModelID);
+	//newItem->setERModelID(erModelID);
 	_guiItem.insert(adjustItemID(erModelID), newItem);
 	resetItemID();
 }
@@ -442,4 +448,28 @@ void ERDiagramScene::setSelectedItem( QVector<int> pasteComponentIDSet )
 		pasteItemID = searchItemIDByERModelID(pasteComponentIDSet[i]);
 		_guiItem[pasteItemID]->setSelected(true);
 	}
+}
+
+bool ERDiagramScene::getTargetAttributeIsPrimaryKey( int erModelID )
+{
+	bool isPK = _gui->getTargetAttributeIsPrimaryKey(erModelID);
+	return isPK;
+}
+
+void ERDiagramScene::testPos()
+{
+	_guiItem[0]->setPosition(QPointF(200,200));
+	update();
+}
+
+void ERDiagramScene::movedItemPosition( int erModelID, QPointF newPosition )
+{
+	_gui->movedItemPosition(erModelID, newPosition);
+}
+
+void ERDiagramScene::updateItemPosition( int erModelID, QPointF newPosition )
+{
+	int itemID = searchItemIDByERModelID(erModelID);
+	_guiItem[itemID]->setPosition(newPosition);
+	update();
 }

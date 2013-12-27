@@ -1,19 +1,33 @@
 #include "ItemComponent.h"
 #include "ERDiagramScene.h"
 
-ItemComponent::ItemComponent( QString type, QString text )
+ItemComponent::ItemComponent( int erModelID, QString type, QString text )
 {
+	_erModelID = erModelID;
 	_type = type;
 	_text = text;
 }
 
+ItemComponent::ItemComponent( int erModelID, int sx, int sy, QString type, QString text )
+{
+	_erModelID = erModelID;
+
+	// 圖形左上角座標為Item的基礎座標，圖形依照左上角為準
+	_sx = sx;
+	_sy = sy;
+	_type = type;
+	_text = text;
+	setTextBoundingRectangle(_sx, _sy);
+}
+
+// preview Item使用
 ItemComponent::ItemComponent( int sx, int sy, QString type, QString text )
 {
 	_sx = sx;
 	_sy = sy;
 	_type = type;
 	_text = text;
-	setTextBoundingRectangle(sx, sy);
+	setTextBoundingRectangle(_sx, _sy);
 }
 
 ItemComponent::~ItemComponent()
@@ -34,6 +48,7 @@ void ItemComponent::setTextBoundingRectangle(int sx, int sy)
 {
 	// QRect第一二個參數是方形的左上角座標，第三個參數是長、第四個是寬
 	_textBoundingRectangle = QRect(sx, sy, caculateTextWidth(_text) + PARAMETER_ADJUSTWIDTH, PARAMETER_ITEMHEIGHT);
+	qDebug()<<"setTextBoundingRectangle"<<_textBoundingRectangle;
 	_itemWidth = _textBoundingRectangle.width();
 	_itemHeight = _textBoundingRectangle.height();
 }
@@ -146,24 +161,31 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mousePressEvent(event);
  	_scene->changeEditActionEnable(true);
+	mousePressPoint = event->scenePos();
+
+	qDebug()<<"\n===================================\nOriginal = ("<<_sx<<","<<_sy<<")\n===================================\n";
 
 // 	qDebug()<<"ERModel ID = "<<_erModelID;
 // 	qDebug()<<"Item ID = "<<_itemID;
-
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mouseReleaseEvent(event);
+	QPointF mouseReleasePoint = event->scenePos();
+	//QPointF(_sx, _sy) + (mouseReleasePoint - mousePressPoint)
+	_scene->movedItemPosition(_erModelID, QPointF(_sx, _sy) + event->lastScenePos()-event->buttonDownScenePos(Qt::LeftButton));
+	qDebug()<<"\n===================================\nDestination = ("<<_sx<<","<<_sy<<")\n===================================\n";
 	// 位置有改變，呼叫scene去更新
-	_scene->updateItemPosition();
+	_scene->updateItemPositionInScene();
 }
 
 void ItemComponent::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mouseMoveEvent(event);
+	qDebug()<<event->scenePos()<<"\n";
 	// 位置有改變，呼叫scene去更新
-	_scene->updateItemPosition();
+	_scene->updateItemPositionInScene();
 }
 
 void ItemComponent::setItemID( int ID )
@@ -205,4 +227,18 @@ void ItemComponent::setERModelID( int componentID )
 int ItemComponent::getERModelID()
 {
 	return _erModelID;
+}
+
+void ItemComponent::setPosition( QPointF newPosition )
+{
+	_sx = newPosition.x();
+	_sy = newPosition.y();
+	setTextBoundingRectangle(_sx, _sy);
+	setPath();
+}
+
+// 座標系統須經過校正才會呈現在正確的位置上
+QPointF ItemComponent::adjustPosition( QPointF mousePoint )
+{
+	return mousePoint - getItemCenter() - QPointF(_textWidth/2,0);
 }

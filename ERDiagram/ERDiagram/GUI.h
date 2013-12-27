@@ -44,11 +44,13 @@ public:
 	bool checkSetCardinality(int, int);
 	void addNodeIntoTable(int, QString, QString);
 	// 向PM發出要求
+	bool getTargetAttributeIsPrimaryKey(int);
 	void addNode(QString, QString, QPointF);
 	void addConnection(int, int, QString);
 	void changePrimaryKey(int, bool);
 	void changeItemText(int, QString);
 	void changeToPointerMode();
+	void movedItemPosition(int, QPointF);
 	// 改變Button的enable
 	void changeEditActionEnable(bool);
 	void changeUnRedoActionEnable();
@@ -61,6 +63,7 @@ public:
 	void updateDeleteComplete(string);
 	void updateReBuildConnection(string);
 	void updatePasteComponent(vector<int>);
+	void updateItemPosition(int, int, int);
 	// 更改TableView
 	void deleteTableRow(int);
 	// Tool

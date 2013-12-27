@@ -94,7 +94,8 @@
 #include "ChangePrimaryKeyCmd.h"
 #include "DeleteGroupCmd.h"
 #include "CutComponentCmd.h"
-#include "pasteComponentCmd.h"
+#include "PasteComponentCmd.h"
+#include "MoveItemCmd.h"
 #include "Toolkit.h"
 #include "Observer.h"
 
@@ -113,7 +114,7 @@ class PresentationModel
  	FRIEND_TEST(PresentationModelTest, deleteComponent);
  	FRIEND_TEST(PresentationModelTest, getComponent_GUI);
  	FRIEND_TEST(PresentationModelTest, getConnection_GUI);
- 	FRIEND_TEST(PresentationModelTest, getPrimaryKey_GUI);
+ 	FRIEND_TEST(PresentationModelTest, getPrimaryKeySet_GUI);
 	FRIEND_TEST(PresentationModelTest, addConnectionCmd);
 	FRIEND_TEST(PresentationModelTest, deleteCmd);
 	FRIEND_TEST(PresentationModelTest, undoCmd);
@@ -156,17 +157,20 @@ public:
 	// GUI Function
 	string getComponent_GUI();
 	string getConnection_GUI();
-	string getPrimaryKey_GUI();
+	string getPrimaryKeySet_GUI();
 	bool addConnectionCmd_GUI(int, int, string);
 	int getComponentID();
+	bool getTargetAttributeIsPrimaryKey(int);
 	//////////////////////////////////////////////////////
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
+
 	void deleteGroupCmd(vector<int>);
 	void cutComponentCmd(vector<int>);
 	void copyComponent(vector<int>);
 	void pasteComponentCmd();
+	void moveItemCmd(int, int, int);
 	//////////////////////////////////////////////////////
 	void clearERModelComponent();
 

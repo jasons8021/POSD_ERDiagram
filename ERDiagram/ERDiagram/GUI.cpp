@@ -241,6 +241,7 @@ void GUI::addRelationshipClicked()
 // about的功能
 void GUI::information()
 {
+	_scene->testPos();
 	QMessageBox::StandardButton reply;
 	reply = QMessageBox::information(this, tr("QMessageBox::information()"), ABOUT);
 	if (reply == QMessageBox::Ok)
@@ -313,7 +314,7 @@ void GUI::loadFile()
 		// 取得Component、Connection、PK的資訊，並轉成QT物件
 		inputFileText.push_back(stringConvertQString(_presentationModel->getComponent_GUI()));
 		inputFileText.push_back(stringConvertQString(_presentationModel->getConnection_GUI()));
-		inputFileText.push_back(stringConvertQString(_presentationModel->getPrimaryKey_GUI()));
+		inputFileText.push_back(stringConvertQString(_presentationModel->getPrimaryKeySet_GUI()));
 		_presentationModel->clearERModelComponent();
 		_scene->loadAllItem(inputFileText);
 	}
@@ -354,6 +355,11 @@ void GUI::updateDeleteComplete( string deleteComponentIDSet )
 void GUI::updateReBuildConnection( string relatedConnectionSet )
 {
 	_scene->updateReBuildConnection(stringConvertQString(relatedConnectionSet));
+}
+
+void GUI::updateItemPosition( int componentID, int newSx, int newSy )
+{
+	_scene->updateItemPosition(componentID, QPointF(newSx, newSy));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -451,6 +457,12 @@ int GUI::getERModelComponentID()
 	return _presentationModel->getComponentID();
 }
 
+// 移動後通知Model位置改變
+void GUI::movedItemPosition( int targetID, QPointF newPosition )
+{
+	_presentationModel->moveItemCmd(targetID, newPosition.x(), newPosition.y());
+}
+
 // 復原
 // slot function
 void GUI::undo()
@@ -470,4 +482,10 @@ void GUI::redo()
 void GUI::updatePasteComponent( vector<int> pasteComponentIDSet )
 {
 	_scene->setSelectedItem(QVector<int>::fromStdVector(pasteComponentIDSet));
+}
+
+bool GUI::getTargetAttributeIsPrimaryKey( int erModelID )
+{
+	bool isPK = _presentationModel->getTargetAttributeIsPrimaryKey(erModelID);
+	return isPK;
 }

@@ -186,6 +186,15 @@
     <ClCompile Include="..\ERDiagram\DeleteGroupCmd.cpp">
       <Filter>Resource Files\CommandPattern</Filter>
     </ClCompile>
+    <ClCompile Include="..\ERDiagram\PasteComponentCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\CutComponentCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\MoveItemCmd.cpp">
+      <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntegrationTest.h">

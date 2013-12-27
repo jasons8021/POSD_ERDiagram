@@ -18,8 +18,8 @@ class ItemFactory
 public:
 	ItemFactory();
 	virtual ~ItemFactory();
-	ItemComponent* creatItem(int, int, QString, QString);
-	ItemComponent* creatItemConnection(ItemComponent*, ItemComponent*, QString, bool);
+	ItemComponent* creatItem(int, int, int, QString, QString);
+	ItemComponent* creatItemConnection(int, ItemComponent*, ItemComponent*, QString, bool);
 };
 
 #endif

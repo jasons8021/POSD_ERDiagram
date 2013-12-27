@@ -25,8 +25,9 @@ class ERDiagramScene;
 class ItemComponent : public QGraphicsItem
 {
 public:
-	ItemComponent(QString, QString);
+	ItemComponent(int ,QString, QString);
 	ItemComponent(int, int, QString, QString);
+	ItemComponent(int, int, int, QString, QString);
 	virtual ~ItemComponent();
 	int getItemWidth();
 	void setItemWidth(int);
@@ -48,6 +49,8 @@ public:
 	int getERModelID();
 	QString getType();
 	QString getText();
+	void setPosition(QPointF);
+	QPointF adjustPosition(QPointF);
 	virtual void updatePosition();
 	virtual void paintText(QPainter*, bool);
 	virtual QRectF boundingRect() const;
@@ -67,6 +70,7 @@ protected:
 	ERDiagramScene* _scene;
 	int _itemID;
 	int _erModelID;
+	QPointF mousePressPoint;
 };
 
 #endif

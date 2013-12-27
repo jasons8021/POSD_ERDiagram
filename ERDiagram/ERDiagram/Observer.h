@@ -18,6 +18,7 @@ public:
 	virtual void updateDeleteComplete(string) = 0;
 	virtual void updateReBuildConnection(string) = 0;
 	virtual void updatePasteComponent(vector<int>) = 0;
+	virtual void updateItemPosition(int, int, int) = 0;
 };
 
 #endif

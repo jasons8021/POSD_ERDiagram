@@ -82,3 +82,11 @@ void Subject::notifyPasteComponent( vector<int> pasteComponentIDSet )
 		_observerList[i]->updatePasteComponent(pasteComponentIDSet);
 	}
 }
+
+void Subject::notifyNewItemPosition( int componentID, int newSx, int newSy )
+{
+	for (int i = 0; i < _observerList.size(); i++)
+	{
+		_observerList[i]->updateItemPosition(componentID, newSx, newSy);
+	}
+}

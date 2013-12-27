@@ -1,6 +1,12 @@
 #include "ItemEntity.h"
 #include <math.h>
 
+ItemEntity::ItemEntity( int erModelID, int sx, int sy, QString entityText ) : ItemNode( erModelID, sx, sy, PARAMETER_ENTITY, entityText )
+{
+	setPath();
+}
+
+// preview Item¨Ï¥Î
 ItemEntity::ItemEntity( int sx, int sy, QString entityText ) : ItemNode( sx, sy, PARAMETER_ENTITY, entityText )
 {
 	setPath();

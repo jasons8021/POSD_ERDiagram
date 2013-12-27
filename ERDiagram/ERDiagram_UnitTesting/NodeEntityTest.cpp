@@ -75,3 +75,21 @@ TEST_F(NodeEntityTest, deepClone){
 	delete cloneComponent;
 	EXPECT_EQ("UnitTestNodeEntityTest", _entityComponent->getText());
 }
+
+// 測試刪除全部的Connect
+TEST_F(NodeEntityTest, deleteAllConnected){
+	_entityComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
+	_entityComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5", 0, 0));
+
+	_entityComponent->setPrimaryKey(1);
+	EXPECT_EQ(1, _entityComponent->_primaryKeySet.size());
+	_entityComponent->setPrimaryKey(2);
+	EXPECT_EQ(2, _entityComponent->_primaryKeySet.size());
+	_entityComponent->setForeignKey(4);
+	EXPECT_EQ(1, _entityComponent->_foreignKeySet.size());
+
+	_entityComponent->deleteAllConnected();
+	EXPECT_EQ(0, _entityComponent->getConnections().size());
+	EXPECT_EQ(0, _entityComponent->_primaryKeySet.size());
+	EXPECT_EQ(0, _entityComponent->_foreignKeySet.size());
+}

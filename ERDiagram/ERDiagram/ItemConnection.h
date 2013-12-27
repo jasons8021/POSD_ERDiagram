@@ -19,7 +19,7 @@ class ItemConnection : public ItemComponent
 {
 public:
 	//ItemConnection();
-	ItemConnection(ItemComponent*, ItemComponent*, QString, bool);
+	ItemConnection(int, ItemComponent*, ItemComponent*, QString, bool);
 	virtual ~ItemConnection();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

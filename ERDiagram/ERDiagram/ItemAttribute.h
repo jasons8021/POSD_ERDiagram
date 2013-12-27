@@ -15,6 +15,7 @@ class ItemAttribute : public ItemNode
 {
 public:
 	ItemAttribute(int,int,QString);
+	ItemAttribute(int, int,int,QString);
 	virtual ~ItemAttribute();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

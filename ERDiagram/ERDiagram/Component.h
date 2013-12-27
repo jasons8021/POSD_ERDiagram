@@ -40,6 +40,7 @@ public:
 	void setSy(int);
 	vector<Component*> getConnections();
 	virtual void deleteConnectedComponent(int);
+	virtual void deleteAllConnected();
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();

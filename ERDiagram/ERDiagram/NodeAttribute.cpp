@@ -58,3 +58,9 @@ Component* NodeAttribute::deepClone()
 {
 	return new NodeAttribute(*this);
 }
+
+void NodeAttribute::deleteAllConnected()
+{
+	Component::deleteAllConnected();
+	_connectedEntity = false;
+}

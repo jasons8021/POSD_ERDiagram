@@ -59,3 +59,9 @@ Component* NodeRelationship::deepClone()
 {
 	return new NodeRelationship(*this);
 }
+
+void NodeRelationship::deleteAllConnected()
+{
+	Component::deleteAllConnected();
+	_entityCardinalitySet.clear();
+}

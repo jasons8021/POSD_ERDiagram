@@ -17,6 +17,7 @@ class ItemEntity : public ItemNode/*ItemComponent*/
 {
 public:
 	ItemEntity(int, int, QString);
+	ItemEntity(int, int, int, QString);
 	virtual ~ItemEntity();
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

@@ -29,7 +29,7 @@ void ERModelTest::TearDown()
 	remove("CreatPathTest/CreatPathTestFile.txt");
 	_rmdir("CreatPathTest");
 }
-
+// 加入節點
 TEST_F(ERModelTest, addNode)
 {
 	while(_erModel->_components.size() > 0)
@@ -48,7 +48,7 @@ TEST_F(ERModelTest, addNode)
 	EXPECT_EQ(PARAMETER_ISERROR, _erModel->addNode(5,testType[5],testText[5], 0, 0));
 	EXPECT_EQ(PARAMETER_ISERROR, _erModel->addNode(6,testType[6],testText[6], 0, 0));
 }
-
+// 加入連結
 TEST_F(ERModelTest, addConnection)
 {
 	// Attribute和Entity相連
@@ -81,6 +81,37 @@ TEST_F(ERModelTest, addConnection)
 	EXPECT_EQ(PARAMETER_ISERROR, _erModel->addConnection(14, 0, 3, "Connection0,3"));
 	// Relationship連Relationship
 	EXPECT_EQ(PARAMETER_ISERROR, _erModel->addConnection(14, 2, 7, "Connection2,7"));
+}
+// Connection設定
+/*
+void ERModel::connectionSetting( Component* sourceNode, Component* destinationNode, string text )
+{
+sourceNode->connectTo(destinationNode);
+
+if (checkSetCardinality(sourceNode->getID(), destinationNode->getID()))
+setCardinality(sourceNode, destinationNode, text);
+}
+
+"A0", "E1", "R2", "A3", "A4", "A5", "E6", "R7", "E8", "E9"
+*/
+TEST_F(ERModelTest, connectionSetting)
+{
+	// Attribute和Entity相連
+	EXPECT_EQ(0, _erModel->_components[0]->getConnections().size());
+	EXPECT_EQ(0, _erModel->_components[1]->getConnections().size());
+
+	_erModel->connectionSetting(_erModel->_components[0], _erModel->_components[1], "");
+	EXPECT_EQ(1, _erModel->_components[0]->getConnections().size());
+	EXPECT_EQ(1, _erModel->_components[1]->getConnections().size());
+
+	// Entity 和Relation 相連，設Cardinality
+	EXPECT_EQ(0, static_cast<NodeRelationship*>(_erModel->_components[2])->getEntityCardinality().size());
+	EXPECT_EQ(0, _erModel->_components[2]->getConnections().size());
+	_erModel->connectionSetting(_erModel->_components[1], _erModel->_components[2], "1");
+
+	EXPECT_EQ(2, _erModel->_components[1]->getConnections().size());
+	EXPECT_EQ(1, _erModel->_components[2]->getConnections().size());
+	EXPECT_EQ(1, static_cast<NodeRelationship*>(_erModel->_components[2])->getEntityCardinality().size());
 }
 
 TEST_F(ERModelTest, checkConnectionState)
@@ -1293,7 +1324,7 @@ TEST_F(ERModelTest, changeText)
 	EXPECT_EQ("Edited R2", _erModel->_components[2]->getText());
 }
 
-// "A0", "E1", "R2", "A3", "A4", "A5", "E6", "R7", "E8", "E9"
+// 重置剪貼簿
 TEST_F(ERModelTest, resetClipboard)
 {
 	EXPECT_EQ(0, _erModel->_clipboard.size());
@@ -1302,63 +1333,16 @@ TEST_F(ERModelTest, resetClipboard)
 	_erModel->_clipboard.push_back(_erModel->_components[2]->deepClone());
 	_erModel->_clipboard.push_back(_erModel->_components[5]->deepClone());
 
+	_erModel->_recoredIDBoard.push_back(make_pair(0,10));
+	_erModel->_recoredIDBoard.push_back(make_pair(2,11));
+	_erModel->_recoredIDBoard.push_back(make_pair(5,12));
+
 	EXPECT_EQ(3, _erModel->_clipboard.size());
+	EXPECT_EQ(3, _erModel->_recoredIDBoard.size());
 	_erModel->resetClipboard();
 	EXPECT_EQ(0, _erModel->_clipboard.size());
+	EXPECT_EQ(0, _erModel->_recoredIDBoard.size());
 }
-
-// 測試剪下功能
-TEST_F(ERModelTest, cutComponentGroup)
-{
-	EXPECT_EQ(0, _erModel->_clipboard.size());
-
-	vector<int> targetNodeIDSet;
-	targetNodeIDSet.push_back(0);
-	targetNodeIDSet.push_back(1);
-
-	_erModel->cutComponentGroup(targetNodeIDSet);
-
-	EXPECT_EQ(2, _erModel->_clipboard.size());
-	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
-	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
-
-	targetNodeIDSet.push_back(2);
-	targetNodeIDSet.push_back(7);
-	_erModel->cutComponentGroup(targetNodeIDSet);
-	
-	EXPECT_EQ(4, _erModel->_clipboard.size());
-	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
-	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
-	EXPECT_EQ("R2", _erModel->_clipboard[2]->getText());
-	EXPECT_EQ("R7", _erModel->_clipboard[3]->getText());
-}
-
-// 測試複製功能
-TEST_F(ERModelTest, copyComponentGroup)
-{
-	EXPECT_EQ(0, _erModel->_clipboard.size());
-
-	vector<int> targetNodeIDSet;
-	targetNodeIDSet.push_back(0);
-	targetNodeIDSet.push_back(1);
-
-	_erModel->cutComponentGroup(targetNodeIDSet);
-
-	EXPECT_EQ(2, _erModel->_clipboard.size());
-	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
-	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
-
-	targetNodeIDSet.push_back(2);
-	targetNodeIDSet.push_back(7);
-	_erModel->cutComponentGroup(targetNodeIDSet);
-
-	EXPECT_EQ(4, _erModel->_clipboard.size());
-	EXPECT_EQ("A0", _erModel->_clipboard[0]->getText());
-	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
-	EXPECT_EQ("R2", _erModel->_clipboard[2]->getText());
-	EXPECT_EQ("R7", _erModel->_clipboard[3]->getText());
-}
-
 
 // 測試複製Component到剪貼簿
 TEST_F(ERModelTest, cloneItemIntoClipboard)
@@ -1393,5 +1377,13 @@ TEST_F(ERModelTest, cloneItemIntoClipboard)
 	EXPECT_EQ("E1", _erModel->_clipboard[1]->getText());
 	EXPECT_EQ("R2", _erModel->_clipboard[2]->getText());
 	EXPECT_EQ("R7", _erModel->_clipboard[3]->getText());
+}
+
+// 測試複製Component到剪貼簿
+TEST_F(ERModelTest, getTargetAttributeIsPrimaryKey)
+{
+	EXPECT_FALSE(_erModel->getTargetAttributeIsPrimaryKey(0));
+	static_cast<NodeAttribute*>(_erModel->_components[0])->setIsPrimaryKey(true);
+	EXPECT_TRUE(_erModel->getTargetAttributeIsPrimaryKey(0));
 }
 

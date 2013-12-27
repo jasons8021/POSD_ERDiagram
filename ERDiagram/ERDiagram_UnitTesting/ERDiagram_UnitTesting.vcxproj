@@ -93,13 +93,16 @@
     <ClCompile Include="..\ERDiagram\ComponentFactory.cpp" />
     <ClCompile Include="..\ERDiagram\ConnectComponentsCmd.cpp" />
     <ClCompile Include="..\ERDiagram\Connector.cpp" />
+    <ClCompile Include="..\ERDiagram\CutComponentCmd.cpp" />
     <ClCompile Include="..\ERDiagram\DeleteComponentCmd.cpp" />
     <ClCompile Include="..\ERDiagram\DeleteGroupCmd.cpp" />
     <ClCompile Include="..\ERDiagram\ERModel.cpp" />
+    <ClCompile Include="..\ERDiagram\MoveItemCmd.cpp" />
     <ClCompile Include="..\ERDiagram\Node.cpp" />
     <ClCompile Include="..\ERDiagram\NodeAttribute.cpp" />
     <ClCompile Include="..\ERDiagram\NodeEntity.cpp" />
     <ClCompile Include="..\ERDiagram\NodeRelationship.cpp" />
+    <ClCompile Include="..\ERDiagram\PasteComponentCmd.cpp" />
     <ClCompile Include="..\ERDiagram\PresentationModel.cpp" />
     <ClCompile Include="..\ERDiagram\Subject.cpp" />
     <ClCompile Include="..\ERDiagram\TextUI.cpp" />

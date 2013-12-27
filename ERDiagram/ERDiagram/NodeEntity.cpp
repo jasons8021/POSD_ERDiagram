@@ -111,3 +111,10 @@ Component* NodeEntity::deepClone()
 {
 	return new NodeEntity(*this);
 }
+
+void NodeEntity::deleteAllConnected()
+{
+	Component::deleteAllConnected();
+	_primaryKeySet.clear();
+	_foreignKeySet.clear();
+}

@@ -135,3 +135,8 @@ void Component::setSy( int newSy )
 {
 	this->_sy = newSy;
 }
+
+void Component::deleteAllConnected()
+{
+	_connections.clear();
+}

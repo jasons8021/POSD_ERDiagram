@@ -63,7 +63,7 @@ TEST_F(NodeRelationshipTest, deleteEntityCardinality){
 	_relationshipComponent->deleteEntityCardinality(5);
 	EXPECT_EQ(1, _relationshipComponent->_entityCardinalitySet.size());
 }
-
+// Clone測試
 TEST_F(NodeRelationshipTest, deepClone){
 	Component* cloneComponent = _relationshipComponent->deepClone();
 
@@ -76,4 +76,19 @@ TEST_F(NodeRelationshipTest, deepClone){
 
 	delete cloneComponent;
 	EXPECT_EQ("UnitTestRelationshipComponent", _relationshipComponent->getText());
+}
+
+// 測試刪除全部的Connect
+TEST_F(NodeRelationshipTest, deleteAllConnected){
+	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
+	_relationshipComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5", 0, 0));
+
+	_relationshipComponent->setEntityCardinality(make_pair(1,"1"));
+	EXPECT_EQ(1, _relationshipComponent->_entityCardinalitySet.size());
+	_relationshipComponent->setEntityCardinality(make_pair(5,"1"));
+	EXPECT_EQ(2, _relationshipComponent->_entityCardinalitySet.size());
+
+	_relationshipComponent->deleteAllConnected();
+	EXPECT_EQ(0, _relationshipComponent->getConnections().size());
+	EXPECT_EQ(0, _relationshipComponent->_entityCardinalitySet.size());
 }

@@ -1,6 +1,6 @@
 #include "ItemConnection.h"
 
-ItemConnection::ItemConnection( ItemComponent* sourceItem, ItemComponent* destionationItem, QString text, bool isSetCardinality) : ItemComponent( PARAMETER_CONNECTOR, text )
+ItemConnection::ItemConnection( int erModelID, ItemComponent* sourceItem, ItemComponent* destionationItem, QString text, bool isSetCardinality) : ItemComponent( erModelID, PARAMETER_CONNECTOR, text )
 {
 	_sourceItem = sourceItem;
 	_destionationItem = destionationItem;

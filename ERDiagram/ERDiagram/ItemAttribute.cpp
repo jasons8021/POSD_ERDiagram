@@ -1,5 +1,15 @@
 #include "ItemAttribute.h"
+#include "ERDiagramScene.h"
 
+ItemAttribute::ItemAttribute( int erModelID, int sx, int sy, QString attributeText ) : ItemNode( erModelID, sx, sy, PARAMETER_ATTRIBUTE, attributeText )
+{
+	setPath();
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	setAcceptsHoverEvents(true);
+	_isPrimaryKey = false;
+}
+
+// preview Item¨Ï¥Î
 ItemAttribute::ItemAttribute( int sx, int sy, QString attributeText ) : ItemNode( sx, sy, PARAMETER_ATTRIBUTE, attributeText )
 {
 	setPath();

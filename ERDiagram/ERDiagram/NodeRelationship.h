@@ -26,6 +26,7 @@ class NodeRelationship : public Node
 	FRIEND_TEST(NodeRelationshipTest, setEntityCardinality);
 	FRIEND_TEST(NodeRelationshipTest, deleteConnectedComponent);
 	FRIEND_TEST(NodeRelationshipTest, deleteEntityCardinality);
+	FRIEND_TEST(NodeRelationshipTest, deleteAllConnected);
 public:
 	NodeRelationship(int, string, int, int);
 	virtual ~NodeRelationship();
@@ -33,6 +34,7 @@ public:
 	void deleteEntityCardinality(int);
 	vector<pair<int, string>> getEntityCardinality();
 	virtual void deleteConnectedComponent(int);
+	virtual void deleteAllConnected();
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();

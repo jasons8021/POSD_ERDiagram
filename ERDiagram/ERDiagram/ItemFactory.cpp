@@ -8,17 +8,17 @@ ItemFactory::~ItemFactory()
 {
 }
 
-ItemComponent* ItemFactory::creatItem( int sx, int sy, QString type, QString text )
+ItemComponent* ItemFactory::creatItem( int erModelID, int sx, int sy, QString type, QString text )
 {
 	if (type == PARAMETER_ATTRIBUTE)
-		return new ItemAttribute(sx, sy, text);
+		return new ItemAttribute(erModelID, sx, sy, text);
 	else if (type == PARAMETER_ENTITY)
-		return new ItemEntity(sx, sy, text);
+		return new ItemEntity(erModelID, sx, sy, text);
 	else/* if (type == PARAMETER_RELATIONSHIP)*/
-		return new ItemRelationship(sx, sy, text);
+		return new ItemRelationship(erModelID, sx, sy, text);
 }
 
-ItemComponent* ItemFactory::creatItemConnection( ItemComponent* sourceItem, ItemComponent* destinationItem, QString text, bool isSetCardinality )
+ItemComponent* ItemFactory::creatItemConnection( int erModelID, ItemComponent* sourceItem, ItemComponent* destinationItem, QString text, bool isSetCardinality )
 {
-	return new ItemConnection(sourceItem, destinationItem, text, isSetCardinality);
+	return new ItemConnection(erModelID, sourceItem, destinationItem, text, isSetCardinality);
 }

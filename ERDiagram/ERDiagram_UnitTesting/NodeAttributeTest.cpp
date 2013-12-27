@@ -41,3 +41,10 @@ TEST_F(NodeAttributeTest, deepClone){
 	delete cloneComponent;
 	EXPECT_EQ("UnitTestNodeAttributeTest", _attributeComponent->getText());
 }
+
+// Attribute只能連一個Entity，因此測試與deleteConnectedComponent相同
+TEST_F(NodeAttributeTest, deleteAllConnected){
+	_attributeComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
+	_attributeComponent->deleteConnectedComponent(1);
+	EXPECT_FALSE(_attributeComponent->_connectedEntity);
+}

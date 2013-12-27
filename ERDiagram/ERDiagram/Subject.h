@@ -21,6 +21,7 @@ public:
 	void notifyDeleteComplete(string);
 	void notifyReBuildConnection(string);
 	void notifyPasteComponent(vector<int>);
+	void notifyNewItemPosition(int, int, int);
 private:
 	vector<Observer*> _observerList;
 };

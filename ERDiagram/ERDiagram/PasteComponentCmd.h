@@ -2,6 +2,7 @@
 #define PASTECOMPONENTCMD_H_
 
 #define PARAMETER_NEXTCOMPONENTID 1
+#define PARAMETER_ISERROR -1
 
 #include "Command.h"
 #include "ERModel.h"
@@ -17,6 +18,7 @@ public:
 private:
 	ERModel* _erModel;
 	vector<int> _pasteComponentID;
+	bool _isRedo;
 };
 
 #endif

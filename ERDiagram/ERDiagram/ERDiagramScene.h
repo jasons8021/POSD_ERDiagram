@@ -62,6 +62,7 @@ public:
 	int searchERModelIDByItemID(int);
 	int searchItemIDByERModelID(int);
 	bool checkSetCardinality(int, int);
+	bool getTargetAttributeIsPrimaryKey(int);
 	void addNodeFromGUI(QString, QString, QPointF);
 	void addNodeFromLoadFile(QStringList);
 	void addConnectionFromGUI(ItemComponent*, ItemComponent*, QString);
@@ -83,12 +84,14 @@ public:
 	void sceneMouseRelease(QGraphicsSceneMouseEvent*);
 	void setItemIDandERModelID(ItemComponent*, int);
 	void updatePlaceItemPosition(QString);
-	void updateItemPosition();
+	void updateItemPositionInScene();
 	void updateAddNewItem(int, QString, QString, QPointF);
 	void updateConnection(int, int, int, QString);
 	void updateDeleteItem(QString);
 	void updateReBuildConnection(QString);
+	void updateItemPosition(int, QPointF);
 	void setSelectedItem(QVector<int>);
+	void movedItemPosition(int, QPointF);
 	QString getTargetItemType(int);
 	QPointF getPlaceItemPosition(QString);
 	ItemComponent* getItemInPosition(QPointF);
@@ -97,6 +100,8 @@ public:
 	ItemComponent* addConnection(int, ItemComponent*, ItemComponent*, QString);
 	QVector<QStringList> splitTextData(QString);
 	QVector<int> searchItemIsSelected();
+
+	void testPos();
 private:
 	int _currentMode;
 	GUI* _gui;

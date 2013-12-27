@@ -363,7 +363,7 @@ string PresentationModel::getConnection_GUI()
 }
 
 // 回傳給GUI所需要的PK Set的字串
-string PresentationModel::getPrimaryKey_GUI()
+string PresentationModel::getPrimaryKeySet_GUI()
 {
 	return _erModel->getPrimaryKeyForGUI();
 }
@@ -409,7 +409,6 @@ void PresentationModel::detachObserver( Observer* observer )
 void PresentationModel::addNodeCmd( string type, string text, int sx, int sy )
 {
 	_cmdManager.execute(new AddComponentCmd(_erModel, type, text, sx, sy));
-
 }
 
 void PresentationModel::addConnectionCmd( int sourceNodeID, int destinationNodeID, string text )
@@ -447,6 +446,11 @@ void PresentationModel::pasteComponentCmd()
 	_cmdManager.execute(new PasteComponentCmd(_erModel));
 }
 
+void PresentationModel::moveItemCmd( int componentID, int newSx, int newSy )
+{
+	_cmdManager.execute(new MoveItemCmd(_erModel, componentID, newSx, newSy));
+}
+
 bool PresentationModel::undoCmd()
 {
 	return _cmdManager.undo();
@@ -475,4 +479,9 @@ void PresentationModel::clearERModelComponent()
 void PresentationModel::copyComponent( vector<int> componentIDSet )
 {
 	_erModel->copyComponent(componentIDSet);
+}
+
+bool PresentationModel::getTargetAttributeIsPrimaryKey( int componentID )
+{
+	return _erModel->getTargetAttributeIsPrimaryKey(componentID);
 }
