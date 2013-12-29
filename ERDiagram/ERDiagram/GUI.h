@@ -50,7 +50,7 @@ public:
 	void changePrimaryKey(int, bool);
 	void changeItemText(int, QString);
 	void changeToPointerMode();
-	void movedItemPosition(int, QPointF);
+	void movedItemPosition(QVector<int>, QPointF);
 	// §ïÅÜButtonªºenable
 	void changeEditActionEnable(bool);
 	void changeUnRedoActionEnable();

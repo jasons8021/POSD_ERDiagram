@@ -192,8 +192,26 @@
     <ClCompile Include="..\ERDiagram\CutComponentCmd.cpp">
       <Filter>Resource Files\CommandPattern</Filter>
     </ClCompile>
-    <ClCompile Include="..\ERDiagram\MoveItemCmd.cpp">
+    <ClCompile Include="..\ERDiagram\MoveComponentCmd.cpp">
       <Filter>Resource Files\CommandPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="PasteComponentCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangePrimaryKeyCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeTextCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="CutComponentCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteGroupCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveComponentCmdTest.cpp">
+      <Filter>Source Files\CommandPatternTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +256,24 @@
     </ClInclude>
     <ClInclude Include="ToolkitTest.h">
       <Filter>Header Files\Toolkit</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangePrimaryKeyCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="PasteComponentCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeTextCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="CutComponentCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteGroupCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveComponentCmdTest.h">
+      <Filter>Header Files\CommandPatternTest</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

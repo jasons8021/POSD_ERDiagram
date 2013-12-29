@@ -125,6 +125,13 @@ class ERModel : public Subject
  	FRIEND_TEST(ERModelTest, connectionSetting);
 	FRIEND_TEST(ERModelTest, resetClipboard);
 	FRIEND_TEST(ERModelTest, getTargetAttributeIsPrimaryKey);
+	FRIEND_TEST(ERModelTest, arrangeConnectorFirst);
+	FRIEND_TEST(ERModelTest, recordNewCloneComponentID);
+	FRIEND_TEST(ERModelTest, movedComponentPosition);
+	FRIEND_TEST(ERModelTest, addClone);
+	FRIEND_TEST(ERModelTest, addCloneComponent);
+	FRIEND_TEST(ERModelTest, addCloneConnection);
+	FRIEND_TEST(ERModelTest, retrieveNewCloneID);
 
 	friend class AddComponentCmdTest;
 	FRIEND_TEST(AddComponentCmdTest, execute);
@@ -138,6 +145,30 @@ class ERModel : public Subject
 	FRIEND_TEST(DeleteComponentCmdTest, execute);
 	FRIEND_TEST(DeleteComponentCmdTest, unexecute);
 
+	friend class ChangePrimaryKeyCmdTest;
+	FRIEND_TEST(ChangePrimaryKeyCmdTest, execute);
+	FRIEND_TEST(ChangePrimaryKeyCmdTest, unexecute);
+
+	friend class ChangeTextCmdTest;
+	FRIEND_TEST(ChangeTextCmdTest, execute);
+	FRIEND_TEST(ChangeTextCmdTest, unexecute);
+
+	friend class CutComponentCmdTest;
+	FRIEND_TEST(CutComponentCmdTest, execute);
+	FRIEND_TEST(CutComponentCmdTest, unexecute);
+
+	friend class DeleteGroupCmdTest;
+	FRIEND_TEST(DeleteGroupCmdTest, execute);
+	FRIEND_TEST(DeleteGroupCmdTest, unexecute);
+
+	friend class MoveComponentCmdTest;
+	FRIEND_TEST(MoveComponentCmdTest, execute);
+	FRIEND_TEST(MoveComponentCmdTest, unexecute);
+
+	friend class PasteComponentCmdTest;
+	FRIEND_TEST(PasteComponentCmdTest, execute);
+	FRIEND_TEST(PasteComponentCmdTest, unexecute);
+	
 	friend class CommandManagerTest;
 	FRIEND_TEST(CommandManagerTest, execute);
 
@@ -159,7 +190,16 @@ class ERModel : public Subject
 	FRIEND_TEST(PresentationModelTest, redoCmd);
  	FRIEND_TEST(PresentationModelTest, changePrimaryKeyCmd);
  	FRIEND_TEST(PresentationModelTest, changeTextCmd);
-// 	FRIEND_TEST(PresentationModelTest, );
+ 	FRIEND_TEST(PresentationModelTest, deleteGroupCmd);
+	FRIEND_TEST(PresentationModelTest, cutComponentCmd);
+	FRIEND_TEST(PresentationModelTest, copyComponent);
+	FRIEND_TEST(PresentationModelTest, pasteComponentCmd);
+	FRIEND_TEST(PresentationModelTest, moveItemCmd);
+
+	friend class PasteComponentCmdTest;
+	FRIEND_TEST(PasteComponentCmdTest, execute);
+	FRIEND_TEST(PasteComponentCmdTest, unexecute);
+
 public:
 	ERModel();
 	virtual ~ERModel();
@@ -171,6 +211,10 @@ public:
 	int getConnectionTableSize();
 	int getComponentID();
 	int recoveryConnection(vector<string>, int, string);
+	int addClone(Component*);
+	int addCloneComponent(Component*);
+	int addCloneConnection(Component*);
+	int retrieveNewCloneID(int);
 	void resetERModel();
 	void setCardinality(Component*, Component*, string);
 	void setPrimaryKey(int, vector<int>);
@@ -194,6 +238,8 @@ public:
 	void copyComponent(vector<int>);
 	void cloneItemIntoClipboard(vector<int>);
 	void resetClipboard();
+	void recordNewCloneComponentID(int, int);
+	void movedComponentPosition(int, int, int);
 	bool searchComponentExist(string, string);
 	bool connectedItself(Component*, Component*);
 	bool connectedTypeCheck(Component*, Component*);
@@ -220,6 +266,7 @@ public:
 	string savePrimaryKeyTable();
 	Component* searchComponent(int);
 	vector<int> oneToOne(NodeRelationship*);
+	vector<int> arrangeConnectorFirst(vector<int>);
 	vector<Component*> searchSpecificTypeComponentSet(string, vector<Component*>);
 	vector<Component*> searchConnection(int);
 	vector<Component*> searchRelatedComponent(int);
@@ -231,16 +278,6 @@ public:
 	string getComponentForGUI();
 	string getConnectionForGUI();
 	string getPrimaryKeyForGUI();
-
-	///////////////////////////////////////////////////////////////////
-	vector<int> arrangeConnectorFirst(vector<int>);
-	void recordNewCloneComponentID(int, int);
-	void movedComponentPosition(int, int, int);
-	int addClone(Component*);
-	int addCloneComponent(Component*);
-	int addCloneConnection(Component*);
-	int retrieveNewCloneID(int);
-	///////////////////////////////////////////////////////////////////
 private:
 	int _componentID;
 	bool _isModify;

@@ -446,9 +446,9 @@ void PresentationModel::pasteComponentCmd()
 	_cmdManager.execute(new PasteComponentCmd(_erModel));
 }
 
-void PresentationModel::moveItemCmd( int componentID, int newSx, int newSy )
+void PresentationModel::moveItemCmd( vector<int> componentIDSet, int moveDistance_x, int moveDistance_y )
 {
-	_cmdManager.execute(new MoveItemCmd(_erModel, componentID, newSx, newSy));
+	_cmdManager.execute(new MoveComponentCmd(_erModel, componentIDSet, moveDistance_x, moveDistance_y));
 }
 
 bool PresentationModel::undoCmd()

@@ -10,6 +10,9 @@
 
 class PasteComponentCmd : public Command
 {
+	friend class PasteComponentCmdTest;
+	FRIEND_TEST(PasteComponentCmdTest, execute);
+	FRIEND_TEST(PasteComponentCmdTest, unexecute);
 public:
 	PasteComponentCmd(ERModel*);
 	virtual ~PasteComponentCmd();

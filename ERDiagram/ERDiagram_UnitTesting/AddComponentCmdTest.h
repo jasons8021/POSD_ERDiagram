@@ -17,7 +17,6 @@
 class AddComponentCmdTest : public :: testing :: Test
 {
 protected:
-	
 	ERModel* _erModel;
 	AddComponentCmd* _addComponentCmd;
 	virtual void SetUp();

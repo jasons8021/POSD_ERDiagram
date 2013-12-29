@@ -95,7 +95,7 @@
 #include "DeleteGroupCmd.h"
 #include "CutComponentCmd.h"
 #include "PasteComponentCmd.h"
-#include "MoveItemCmd.h"
+#include "MoveComponentCmd.h"
 #include "Toolkit.h"
 #include "Observer.h"
 
@@ -149,7 +149,11 @@ public:
 	void deleteCmd(int);
 	void changeTextCmd(int, string);
 	void changePrimaryKeyCmd(int, bool);
-	
+	void deleteGroupCmd(vector<int>);
+	void cutComponentCmd(vector<int>);
+	void copyComponent(vector<int>);
+	void pasteComponentCmd();
+	void moveItemCmd(vector<int>, int, int);
 	bool undoCmd();
 	bool redoCmd();
 	int getUndoCmdsSize();
@@ -161,17 +165,11 @@ public:
 	bool addConnectionCmd_GUI(int, int, string);
 	int getComponentID();
 	bool getTargetAttributeIsPrimaryKey(int);
-	//////////////////////////////////////////////////////
+	
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);
 
-	void deleteGroupCmd(vector<int>);
-	void cutComponentCmd(vector<int>);
-	void copyComponent(vector<int>);
-	void pasteComponentCmd();
-	void moveItemCmd(int, int, int);
-	//////////////////////////////////////////////////////
 	void clearERModelComponent();
 
 private:

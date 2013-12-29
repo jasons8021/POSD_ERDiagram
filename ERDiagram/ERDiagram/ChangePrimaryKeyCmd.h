@@ -7,6 +7,9 @@
 
 class ChangePrimaryKeyCmd : public Command
 {
+	friend class ChangePrimaryKeyCmdTest;
+	FRIEND_TEST(ChangePrimaryKeyCmdTest, execute);
+	FRIEND_TEST(ChangePrimaryKeyCmdTest, unexecute);
 public:
 	ChangePrimaryKeyCmd(ERModel*, int, bool);
 	virtual ~ChangePrimaryKeyCmd();

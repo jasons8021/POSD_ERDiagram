@@ -670,3 +670,86 @@ TEST_F(PresentationModelTest, changeTextCmd)
 	_presentationModel->changeTextCmd(2,"Edited R2");
 	EXPECT_EQ("Edited R2", _erModel->_components[2]->getText());
 }
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+// 測試刪除多個
+TEST_F(PresentationModelTest, deleteGroupCmd)
+{
+	vector<int> testIDSet;
+	testIDSet.push_back(1);
+	testIDSet.push_back(2);
+	testIDSet.push_back(3);
+
+	_presentationModel->deleteGroupCmd(testIDSet);
+	EXPECT_EQ(7, _erModel->_components.size());
+}
+
+// 測試剪下
+TEST_F(PresentationModelTest, cutComponentCmd)
+{
+	vector<int> testIDSet;
+	testIDSet.push_back(1);
+	testIDSet.push_back(2);
+	testIDSet.push_back(3);
+
+	_presentationModel->cutComponentCmd(testIDSet);
+	EXPECT_EQ(7, _erModel->_components.size());
+	EXPECT_EQ(3, _erModel->_clipboard.size());
+	EXPECT_EQ(1, _erModel->_clipboard[0]->getID());
+	EXPECT_EQ(2, _erModel->_clipboard[1]->getID());
+	EXPECT_EQ(3, _erModel->_clipboard[2]->getID());
+}
+
+// 測試複製
+TEST_F(PresentationModelTest, copyComponent)
+{
+	vector<int> testIDSet;
+	testIDSet.push_back(1);
+	testIDSet.push_back(2);
+	testIDSet.push_back(3);
+
+	_presentationModel->copyComponent(testIDSet);
+	EXPECT_EQ(3, _erModel->_clipboard.size());
+	EXPECT_EQ(1, _erModel->_clipboard[0]->getID());
+	EXPECT_EQ(2, _erModel->_clipboard[1]->getID());
+	EXPECT_EQ(3, _erModel->_clipboard[2]->getID());
+}
+
+// 測試貼上
+TEST_F(PresentationModelTest, pasteComponentCmd)
+{
+	_erModel->addConnection(10, 0, 1, PARAMETER_NULL);
+	_erModel->_componentID++;
+
+	// 完整
+	_erModel->_clipboard.push_back(_erModel->_components[0]->deepClone());
+	_erModel->_clipboard.push_back(_erModel->_components[9]->deepClone());
+	_erModel->_clipboard.push_back(_erModel->_components[1]->deepClone());
+	_erModel->_clipboard.push_back(_erModel->_components[10]->deepClone());
+
+	_presentationModel->pasteComponentCmd();
+
+	EXPECT_EQ(15, _erModel->_components.size());
+	EXPECT_EQ(11, static_cast<Connector*>(_erModel->_components[14])->getSourceNodeID());
+	EXPECT_EQ(13, static_cast<Connector*>(_erModel->_components[14])->getDestinationNodeID());
+}
+
+// 測試移動
+TEST_F(PresentationModelTest, moveItemCmd)
+{
+	vector<int> testIDSet;
+	testIDSet.push_back(1);
+	testIDSet.push_back(2);
+	testIDSet.push_back(3);
+
+	_presentationModel->moveItemCmd(testIDSet, 50, 50);
+
+	EXPECT_EQ(50, _erModel->_components[1]->getSx());
+	EXPECT_EQ(50, _erModel->_components[1]->getSy());
+	EXPECT_EQ(50, _erModel->_components[2]->getSx());
+	EXPECT_EQ(50, _erModel->_components[2]->getSy());
+	EXPECT_EQ(50, _erModel->_components[3]->getSx());
+	EXPECT_EQ(50, _erModel->_components[3]->getSy());
+}

@@ -7,6 +7,9 @@
 
 class CutComponentCmd : public Command
 {
+	friend class CutComponentCmdTest;
+	FRIEND_TEST(CutComponentCmdTest, execute);
+	FRIEND_TEST(CutComponentCmdTest, unexecute);
 public:
 	CutComponentCmd(ERModel*, vector<int>);
 	virtual ~CutComponentCmd();

@@ -13,6 +13,9 @@ using namespace std;
 
 class DeleteGroupCmd : public Command
 {
+	friend class DeleteGroupCmdTest;
+	FRIEND_TEST(DeleteGroupCmdTest, execute);
+	FRIEND_TEST(DeleteGroupCmdTest, unexecute);
 public:
 	DeleteGroupCmd(ERModel*, vector<int>);
 	virtual ~DeleteGroupCmd();

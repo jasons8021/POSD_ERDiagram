@@ -1387,3 +1387,143 @@ TEST_F(ERModelTest, getTargetAttributeIsPrimaryKey)
 	EXPECT_TRUE(_erModel->getTargetAttributeIsPrimaryKey(0));
 }
 
+// 測試複製Clone
+TEST_F(ERModelTest, addClone)
+{
+	_erModel->addConnection(10, 0, 1, PARAMETER_NULL);
+	_erModel->_componentID++;
+
+	// 加入Component
+	EXPECT_EQ(11, _erModel->addClone(_erModel->_components[0]->deepClone()));
+	EXPECT_EQ(0, _erModel->_components[11]->getConnections().size());
+	EXPECT_EQ(12, _erModel->_componentID);
+	EXPECT_EQ(12, _erModel->_components.size());
+
+	EXPECT_EQ(12, _erModel->addClone(_erModel->_components[1]->deepClone()));
+	EXPECT_EQ(0, _erModel->_components[12]->getConnections().size());
+	EXPECT_EQ(13, _erModel->_componentID);
+	EXPECT_EQ(13, _erModel->_components.size());
+
+	// 加入Connector
+	_erModel->_recoredIDBoard.push_back(make_pair(0, 11));
+	_erModel->_recoredIDBoard.push_back(make_pair(1, 12));
+	EXPECT_EQ(2, _erModel->_recoredIDBoard.size());
+	EXPECT_EQ(13, _erModel->addClone(_erModel->_components[10]->deepClone()));
+	EXPECT_EQ(14, _erModel->_components.size());
+	EXPECT_EQ(2, _erModel->_connections.size());
+	EXPECT_EQ(11, static_cast<Connector*>(_erModel->_components[13])->getSourceNodeID());
+	EXPECT_EQ(12, static_cast<Connector*>(_erModel->_components[13])->getDestinationNodeID());
+}
+
+// 測試複製Component
+TEST_F(ERModelTest, addCloneComponent)
+{
+	_erModel->addConnection(10, 0, 1, PARAMETER_NULL);
+	_erModel->_componentID++;
+
+ 	EXPECT_EQ(11, _erModel->addCloneComponent(_erModel->_components[1]->deepClone()));
+	EXPECT_EQ(0, _erModel->_components[11]->getConnections().size());
+	EXPECT_EQ(12, _erModel->_componentID);
+	EXPECT_EQ(10, _erModel->_components[11]->getSx());
+	EXPECT_EQ(10, _erModel->_components[11]->getSy());
+	EXPECT_EQ(12, _erModel->_components.size());
+}
+
+// 測試複製Connector
+TEST_F(ERModelTest, addCloneConnection)
+{
+	// 錯誤
+	_erModel->addConnection(10, 0, 1, PARAMETER_NULL);
+	_erModel->_componentID++;
+	EXPECT_EQ(-1, _erModel->addCloneConnection(_erModel->_components[10]->deepClone()));
+
+	_erModel->addCloneComponent(_erModel->_components[0]->deepClone());
+	_erModel->_recoredIDBoard.push_back(make_pair(0, 11));
+	EXPECT_EQ(-1, _erModel->addCloneConnection(_erModel->_components[10]->deepClone()));
+	EXPECT_EQ(0, _erModel->_recoredIDBoard.size());
+
+	// 正確
+ 	_erModel->_recoredIDBoard.push_back(make_pair(0, 11));
+ 	_erModel->addCloneComponent(_erModel->_components[1]->deepClone());
+ 	_erModel->_recoredIDBoard.push_back(make_pair(1, 12));
+	EXPECT_EQ(2, _erModel->_recoredIDBoard.size());
+	EXPECT_EQ(13, _erModel->_components.size());
+ 	EXPECT_EQ(13, _erModel->addCloneConnection(_erModel->_components[10]->deepClone()));
+	EXPECT_EQ(14, _erModel->_components.size());
+	EXPECT_EQ(2, _erModel->_connections.size());
+	EXPECT_EQ(11, static_cast<Connector*>(_erModel->_components[13])->getSourceNodeID());
+	EXPECT_EQ(12, static_cast<Connector*>(_erModel->_components[13])->getDestinationNodeID());
+
+}
+
+// 取得新的CloneID，並刪除recordBoard中的記錄
+TEST_F(ERModelTest, retrieveNewCloneID)
+{
+	EXPECT_EQ(-1, _erModel->retrieveNewCloneID(0));
+	EXPECT_EQ(0, _erModel->_recoredIDBoard.size());
+
+	_erModel->_recoredIDBoard.push_back(make_pair(0, 11));
+	_erModel->_recoredIDBoard.push_back(make_pair(1, 12));
+	EXPECT_EQ(11, _erModel->retrieveNewCloneID(0));
+	EXPECT_EQ(1, _erModel->_recoredIDBoard.size());
+	EXPECT_EQ(12, _erModel->retrieveNewCloneID(1));
+	EXPECT_EQ(0, _erModel->_recoredIDBoard.size());
+
+}
+
+// 測試將Connector排到前面
+TEST_F(ERModelTest, arrangeConnectorFirst)
+{
+	_erModel->addConnection(10, 0, 1, PARAMETER_NULL);
+	_erModel->_componentID++;
+
+	vector<int> testIDSet;
+	testIDSet.push_back(0);
+	testIDSet.push_back(1);
+	testIDSet.push_back(7);
+	testIDSet.push_back(10);
+	testIDSet.push_back(4);
+	testIDSet.push_back(5);
+	
+
+	vector<int> testArrangeIDSet;
+	testArrangeIDSet.push_back(10);
+	testArrangeIDSet.push_back(0);
+	testArrangeIDSet.push_back(1);
+	testArrangeIDSet.push_back(7);
+	testArrangeIDSet.push_back(4);
+	testArrangeIDSet.push_back(5);
+
+	EXPECT_EQ(testArrangeIDSet, _erModel->arrangeConnectorFirst(testIDSet));
+}
+
+// 測試加入一組新的原本ID跟CloneID的pair
+TEST_F(ERModelTest, recordNewCloneComponentID)
+{
+	_erModel->recordNewCloneComponentID(0, 11);
+	_erModel->recordNewCloneComponentID(1, 12);
+	EXPECT_EQ(0, _erModel->_recoredIDBoard[0].first);
+	EXPECT_EQ(11, _erModel->_recoredIDBoard[0].second);
+	EXPECT_EQ(1, _erModel->_recoredIDBoard[1].first);
+	EXPECT_EQ(12, _erModel->_recoredIDBoard[1].second);
+}
+
+// 測試更新Component位置
+TEST_F(ERModelTest, movedComponentPosition)
+{
+	// 移動前
+	EXPECT_EQ(0, _erModel->_components[0]->getSx());
+	EXPECT_EQ(0, _erModel->_components[0]->getSy());
+
+	// 移動正值
+	_erModel->movedComponentPosition(0, 50, 50);
+	EXPECT_EQ(50, _erModel->_components[0]->getSx());
+	EXPECT_EQ(50, _erModel->_components[0]->getSy());
+
+	// 移動負值
+	_erModel->movedComponentPosition(0, -10, -10);
+	EXPECT_EQ(40, _erModel->_components[0]->getSx());
+	EXPECT_EQ(40, _erModel->_components[0]->getSy());
+
+}
+

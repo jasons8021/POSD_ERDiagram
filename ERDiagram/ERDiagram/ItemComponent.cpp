@@ -48,7 +48,6 @@ void ItemComponent::setTextBoundingRectangle(int sx, int sy)
 {
 	// QRect第一二個參數是方形的左上角座標，第三個參數是長、第四個是寬
 	_textBoundingRectangle = QRect(sx, sy, caculateTextWidth(_text) + PARAMETER_ADJUSTWIDTH, PARAMETER_ITEMHEIGHT);
-	qDebug()<<"setTextBoundingRectangle"<<_textBoundingRectangle;
 	_itemWidth = _textBoundingRectangle.width();
 	_itemHeight = _textBoundingRectangle.height();
 }
@@ -161,9 +160,7 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mousePressEvent(event);
  	_scene->changeEditActionEnable(true);
-	mousePressPoint = event->scenePos();
-
-	qDebug()<<"\n===================================\nOriginal = ("<<_sx<<","<<_sy<<")\n===================================\n";
+	mousePressPoint = this->mapToParent(this->mapFromScene(event->scenePos()));
 
 // 	qDebug()<<"ERModel ID = "<<_erModelID;
 // 	qDebug()<<"Item ID = "<<_itemID;
@@ -173,9 +170,12 @@ void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mouseReleaseEvent(event);
 	QPointF mouseReleasePoint = event->scenePos();
-	//QPointF(_sx, _sy) + (mouseReleasePoint - mousePressPoint)
-	_scene->movedItemPosition(_erModelID, QPointF(_sx, _sy) + event->lastScenePos()-event->buttonDownScenePos(Qt::LeftButton));
-	qDebug()<<"\n===================================\nDestination = ("<<_sx<<","<<_sy<<")\n===================================\n";
+
+	// 傳回值為ERModel ID
+	QVector<int> selectedItemSet = _scene->searchItemIsSelected();
+
+	_scene->movedItemPosition(selectedItemSet, mouseReleasePoint - mousePressPoint);
+
 	// 位置有改變，呼叫scene去更新
 	_scene->updateItemPositionInScene();
 }
@@ -183,7 +183,7 @@ void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 void ItemComponent::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
 	QGraphicsItem::mouseMoveEvent(event);
-	qDebug()<<event->scenePos()<<"\n";
+
 	// 位置有改變，呼叫scene去更新
 	_scene->updateItemPositionInScene();
 }
@@ -231,14 +231,8 @@ int ItemComponent::getERModelID()
 
 void ItemComponent::setPosition( QPointF newPosition )
 {
-	_sx = newPosition.x();
-	_sy = newPosition.y();
+	_sx = _sx + newPosition.x();
+	_sy = _sy + newPosition.y();
 	setTextBoundingRectangle(_sx, _sy);
 	setPath();
-}
-
-// 座標系統須經過校正才會呈現在正確的位置上
-QPointF ItemComponent::adjustPosition( QPointF mousePoint )
-{
-	return mousePoint - getItemCenter() - QPointF(_textWidth/2,0);
 }

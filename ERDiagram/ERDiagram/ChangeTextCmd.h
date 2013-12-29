@@ -8,6 +8,9 @@
 
 class ChangeTextCmd : public Command
 {
+	friend class ChangeTextCmdTest;
+	FRIEND_TEST(ChangeTextCmdTest, execute);
+	FRIEND_TEST(ChangeTextCmdTest, unexecute);
 public:
 	ChangeTextCmd(ERModel*, int, string);
 	virtual ~ChangeTextCmd();

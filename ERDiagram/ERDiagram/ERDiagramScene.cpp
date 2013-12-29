@@ -462,9 +462,9 @@ void ERDiagramScene::testPos()
 	update();
 }
 
-void ERDiagramScene::movedItemPosition( int erModelID, QPointF newPosition )
+void ERDiagramScene::movedItemPosition( QVector<int> beSelectedErModelIDSet, QPointF newPosition )
 {
-	_gui->movedItemPosition(erModelID, newPosition);
+	_gui->movedItemPosition(beSelectedErModelIDSet, newPosition);
 }
 
 void ERDiagramScene::updateItemPosition( int erModelID, QPointF newPosition )

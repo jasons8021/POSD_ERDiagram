@@ -91,7 +91,7 @@ public:
 	void updateReBuildConnection(QString);
 	void updateItemPosition(int, QPointF);
 	void setSelectedItem(QVector<int>);
-	void movedItemPosition(int, QPointF);
+	void movedItemPosition(QVector<int>, QPointF);
 	QString getTargetItemType(int);
 	QPointF getPlaceItemPosition(QString);
 	ItemComponent* getItemInPosition(QPointF);

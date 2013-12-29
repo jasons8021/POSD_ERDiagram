@@ -357,9 +357,9 @@ void GUI::updateReBuildConnection( string relatedConnectionSet )
 	_scene->updateReBuildConnection(stringConvertQString(relatedConnectionSet));
 }
 
-void GUI::updateItemPosition( int componentID, int newSx, int newSy )
+void GUI::updateItemPosition( int componentID, int moveDistance_x, int moveDistance_y )
 {
-	_scene->updateItemPosition(componentID, QPointF(newSx, newSy));
+	_scene->updateItemPosition(componentID, QPointF(moveDistance_x, moveDistance_y));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -458,9 +458,9 @@ int GUI::getERModelComponentID()
 }
 
 // 移動後通知Model位置改變
-void GUI::movedItemPosition( int targetID, QPointF newPosition )
+void GUI::movedItemPosition( QVector<int> targetIDSet, QPointF newPosition )
 {
-	_presentationModel->moveItemCmd(targetID, newPosition.x(), newPosition.y());
+	_presentationModel->moveItemCmd(targetIDSet.toStdVector(), newPosition.x(), newPosition.y());
 }
 
 // 復原

@@ -10,6 +10,7 @@ ERModel::ERModel()
 ERModel::~ERModel()
 {
 	resetERModel();
+	resetClipboard();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -1080,9 +1081,9 @@ bool ERModel::getTargetAttributeIsPrimaryKey( int targetNodeID )
 	return targetAttribute->getIsPrimaryKey();
 }
 
-void ERModel::movedComponentPosition( int targetNodeID, int newSx, int newSy )
+void ERModel::movedComponentPosition( int targetNodeID, int moveDistance_x, int moveDistance_y )
 {
 	Component* movedComponent = searchComponent(targetNodeID);
-	movedComponent->setSx(newSx);
-	movedComponent->setSy(newSy);
+	movedComponent->setSx(movedComponent->getSx() + moveDistance_x);
+	movedComponent->setSy(movedComponent->getSy() + moveDistance_y);
 }

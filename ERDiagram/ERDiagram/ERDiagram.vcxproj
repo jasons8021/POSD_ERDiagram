@@ -133,7 +133,7 @@
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemNode.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MoveItemCmd.cpp" />
+    <ClCompile Include="MoveComponentCmd.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeAttribute.cpp" />
     <ClCompile Include="NodeEntity.cpp" />
@@ -205,7 +205,7 @@
     </CustomBuild>
     <ClInclude Include="ItemFactory.h" />
     <ClInclude Include="ItemNode.h" />
-    <ClInclude Include="MoveItemCmd.h" />
+    <ClInclude Include="MoveComponentCmd.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NodeAttribute.h" />
     <ClInclude Include="NodeEntity.h" />
