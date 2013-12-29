@@ -933,7 +933,20 @@ void ERModel::changeText( int targetNodeID, string editedText )
 
 void ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
-	static_cast<NodeAttribute*>(searchComponent(targetNodeID))->setIsPrimaryKey(isPrimaryKey);
+	Component* targetNode = searchComponent(targetNodeID);
+	static_cast<NodeAttribute*>(targetNode)->setIsPrimaryKey(isPrimaryKey);
+
+	// Attribute如果有Connect的話，一定是跟Entity並且只有一個，所以當Attribute的PK變化的時候，Entity的PK也會改變
+	if (targetNode->getConnections().size() != PARAMETER_ZEROCOMPONENT)
+	{
+		int relatedEntityID = targetNode->getConnections()[0]->getID();
+		NodeEntity* relatedEntity = static_cast<NodeEntity*>(searchComponent(relatedEntityID));
+
+		if (isPrimaryKey)
+			relatedEntity->setPrimaryKey(targetNode->getID());
+		else
+			relatedEntity->deleteKeys(targetNodeID);
+	}
 }
 
 void ERModel::notifyTextChanged( int targetNodeID, string editedText )

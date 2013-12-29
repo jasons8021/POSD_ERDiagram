@@ -1309,6 +1309,16 @@ TEST_F(ERModelTest, changePrimaryKey)
 	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
 	_erModel->changePrimaryKey(0,false);
 	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+
+	_erModel->addConnection(10, 0, 1, "");
+	_erModel->_componentID++;
+
+	_erModel->changePrimaryKey(0,true);
+	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+	EXPECT_EQ(1, static_cast<NodeEntity*>(_erModel->_components[1])->getPrimaryKey().size());
+	_erModel->changePrimaryKey(0,false);
+	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+	EXPECT_EQ(0, static_cast<NodeEntity*>(_erModel->_components[1])->getPrimaryKey().size());
 }
 
 // ´ú¸Õ­×§ïText
