@@ -931,10 +931,13 @@ void ERModel::changeText( int targetNodeID, string editedText )
 	searchComponent(targetNodeID)->setText(editedText);
 }
 
-void ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
+bool ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 {
 	Component* targetNode = searchComponent(targetNodeID);
-	static_cast<NodeAttribute*>(targetNode)->setIsPrimaryKey(isPrimaryKey);
+	if (static_cast<NodeAttribute*>(targetNode)->getIsConnectedEntity())
+		static_cast<NodeAttribute*>(targetNode)->setIsPrimaryKey(isPrimaryKey);
+	else
+		return false;
 
 	// Attribute如果有Connect的話，一定是跟Entity並且只有一個，所以當Attribute的PK變化的時候，Entity的PK也會改變
 	if (targetNode->getConnections().size() != PARAMETER_ZEROCOMPONENT)
@@ -947,6 +950,7 @@ void ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 		else
 			relatedEntity->deleteKeys(targetNodeID);
 	}
+	return true;
 }
 
 void ERModel::notifyTextChanged( int targetNodeID, string editedText )
@@ -1014,7 +1018,11 @@ int ERModel::addClone( Component* cloneComponent )
 int ERModel::addCloneComponent( Component* cloneComponent )
 {
 	// 清除Clone過來的Connection資料，因為Clone的Connection資料是連回原本的Component
-	cloneComponent->deleteAllConnected();
+	cloneComponent->deleteAllRelatedInfo();
+
+	// 清除Attribute連結過Entity的記錄
+	if (cloneComponent->getType() == PARAMETER_ATTRIBUTE)
+		static_cast<NodeAttribute*>(cloneComponent)->setIsConnectedEntity(false);
 
 	// 對clone的ComponentID做修正
 	cloneComponent->setID(_componentID);

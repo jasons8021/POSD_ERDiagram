@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "ComponentVisitor.h"
 
 Node::Node() : Component()
 {
@@ -28,7 +29,12 @@ void Node::deleteConnectedComponent( int )
 
 }
 
-void Node::deleteAllConnected()
+void Node::deleteAllRelatedInfo()
+{
+
+}
+
+void Node::accept( ComponentVisitor* )
 {
 
 }

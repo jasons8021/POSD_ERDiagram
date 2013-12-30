@@ -31,6 +31,7 @@ public:
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();
+	virtual void accept(ComponentVisitor*);
 private:
 	Component* _sourceNode;
 	Component* _destinationNode;

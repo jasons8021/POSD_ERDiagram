@@ -1,4 +1,5 @@
 #include "NodeAttribute.h"
+#include "ComponentVisitor.h"
 
 NodeAttribute::NodeAttribute( int id, string text, int sx, int sy ) : Node( id, PARAMETER_ATTRIBUTE, text, sx, sy )
 {
@@ -59,8 +60,18 @@ Component* NodeAttribute::deepClone()
 	return new NodeAttribute(*this);
 }
 
-void NodeAttribute::deleteAllConnected()
+void NodeAttribute::deleteAllRelatedInfo()
 {
-	Component::deleteAllConnected();
+	Component::deleteAllRelatedInfo();
 	_connectedEntity = false;
+}
+
+void NodeAttribute::setIsConnectedEntity( bool isConnectedEntity )
+{
+	_connectedEntity = isConnectedEntity;
+}
+
+void NodeAttribute::accept( ComponentVisitor* visitor )
+{
+	visitor->visit(this);
 }

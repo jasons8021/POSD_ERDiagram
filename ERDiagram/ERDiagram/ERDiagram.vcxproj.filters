@@ -271,6 +271,15 @@
     <ClCompile Include="MoveComponentCmd.cpp">
       <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveComponentVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveXmlComponentVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddComponentCmd.h">
@@ -369,9 +378,6 @@
     <ClInclude Include="NodeEntity.h">
       <Filter>Header Files\ComponentFactory\Item Factory</Filter>
     </ClInclude>
-    <ClInclude Include="MoveComponentCmd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PasteComponentCmd.h">
       <Filter>Header Files\CommandPattern</Filter>
     </ClInclude>
@@ -386,6 +392,18 @@
     </ClInclude>
     <ClInclude Include="DeleteGroupCmd.h">
       <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveComponentCmd.h">
+      <Filter>Header Files\CommandPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentVisitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveComponentVisitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveXmlComponentVisitor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

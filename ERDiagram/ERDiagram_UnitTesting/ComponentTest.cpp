@@ -42,10 +42,10 @@ TEST_F(ComponentTest, canConnectTo){
 }
 
 // 刪除全部的連接
-TEST_F(ComponentTest, deleteAllConnected){
+TEST_F(ComponentTest, deleteAllRelatedInfo){
 	_component->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
 	_component->connectTo(new NodeEntity(5, "UnitTestNodeE5", 0, 0));
 
-	_component->deleteAllConnected();
+	_component->deleteAllRelatedInfo();
 	EXPECT_EQ(0, _component->getConnections().size());
 }

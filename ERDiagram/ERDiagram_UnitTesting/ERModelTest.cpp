@@ -1306,8 +1306,6 @@ TEST_F(ERModelTest, getPrimaryKeyForGUI)
 TEST_F(ERModelTest, changePrimaryKey)
 {
 	_erModel->changePrimaryKey(0,true);
-	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
-	_erModel->changePrimaryKey(0,false);
 	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
 
 	_erModel->addConnection(10, 0, 1, "");

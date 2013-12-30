@@ -17,6 +17,8 @@
 
 using namespace std;
 
+class ComponentVisitor;
+
 class NodeEntity : public Node
 {
 	friend class NodeEntityTest;
@@ -24,7 +26,7 @@ class NodeEntity : public Node
 	FRIEND_TEST(NodeEntityTest, setPrimaryKey);
 	FRIEND_TEST(NodeEntityTest, setForeignKey);
 	FRIEND_TEST(NodeEntityTest, deleteKeys);
-	FRIEND_TEST(NodeEntityTest, deleteAllConnected);
+	FRIEND_TEST(NodeEntityTest, deleteAllRelatedInfo);
 public:
 	NodeEntity(int, string, int, int);
 	virtual ~NodeEntity();
@@ -36,10 +38,11 @@ public:
 	vector<int> getPrimaryKey();
 	vector<int> getForeignKey();
 	virtual void deleteConnectedComponent(int);
-	virtual void deleteAllConnected();
+	virtual void deleteAllRelatedInfo();
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();
+	virtual void accept(ComponentVisitor*);
 private:
 	bool _isShowForeignKeyinERTable;
 	vector<int> _primaryKeySet;

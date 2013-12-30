@@ -234,12 +234,12 @@ public:
 	void deleteConnection(Component*);
 	void notifyTextChanged(int, string);
 	void changeText(int, string);
-	void changePrimaryKey(int, bool);
 	void copyComponent(vector<int>);
 	void cloneItemIntoClipboard(vector<int>);
 	void resetClipboard();
 	void recordNewCloneComponentID(int, int);
 	void movedComponentPosition(int, int, int);
+	bool changePrimaryKey(int, bool);
 	bool searchComponentExist(string, string);
 	bool connectedItself(Component*, Component*);
 	bool connectedTypeCheck(Component*, Component*);

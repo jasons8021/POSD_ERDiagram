@@ -79,7 +79,7 @@ TEST_F(NodeRelationshipTest, deepClone){
 }
 
 // 測試刪除全部的Connect
-TEST_F(NodeRelationshipTest, deleteAllConnected){
+TEST_F(NodeRelationshipTest, deleteAllRelatedInfo){
 	_relationshipComponent->connectTo(new NodeEntity(1, "UnitTestNodeE1", 0, 0));
 	_relationshipComponent->connectTo(new NodeEntity(5, "UnitTestNodeE5", 0, 0));
 
@@ -88,7 +88,7 @@ TEST_F(NodeRelationshipTest, deleteAllConnected){
 	_relationshipComponent->setEntityCardinality(make_pair(5,"1"));
 	EXPECT_EQ(2, _relationshipComponent->_entityCardinalitySet.size());
 
-	_relationshipComponent->deleteAllConnected();
+	_relationshipComponent->deleteAllRelatedInfo();
 	EXPECT_EQ(0, _relationshipComponent->getConnections().size());
 	EXPECT_EQ(0, _relationshipComponent->_entityCardinalitySet.size());
 }

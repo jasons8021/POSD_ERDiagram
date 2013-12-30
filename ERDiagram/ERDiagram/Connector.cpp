@@ -1,4 +1,5 @@
 #include "Connector.h"
+#include "ComponentVisitor.h"
 
 Connector::Connector( int id, string text ) : Component( id, PARAMETER_CONNECTOR, text, PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES )
 {
@@ -78,4 +79,9 @@ std::string Connector::getDestinationNodeText()
 Component* Connector::deepClone()
 {
 	return new Connector(*this);
+}
+
+void Connector::accept( ComponentVisitor* visitor )
+{
+	visitor->visit(this);
 }

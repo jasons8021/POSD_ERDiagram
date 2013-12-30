@@ -13,12 +13,12 @@ ChangePrimaryKeyCmd::~ChangePrimaryKeyCmd()
 
 void ChangePrimaryKeyCmd::execute()
 {
-	_erModel->changePrimaryKey(_componentID, _isPK);
-	_erModel->notifyPrimaryKeyChanged(_componentID, _isPK);
+	if (_erModel->changePrimaryKey(_componentID, _isPK))
+		_erModel->notifyPrimaryKeyChanged(_componentID, _isPK);
 }
 
 void ChangePrimaryKeyCmd::unexecute()
 {
-	_erModel->changePrimaryKey(_componentID, !_isPK);
-	_erModel->notifyPrimaryKeyChanged(_componentID, !_isPK);
+	if (_erModel->changePrimaryKey(_componentID, !_isPK))
+		_erModel->notifyPrimaryKeyChanged(_componentID, !_isPK);
 }

@@ -19,6 +19,8 @@
 
 using namespace std;
 
+class ComponentVisitor;
+
 class Component
 {
 	friend class ComponentTest;
@@ -40,10 +42,11 @@ public:
 	void setSy(int);
 	vector<Component*> getConnections();
 	virtual void deleteConnectedComponent(int);
-	virtual void deleteAllConnected();
+	virtual void deleteAllRelatedInfo();
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();
+	virtual void accept(ComponentVisitor*);
 private:
 	int _id;
 	string _type;

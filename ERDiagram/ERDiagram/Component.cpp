@@ -1,4 +1,5 @@
 #include "Component.h"
+#include "ComponentVisitor.h"
 
 Component::Component()
 {
@@ -136,7 +137,12 @@ void Component::setSy( int newSy )
 	this->_sy = newSy;
 }
 
-void Component::deleteAllConnected()
+void Component::deleteAllRelatedInfo()
 {
 	_connections.clear();
+}
+
+void Component::accept( ComponentVisitor* )
+{
+
 }

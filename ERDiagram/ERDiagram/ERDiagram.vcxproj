@@ -88,6 +88,7 @@
     <ClCompile Include="ChangePrimaryKeyCmd.cpp" />
     <ClCompile Include="ChangeTextCmd.cpp" />
     <ClCompile Include="ComponentTableView.cpp" />
+    <ClCompile Include="ComponentVisitor.cpp" />
     <ClCompile Include="ConnectionState.cpp" />
     <ClCompile Include="CutComponentCmd.cpp" />
     <ClCompile Include="DeleteGroupCmd.cpp" />
@@ -143,6 +144,8 @@
     <ClCompile Include="PointerState.cpp" />
     <ClCompile Include="PresentationModel.cpp" />
     <ClCompile Include="ItemRelationship.cpp" />
+    <ClCompile Include="SaveComponentVisitor.cpp" />
+    <ClCompile Include="SaveXmlComponentVisitor.cpp" />
     <ClCompile Include="SetPrimaryKeyState.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TableViewModel.cpp" />
@@ -167,6 +170,7 @@
     </CustomBuild>
     <ClInclude Include="ChangePrimaryKeyCmd.h" />
     <ClInclude Include="ChangeTextCmd.h" />
+    <ClInclude Include="ComponentVisitor.h" />
     <ClInclude Include="ConnectionState.h" />
     <ClInclude Include="CutComponentCmd.h" />
     <ClInclude Include="DeleteGroupCmd.h" />
@@ -231,6 +235,8 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </Command>
     </CustomBuild>
+    <ClInclude Include="SaveComponentVisitor.h" />
+    <ClInclude Include="SaveXmlComponentVisitor.h" />
     <ClInclude Include="Subject.h" />
     <CustomBuild Include="TableViewModel.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -1,4 +1,5 @@
 #include "NodeEntity.h"
+#include "ComponentVisitor.h"
 
 NodeEntity::NodeEntity( int id, string text, int sx, int sy ) : Node( id, PARAMETER_ENTITY, text, sx, sy )
 {
@@ -112,9 +113,15 @@ Component* NodeEntity::deepClone()
 	return new NodeEntity(*this);
 }
 
-void NodeEntity::deleteAllConnected()
+void NodeEntity::deleteAllRelatedInfo()
 {
-	Component::deleteAllConnected();
+	Component::deleteAllRelatedInfo();
+	_isShowForeignKeyinERTable = false;
 	_primaryKeySet.clear();
 	_foreignKeySet.clear();
+}
+
+void NodeEntity::accept( ComponentVisitor* visitor )
+{
+	visitor->visit(this);
 }

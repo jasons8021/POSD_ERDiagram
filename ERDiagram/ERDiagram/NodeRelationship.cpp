@@ -1,5 +1,5 @@
 #include "NodeRelationship.h"
-#include <iostream>
+#include "ComponentVisitor.h"
 
 NodeRelationship::NodeRelationship( int id, string text, int sx, int sy ) : Node( id, PARAMETER_RELATIONSHIP, text, sx, sy )
 {
@@ -60,8 +60,13 @@ Component* NodeRelationship::deepClone()
 	return new NodeRelationship(*this);
 }
 
-void NodeRelationship::deleteAllConnected()
+void NodeRelationship::deleteAllRelatedInfo()
 {
-	Component::deleteAllConnected();
+	Component::deleteAllRelatedInfo();
 	_entityCardinalitySet.clear();
+}
+
+void NodeRelationship::accept( ComponentVisitor* visitor )
+{
+	visitor->visit(this);
 }

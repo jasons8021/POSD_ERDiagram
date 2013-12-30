@@ -18,23 +18,27 @@
 
 using namespace std;
 
+class ComponentVisitor;
+
 class NodeAttribute : public Node
 {
 	friend class NodeAttributeTest;
 	FRIEND_TEST(NodeAttributeTest, connectTo);
 	FRIEND_TEST(NodeAttributeTest, deleteConnectedComponent);
-	FRIEND_TEST(NodeAttributeTest, deleteAllConnected);
+	FRIEND_TEST(NodeAttributeTest, deleteAllRelatedInfo);
 public:
 	NodeAttribute(int, string, int, int);
 	virtual ~NodeAttribute();
 	bool getIsPrimaryKey();
 	void setIsPrimaryKey(bool);
 	bool getIsConnectedEntity();
+	void setIsConnectedEntity(bool);
 	virtual void deleteConnectedComponent(int);
-	virtual void deleteAllConnected();
+	virtual void deleteAllRelatedInfo();
 	virtual void connectTo(Component*);
 	virtual string canConnectTo(Component*);
 	virtual Component* deepClone();
+	virtual void accept(ComponentVisitor*);
 private:
 	bool _connectedEntity;
 	bool _isPrimaryKey;

@@ -652,6 +652,10 @@ TEST_F(PresentationModelTest, redoCmd)
 TEST_F(PresentationModelTest, changePrimaryKeyCmd)
 {
 	_presentationModel->changePrimaryKeyCmd(0,true);
+	EXPECT_FALSE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
+
+	_erModel->addConnection(10, 0, 1, "");
+	_presentationModel->changePrimaryKeyCmd(0,true);
 	EXPECT_TRUE(static_cast<NodeAttribute*>(_erModel->_components[0])->getIsPrimaryKey());
 
 	_presentationModel->changePrimaryKeyCmd(0,false);
