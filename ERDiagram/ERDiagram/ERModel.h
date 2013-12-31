@@ -10,6 +10,8 @@
 #define TEXT_LOADSAVE_OPENSUCCESS "The ER diagram is displayed as follows:\n"
 #define TEXT_LOADSAVE_OPENFAILED "File not found!!\n"
 
+#define TEXT_EXTENSION_POS "pos"
+
 #define TEXT_ONESPACE " "
 #define TEXT_TWOSPACE "  "
 #define TEXT_FIVESPACE "     "
@@ -20,6 +22,7 @@
 #define COMMA ","
 #define SEMICOLON ";"
 #define SPLITTERBYBACKSLASH "\\"
+#define DOT "."
 
 #define PARAMETER_NULL ""
 #define PARAMETER_ATTRIBUTE "A"
@@ -64,6 +67,11 @@
 #define PARAMETER_ADJUSTSTRING -1
 
 #define PARAMETER_ADJUSTPOSITION 10
+
+#define PARAMETER_MINUSONE -1
+
+#define PARAMETER_POSITIONFILEX 0
+#define PARAMETER_POSITIONFILEY 1
 
 #include <iostream>
 #include <fstream>
@@ -221,6 +229,8 @@ public:
 	void reBuildPrimaryKeyFromAttribute(int, int);
 	void setForeignKey();
 	void saveERDiagram(string);
+	void saveXmlComponent(string);
+	void savePosition(string, string);
 	void creatFilePath(string);
 	void connectionSetting(Component* sourceNode, Component* destinationNode, string text);
 	void recoveryFile(vector<vector<string>>);
@@ -239,6 +249,7 @@ public:
 	void resetClipboard();
 	void recordNewCloneComponentID(int, int);
 	void movedComponentPosition(int, int, int);
+	void setInitialPosition(int, int, int);
 	bool changePrimaryKey(int, bool);
 	bool searchComponentExist(string, string);
 	bool connectedItself(Component*, Component*);
@@ -264,13 +275,16 @@ public:
 	string saveComponentTable();
 	string saveConnectionTable();
 	string savePrimaryKeyTable();
+	string removeExtension( string fileName );
 	Component* searchComponent(int);
 	vector<int> oneToOne(NodeRelationship*);
 	vector<int> arrangeConnectorFirst(vector<int>);
+	vector<int> getTargetPosition(int);
 	vector<Component*> searchSpecificTypeComponentSet(string, vector<Component*>);
 	vector<Component*> searchConnection(int);
 	vector<Component*> searchRelatedComponent(int);
 	vector<Component*> getClipboard();
+	vector<pair<int,int>> loadPosition();
 	vector<vector<string>> classifyInputFile(string);
 	pair<string,vector<string>> splitter(string);
 
@@ -281,6 +295,7 @@ public:
 private:
 	int _componentID;
 	bool _isModify;
+	string _fileName;
 	vector<Component*> _components;
 	vector<Component*> _connections;
 	vector<Component*> _clipboard;

@@ -23,6 +23,8 @@
 
 #define ITEMIDINCREASE true
 #define ITEMIDDECREASE false
+#define ISFROMLOADFILE true
+#define NOTFROMLOADFILE false
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
@@ -64,9 +66,9 @@ public:
 	bool checkSetCardinality(int, int);
 	bool getTargetAttributeIsPrimaryKey(int);
 	void addNodeFromGUI(QString, QString, QPointF);
-	void addNodeFromLoadFile(QStringList);
+	void addNodeFromLoadFile(int, QStringList);
 	void addConnectionFromGUI(ItemComponent*, ItemComponent*, QString);
-	void addConnectionFromLoadFile(QStringList);
+	void addConnectionFromLoadFile(int, QStringList);
 	void changeState(int);
 	void changToPointerMode();
 	void changeEditActionEnable(bool);
@@ -74,7 +76,7 @@ public:
 	void changePrimaryKey(int, bool);
 	void deleteItem(int);
 	void resetItemID();
-	void loadAllItem(QVector<QString>);
+	void LoadItem(QVector<QString>, bool);
 	void mousePressEvent(QGraphicsSceneMouseEvent*);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
@@ -91,7 +93,8 @@ public:
 	void updateReBuildConnection(QString);
 	void updateItemPosition(int, QPointF);
 	void setSelectedItem(QVector<int>);
-	void movedItemPosition(QVector<int>, QPointF);
+	void moveGroupItemPositionByCmd(QVector<int>, QPointF);
+	void setInitialItemPosition(int, QPointF, bool);
 	QString getTargetItemType(int);
 	QPointF getPlaceItemPosition(QString);
 	ItemComponent* getItemInPosition(QPointF);
@@ -100,8 +103,6 @@ public:
 	ItemComponent* addConnection(int, ItemComponent*, ItemComponent*, QString);
 	QVector<QStringList> splitTextData(QString);
 	QVector<int> searchItemIsSelected();
-
-	void testPos();
 private:
 	int _currentMode;
 	GUI* _gui;

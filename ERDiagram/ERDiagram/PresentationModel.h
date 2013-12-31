@@ -127,7 +127,8 @@ public:
 	bool addNodeCmd_TextUI(string, string, int, int);
 	bool checkSetCardinality(int, int);
 	bool getIsModify();
-	void saveERDiagram_TextUI(string);
+	void saveERDiagram(string);
+	void saveXmlComponent(string);
 	string addConnectionCmd_TextUI(int, int, string);
 	string displayComponentTable_TextUI();
 	string displayConnectionTable_TextUI();
@@ -163,9 +164,12 @@ public:
 	string getConnection_GUI();
 	string getPrimaryKeySet_GUI();
 	bool addConnectionCmd_GUI(int, int, string);
+	bool getPosFileExist();
 	int getComponentID();
 	bool getTargetAttributeIsPrimaryKey(int);
-	
+	void setInitialItemPosition(int, int, int);
+	void setInitialPrimaryKey(int, bool);
+	vector<int> getTargetPosition(int);
 	// ObserverPattern
 	void attachObserver(Observer*);
 	void detachObserver(Observer*);

@@ -162,8 +162,8 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
  	_scene->changeEditActionEnable(true);
 	mousePressPoint = this->mapToParent(this->mapFromScene(event->scenePos()));
 
-// 	qDebug()<<"ERModel ID = "<<_erModelID;
-// 	qDebug()<<"Item ID = "<<_itemID;
+	qDebug()<<"ERModel ID = "<<_erModelID;
+	qDebug()<<"Item ID = "<<_itemID;
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
@@ -174,7 +174,7 @@ void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 	// 傳回值為ERModel ID
 	QVector<int> selectedItemSet = _scene->searchItemIsSelected();
 
-	_scene->movedItemPosition(selectedItemSet, mouseReleasePoint - mousePressPoint);
+	_scene->moveGroupItemPositionByCmd(selectedItemSet, mouseReleasePoint - mousePressPoint);
 
 	// 位置有改變，呼叫scene去更新
 	_scene->updateItemPositionInScene();

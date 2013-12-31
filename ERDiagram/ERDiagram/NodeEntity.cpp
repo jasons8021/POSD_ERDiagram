@@ -16,6 +16,8 @@ NodeEntity::~NodeEntity()
 void NodeEntity::connectTo( Component* targetNode )
 {	
 	Component::connectTo(targetNode);
+	if (targetNode->getType() == PARAMETER_ATTRIBUTE)
+		static_cast<NodeAttribute*>(targetNode)->setIsConnectedEntity(true);
 }
 
 string NodeEntity::canConnectTo( Component* targetNode )

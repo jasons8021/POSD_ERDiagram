@@ -91,6 +91,7 @@
     <ClCompile Include="..\ERDiagram\CommandManager.cpp" />
     <ClCompile Include="..\ERDiagram\Component.cpp" />
     <ClCompile Include="..\ERDiagram\ComponentFactory.cpp" />
+    <ClCompile Include="..\ERDiagram\ComponentVisitor.cpp" />
     <ClCompile Include="..\ERDiagram\ConnectComponentsCmd.cpp" />
     <ClCompile Include="..\ERDiagram\Connector.cpp" />
     <ClCompile Include="..\ERDiagram\CutComponentCmd.cpp" />
@@ -104,6 +105,8 @@
     <ClCompile Include="..\ERDiagram\NodeRelationship.cpp" />
     <ClCompile Include="..\ERDiagram\PasteComponentCmd.cpp" />
     <ClCompile Include="..\ERDiagram\PresentationModel.cpp" />
+    <ClCompile Include="..\ERDiagram\SaveComponentVisitor.cpp" />
+    <ClCompile Include="..\ERDiagram\SaveXmlComponentVisitor.cpp" />
     <ClCompile Include="..\ERDiagram\Subject.cpp" />
     <ClCompile Include="..\ERDiagram\TextUI.cpp" />
     <ClCompile Include="..\ERDiagram\Toolkit.cpp" />

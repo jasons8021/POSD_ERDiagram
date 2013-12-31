@@ -211,7 +211,7 @@ void TextUI::saveERDiagram()
 	cout << TEXT_LOADSAVE_FILENAME;
 	cin >> fileName;
 
-	_presentationModel->saveERDiagram_TextUI(fileName);
+	_presentationModel->saveERDiagram(fileName);
 }
 
 void TextUI::loadERDiagram()

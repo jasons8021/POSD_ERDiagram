@@ -266,9 +266,14 @@ bool PresentationModel::getIsModify()
 	return _erModel->getIsModify();
 }
 
-void PresentationModel::saveERDiagram_TextUI( string fileName )
+void PresentationModel::saveERDiagram( string fileName )
 {
 	_erModel->saveERDiagram(fileName);
+}
+
+void PresentationModel::saveXmlComponent( string fileName )
+{
+	_erModel->saveXmlComponent(fileName);
 }
 
 string PresentationModel::loadERDiagram_TextUI( string fileName )
@@ -484,4 +489,27 @@ void PresentationModel::copyComponent( vector<int> componentIDSet )
 bool PresentationModel::getTargetAttributeIsPrimaryKey( int componentID )
 {
 	return _erModel->getTargetAttributeIsPrimaryKey(componentID);
+}
+
+void PresentationModel::setInitialItemPosition( int componentID, int initialSx, int initialSy )
+{
+	_erModel->setInitialPosition(componentID, initialSx, initialSy);
+}
+
+void PresentationModel::setInitialPrimaryKey( int targetNodeID, bool isPrimaryKey )
+{
+	_erModel->changePrimaryKey(targetNodeID, isPrimaryKey);
+}
+
+bool PresentationModel::getPosFileExist()
+{
+	if (_erModel->loadPosition().size() > 0)
+		return true;
+	else
+		return false;
+}
+
+vector<int> PresentationModel::getTargetPosition( int targetNodeID )
+{
+	return _erModel->getTargetPosition(targetNodeID);
 }

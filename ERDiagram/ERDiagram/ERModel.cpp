@@ -1,10 +1,13 @@
 #include "ERModel.h"
 #include <algorithm>
+#include "SaveComponentVisitor.h"
+#include "SaveXmlComponentVisitor.h"
 
 ERModel::ERModel()
 {
 	_componentID = 0;
 	_isModify = false;
+	_fileName = TEXT_NULL;
 }
 
 ERModel::~ERModel()
@@ -70,7 +73,6 @@ int ERModel::addConnection( int componentID, int sourceNodeID, int destinationNo
 		_connections.push_back(newConnection);
 
 		connectionSetting(sourceNode, destinationNode, text);
-
 	}
 	else
 		return PARAMETER_ISERROR;
@@ -370,6 +372,7 @@ string ERModel::searchForeignKey( int foreignKeyEntityID )
 
 string ERModel::loadERDiagram( string fileName )
 {
+	_fileName= fileName;
 	ifstream inputERDiagramFile;
 	inputERDiagramFile.open(fileName);
 
@@ -386,6 +389,38 @@ string ERModel::loadERDiagram( string fileName )
 	
 	return TEXT_LOADSAVE_OPENSUCCESS;
 }
+
+
+vector<pair<int,int>> ERModel::loadPosition()
+{
+	vector<pair<int,int>> positionSet;
+	vector<string> posFileSplitedSet;
+	vector<string> componentPositionSet;
+
+	string posFileName = removeExtension(_fileName) + TEXT_EXTENSION_POS;
+	ifstream inputPositionFile;
+	inputPositionFile.open(posFileName);
+
+	if (!inputPositionFile.is_open())
+		return positionSet;
+
+	//	取得輸入檔案的所有字元
+	string posText((istreambuf_iterator<char>(inputPositionFile)),istreambuf_iterator<char>());
+	inputPositionFile.close();
+
+	// 將每一筆的Sx,Sy切出來變成vector<string>的一項是110 100
+	posFileSplitedSet = Toolkit::splitFunction(posText, TEXT_ENDLINE);
+
+	// 最後一組是空的
+	for(int i = 0; i < posFileSplitedSet.size() - 1; i++)
+	{
+		componentPositionSet = Toolkit::splitFunction(posFileSplitedSet[i], SPACE);
+		positionSet.push_back(make_pair(atoi(componentPositionSet[PARAMETER_POSITIONFILEX].c_str()), atoi(componentPositionSet[PARAMETER_POSITIONFILEY].c_str())));
+	}
+
+	return positionSet;
+}
+
 
 //	將輸入的.erd檔中的內容分類，分成ComponentsSet、ConnectionsSet、PrimaryKeysSet
 vector<vector<string>> ERModel::classifyInputFile( string fileText )
@@ -431,8 +466,10 @@ void ERModel::recoveryFile( vector<vector<string>> fileSet )
 void ERModel::recoveryAllComponent( vector<string> componentsSet, vector<string> connectionsSet )
 {
 	vector<string> componentData;
-	
+	vector<pair<int, int>> positionSet = loadPosition();
+
 	int connectionSetCount = 0;
+	int positionSetCount = 0;
 	for(int i = 0; i < componentsSet.size(); i++)
 	{
 		componentData = Toolkit::splitFunction(componentsSet[i], TEXT_COMMASPACE);
@@ -442,7 +479,15 @@ void ERModel::recoveryAllComponent( vector<string> componentsSet, vector<string>
 		else if ( componentData[PARAMETER_TYPE] == PARAMETER_CONNECTOR )														//	Connector沒有Cardinality
 			connectionSetCount = recoveryConnection(connectionsSet, connectionSetCount, PARAMETER_NULL);
 		else																													//	Component是Attribute, Entity或Relationship其中一種
- 			addNode(componentData[PARAMETER_TYPE],componentData[PARAMETER_TEXT], PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES);
+		{
+			if (positionSet.size() > 0)
+			{
+ 				addNode(componentData[PARAMETER_TYPE],componentData[PARAMETER_TEXT], positionSet[positionSetCount].first, positionSet[positionSetCount].second);
+				positionSetCount++;
+			}
+			else
+				addNode(componentData[PARAMETER_TYPE],componentData[PARAMETER_TEXT], PARAMETER_TEXTUI_COORDINATES, PARAMETER_TEXTUI_COORDINATES);
+		}
 	}
 }
 
@@ -493,6 +538,7 @@ pair<string,vector<string>> ERModel::splitter( string splitRowData )
 void ERModel::saveERDiagram( string fileName )
 {
 	ofstream outputERDiagramFile;
+
 	outputERDiagramFile.open(fileName);
 
 	if (!outputERDiagramFile.is_open())
@@ -503,14 +549,62 @@ void ERModel::saveERDiagram( string fileName )
 
 	_isModify = false;
 
-	outputERDiagramFile << saveComponentTable();
-	outputERDiagramFile << TEXT_ENDLINE;
-	outputERDiagramFile << saveConnectionTable();
-	outputERDiagramFile << TEXT_ENDLINE;
-	outputERDiagramFile << savePrimaryKeyTable();
+	SaveComponentVisitor* saveComponentVisitor = new SaveComponentVisitor();
+
+	for(int i = 0; i < _components.size(); i++)
+		_components[i]->accept(saveComponentVisitor);
+
+	outputERDiagramFile << saveComponentVisitor->getERDiagramComponent();
 
 	outputERDiagramFile.close();
+
+	savePosition(fileName, saveComponentVisitor->getPositionInfo());
 }
+
+void ERModel::savePosition( string fileName, string positionInfo )
+{
+	ofstream outputPositionFile;
+	string positionFileName = removeExtension(fileName) + TEXT_EXTENSION_POS;
+
+	outputPositionFile.open(positionFileName);
+
+	if (!outputPositionFile.is_open())
+	{
+		creatFilePath(fileName);
+		outputPositionFile.open(fileName);
+	}
+
+	outputPositionFile << positionInfo;
+
+	outputPositionFile.close();
+}
+
+
+
+void ERModel::saveXmlComponent( string fileName )
+{
+	ofstream outputXmlFile;
+
+	outputXmlFile.open(fileName);
+
+	if (!outputXmlFile.is_open())
+	{
+		creatFilePath(fileName);
+		outputXmlFile.open(fileName);
+	}
+
+	_isModify = false;
+
+	SaveXmlComponentVisitor* saveXmlComponentVisitor = new SaveXmlComponentVisitor();
+
+	for(int i = 0; i < _components.size(); i++)
+		_components[i]->accept(saveXmlComponentVisitor);
+
+	outputXmlFile << saveXmlComponentVisitor->getXmlInfo();
+
+	outputXmlFile.close();
+}
+
 
 void ERModel::creatFilePath( string fileName )
 {
@@ -950,6 +1044,9 @@ bool ERModel::changePrimaryKey( int targetNodeID, bool isPrimaryKey )
 		else
 			relatedEntity->deleteKeys(targetNodeID);
 	}
+
+	notifyPrimaryKeyChanged(targetNodeID, isPrimaryKey);
+
 	return true;
 }
 
@@ -1107,4 +1204,45 @@ void ERModel::movedComponentPosition( int targetNodeID, int moveDistance_x, int 
 	Component* movedComponent = searchComponent(targetNodeID);
 	movedComponent->setSx(movedComponent->getSx() + moveDistance_x);
 	movedComponent->setSy(movedComponent->getSy() + moveDistance_y);
+}
+
+void ERModel::setInitialPosition( int targetNodeID, int initialSx, int initialSy )
+{
+	Component* movedComponent = searchComponent(targetNodeID);
+	movedComponent->setSx(initialSx);
+	movedComponent->setSy(initialSy);
+}
+
+// 回傳一個還沒加副檔名的字串
+string ERModel::removeExtension( string fileName )
+{
+	vector<string> fileNameSplitedSet = Toolkit::splitFunction(fileName, DOT);
+	string positionFileName;
+
+	// 輸入至少有一個"."存在，表示有副檔名
+	if (fileNameSplitedSet.size() > 1)
+	{
+		// 不要副檔名
+		for (int i = 0; i < fileNameSplitedSet.size() + PARAMETER_MINUSONE; i++)
+		{
+			positionFileName += fileNameSplitedSet[i];
+			positionFileName += DOT;
+		}
+	}
+	else
+		positionFileName = fileName + DOT;
+
+	// xxxxfile.
+	return positionFileName;
+}
+
+vector<int> ERModel::getTargetPosition( int targetNodeID )
+{
+	Component* targetNode = searchComponent(targetNodeID);
+	vector<int> positionSet;
+
+	positionSet.push_back(targetNode->getSx());
+	positionSet.push_back(targetNode->getSy());
+
+	return positionSet;
 }

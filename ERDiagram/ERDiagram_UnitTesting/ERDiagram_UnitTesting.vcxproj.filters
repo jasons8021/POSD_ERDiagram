@@ -79,6 +79,9 @@
     <Filter Include="Resource Files\ObserverPattern">
       <UniqueIdentifier>{2f2de3f8-f03b-49f8-ab24-1b31b409f315}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Visitor Pattern">
+      <UniqueIdentifier>{e0684349-a1d2-47cf-a079-a8886c98cd72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -212,6 +215,15 @@
     </ClCompile>
     <ClCompile Include="MoveComponentCmdTest.cpp">
       <Filter>Source Files\CommandPatternTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\SaveComponentVisitor.cpp">
+      <Filter>Resource Files\Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\SaveXmlComponentVisitor.cpp">
+      <Filter>Resource Files\Visitor Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERDiagram\ComponentVisitor.cpp">
+      <Filter>Resource Files\Visitor Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

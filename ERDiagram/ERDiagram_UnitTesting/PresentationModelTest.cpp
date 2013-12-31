@@ -207,7 +207,7 @@ TEST_F(PresentationModelTest, saveERDiagram_TextUI)
 	EXPECT_FALSE(inputERDiagramFile.is_open());
 	inputERDiagramFile.close();
 
-	_presentationModel->saveERDiagram_TextUI(".\\unitTest\\UnitTestSaveERDiagram.erd");
+	_presentationModel->saveERDiagram(".\\unitTest\\UnitTestSaveERDiagram.erd");
 
 	// 確認存檔是否成功新增
 	inputERDiagramFile.open(".\\unitTest\\UnitTestSaveERDiagram.erd");

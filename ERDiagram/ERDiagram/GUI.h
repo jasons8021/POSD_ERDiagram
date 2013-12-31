@@ -6,6 +6,9 @@
 #define VIEW_MINWIDTH 1200
 #define VIEW_MAXWIDTH 1300
 
+#define POSITIONX 0
+#define POSITIONY 1
+
 #define ABOUT "Entity Relation Diagraming Tool 1.0\nAuthor : 102598018@ntut"
 
 #include <QtGui>
@@ -51,6 +54,9 @@ public:
 	void changeItemText(int, QString);
 	void changeToPointerMode();
 	void movedItemPosition(QVector<int>, QPointF);
+	void setInitialItemPosition(int, QPointF);
+	void setInitialPrimaryKey(int, bool);
+	QPointF getTargetNodePosition(int);
 	// §ïÅÜButtonªºenable
 	void changeEditActionEnable(bool);
 	void changeUnRedoActionEnable();
@@ -82,6 +88,8 @@ public:
 		void cutComponent();
 		void copyComponent();
 		void pasteComponent();
+		void saveAsComponent();
+		void saveAsXml();
 private:
 	void createActions();
 	void createMenus();
@@ -106,6 +114,8 @@ private:
 	QAction* _copyAction;
 	QAction* _pasteAction;
 	QAction* _aboutAction;
+	QAction* _saveAsComponentAction;
+	QAction* _saveAsXmlAction;
 
 	QLabel* _informationLabel;
 

@@ -63,7 +63,7 @@ void GUI::createActions()
 	connect(_openAction, SIGNAL(triggered()), this, SLOT(loadFile()));
 
 	_exitAction = new QAction(QIcon("images/exit.png"), tr("Exit"), this);
-	_exitAction->setShortcut(tr("Alt+F4"));
+	_exitAction->setShortcut(tr("Ctrl+E"));
 	connect(_exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
 	_addAttributeAction = new QAction(QIcon("images/circle.png"), tr("Add Attribute"), this);
@@ -103,10 +103,17 @@ void GUI::createActions()
 	_pasteAction = new QAction(QIcon("images/paste.png"), tr("Paste"), this);
 	_pasteAction->setShortcut(tr("Ctrl+V"));
  	connect(_pasteAction, SIGNAL(triggered()), this, SLOT(pasteComponent()));
-// 	_pasteAction->setEnabled(false);
+ 	_pasteAction->setEnabled(false);
 
 	_aboutAction = new QAction(QIcon("images/about.png"), tr("About"), this);
 	connect(_aboutAction, SIGNAL(triggered()), this, SLOT(information()));
+
+	_saveAsComponentAction = new QAction(QIcon("images/save.png"), tr("Save"), this);
+	_saveAsComponentAction->setShortcut(tr("Ctrl+S"));
+	connect(_saveAsComponentAction, SIGNAL(triggered()), this, SLOT(saveAsComponent()));
+
+	_saveAsXmlAction = new QAction(QIcon("images/saveXml.png"), tr("Save as xml"), this);
+	connect(_saveAsXmlAction, SIGNAL(triggered()), this, SLOT(saveAsXml()));
 }
 
 void GUI::createMenus()
@@ -114,6 +121,9 @@ void GUI::createMenus()
 	// 開啟檔案 & 離開
 	_menu = menuBar()->addMenu(tr("File"));
 	_menu->addAction(_openAction);
+	_menu->addSeparator();
+	_menu->addAction(_saveAsComponentAction);
+	_menu->addAction(_saveAsXmlAction);
 	_menu->addSeparator();
 	_menu->addAction(_exitAction);
 
@@ -179,6 +189,8 @@ void GUI::createToolbars()
 	// 開啟檔案 & 離開
 	_toolBar = addToolBar(tr("ToolBars"));
 	_toolBar->addAction(_openAction);
+	_toolBar->addAction(_saveAsComponentAction);
+	_toolBar->addAction(_saveAsXmlAction);
 	_toolBar->addAction(_exitAction);
 
 	_toolBar->addSeparator();
@@ -241,7 +253,6 @@ void GUI::addRelationshipClicked()
 // about的功能
 void GUI::information()
 {
-	_scene->testPos();
 	QMessageBox::StandardButton reply;
 	reply = QMessageBox::information(this, tr("QMessageBox::information()"), ABOUT);
 	if (reply == QMessageBox::Ok)
@@ -309,14 +320,16 @@ void GUI::loadFile()
 	{
 		QVector<QString> inputFileText;
 		
+		// 因為改在addNode跟addConnection完成就notify一次，所以會先畫一次圖
 		_presentationModel->loadERDiagram_TextUI(directory.toStdString());
 
 		// 取得Component、Connection、PK的資訊，並轉成QT物件
 		inputFileText.push_back(stringConvertQString(_presentationModel->getComponent_GUI()));
 		inputFileText.push_back(stringConvertQString(_presentationModel->getConnection_GUI()));
 		inputFileText.push_back(stringConvertQString(_presentationModel->getPrimaryKeySet_GUI()));
-		_presentationModel->clearERModelComponent();
-		_scene->loadAllItem(inputFileText);
+
+		_scene->LoadItem(inputFileText, _presentationModel->getPosFileExist());
+		update();
 	}
 }
 
@@ -432,6 +445,8 @@ void GUI::cutComponent()
 
 	_scene->resetSelectedItem();
 	changeEditActionEnable(false);
+	_pasteAction->setEnabled(true);
+	changeUnRedoActionEnable();
 }
 
 // 按下Ctrl+C後，向PM發出複製要求
@@ -441,6 +456,8 @@ void GUI::copyComponent()
 	QVector<int> beSelectedItemSet = _scene->searchItemIsSelected();
 
 	_presentationModel->copyComponent(beSelectedItemSet.toStdVector());
+	_pasteAction->setEnabled(true);
+	changeUnRedoActionEnable();
 }
 
 // 按下Ctrl+V後，向PM發出貼上要求
@@ -449,6 +466,7 @@ void GUI::pasteComponent()
 {
 	_scene->resetSelectedItem();
 	_presentationModel->pasteComponentCmd();
+	changeUnRedoActionEnable();
 }
 
 // 取得現在的Model中的ComponentID是多少
@@ -461,7 +479,15 @@ int GUI::getERModelComponentID()
 void GUI::movedItemPosition( QVector<int> targetIDSet, QPointF newPosition )
 {
 	_presentationModel->moveItemCmd(targetIDSet.toStdVector(), newPosition.x(), newPosition.y());
+	changeUnRedoActionEnable();
 }
+
+// 從LoadFile中進來的Component，需要重新設定座標
+void GUI::setInitialItemPosition( int targetID, QPointF initialPosition )
+{
+	_presentationModel->setInitialItemPosition(targetID, initialPosition.x(), initialPosition.y());
+}
+
 
 // 復原
 // slot function
@@ -484,8 +510,38 @@ void GUI::updatePasteComponent( vector<int> pasteComponentIDSet )
 	_scene->setSelectedItem(QVector<int>::fromStdVector(pasteComponentIDSet));
 }
 
+// 取得目標是否為PK
 bool GUI::getTargetAttributeIsPrimaryKey( int erModelID )
 {
 	bool isPK = _presentationModel->getTargetAttributeIsPrimaryKey(erModelID);
 	return isPK;
+}
+
+// 存成.erd檔
+// slot function
+void GUI::saveAsComponent()
+{
+	QString directory = QFileDialog::getSaveFileName(this, tr("Save File"), "C://", tr("ERD File (*.erd)"));
+	if (directory != "")
+		_presentationModel->saveERDiagram(qstringConvertString(directory));
+}
+
+// 存成.xml檔
+// slot function
+void GUI::saveAsXml()
+{
+	QString directory = QFileDialog::getSaveFileName(this, tr("Save File"), "C://", tr("XML File (*.xml)"));
+	if (directory != "")
+		_presentationModel->saveXmlComponent(qstringConvertString(directory));
+}
+
+void GUI::setInitialPrimaryKey( int targetNodeID, bool isPrimaryKey )
+{
+	_presentationModel->setInitialPrimaryKey(targetNodeID, isPrimaryKey);
+}
+
+QPointF GUI::getTargetNodePosition( int erModelID )
+{
+	vector<int> positionSet = _presentationModel->getTargetPosition(erModelID);
+	return QPointF(positionSet[POSITIONX], positionSet[POSITIONY]);
 }

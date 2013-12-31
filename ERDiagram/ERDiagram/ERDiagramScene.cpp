@@ -16,28 +16,39 @@ ERDiagramScene::~ERDiagramScene()
 }
 
 // 根據loadFile將全部的Item加進畫面中
-void ERDiagramScene::loadAllItem( QVector<QString> inputFileText )
+void ERDiagramScene::LoadItem( QVector<QString> inputFileText, bool posFileExist )
 {
 	int connectionCounter = 0;
 	QVector<QStringList> resultComponentData = splitTextData(inputFileText[PARAMETER_COMPONENTDATA]);
 	QVector<QStringList> resultConnectionData = splitTextData(inputFileText[PARAMETER_CONNECTIONDATA]);
 	QStringList resultPrimaryKey = inputFileText[PARAMETER_PRIMARYKEYDATA].split(COMMA);
-	
+	QPointF itemPos;
+
+	// 在ERModel中設定初始位置
+	for(int i = 0; i < resultComponentData.size(); i++)
+	{
+		if ((resultComponentData[i].at(PARAMETER_TYPE) != PARAMETER_CONNECTOR) && !posFileExist)
+		{
+			itemPos = getPlaceItemPosition(resultComponentData[i].at(PARAMETER_TYPE));
+			setInitialItemPosition(i, itemPos, ISFROMLOADFILE);
+		}
+	}
+
+	// 加入Item到畫面
 	for(int i = 0; i < resultComponentData.size(); i++)
 	{
 		if (resultComponentData[i].at(PARAMETER_TYPE) != PARAMETER_CONNECTOR)
-			addNodeFromLoadFile(resultComponentData[i]);
+			addNodeFromLoadFile(i, resultComponentData[i]);
 		else
 		{
-			addConnectionFromLoadFile(resultConnectionData[connectionCounter]);
+			addConnectionFromLoadFile(i, resultConnectionData[connectionCounter]);
 			connectionCounter++;
 		}
 	}
 
-	// resultPrimaryKey是由ERModel傳過來的，所以要配合用erModelID
+	// resultPrimaryKey是由erModelID組成
 	for ( int i = 0; i < resultPrimaryKey.size(); i++)
-		static_cast<ItemAttribute*>(searchItemByERModelID(resultPrimaryKey.at(i).toInt()))->setPrimaryKey(true);
-
+		_gui->setInitialPrimaryKey(resultPrimaryKey.at(i).toInt(), true);
 }
 
 // 加入Item到Scene上
@@ -64,22 +75,22 @@ ItemComponent* ERDiagramScene::addNode( int erModelID, QString type, QString tex
 
 	_gui->addNodeIntoTable(newItem->getItemID(), type, text);
 
+	update();
+
 	return newItem;
 }
 
 // 從輸入的檔案新增Item
-void ERDiagramScene::addNodeFromLoadFile( QStringList componentData )
+void ERDiagramScene::addNodeFromLoadFile( int erModelID, QStringList componentData )
 { 
 	QPointF itemPos;
 	QString type =  componentData.at(PARAMETER_TYPE);
 	QString text =  componentData.at(PARAMETER_TEXT);
 
 	// 原本的erd檔沒有位置資訊，因此隨機假設位置進去
-	itemPos = getPlaceItemPosition(componentData[PARAMETER_TYPE]);
+	itemPos = _gui->getTargetNodePosition(erModelID);
 
-	_gui->addNode(type, text, QPointF(itemPos.x(), itemPos.y()));
-	update();
-	_gui->update();
+	addNode(erModelID, type, text, QPointF(itemPos.x(), itemPos.y()));
 }
 
 // 新增連結
@@ -106,17 +117,19 @@ ItemComponent* ERDiagramScene::addConnection( int erModelID, ItemComponent* sour
 
 	_gui->addNodeIntoTable(newItem->getItemID(), "Connector", text);
 
+	update();
+
 	return newItem;
 }
 
 // 從輸入的檔案新增兩個Item間的連結
-void  ERDiagramScene::addConnectionFromLoadFile( QStringList connecionData )
+void  ERDiagramScene::addConnectionFromLoadFile( int erModelID, QStringList connecionData )
 {
 	int sourceItemID = connecionData.at(PARAMETER_SOURCEITEMID).toInt();
 	int destionationItemID = connecionData.at(PARAMETER_DESTIONATIONITEMID).toInt();
 	QString text =  connecionData.at(PARAMETER_CONNECTIONITEMTEXT);
 
-	_gui->addConnection(sourceItemID, destionationItemID, text);
+	addConnection(erModelID, searchItemByERModelID(sourceItemID), searchItemByERModelID(destionationItemID), text);
 }
 
 void ERDiagramScene::deleteItem( int deleteItemID )
@@ -335,7 +348,11 @@ int ERDiagramScene::adjustItemID( int erModelID )
 	for(int i = 0; i < _guiItem.size(); i++)
 	{
 		if (_guiItem[i]->getERModelID() > erModelID)
+		{
 			baseLineItemID = i;
+			break;
+		}
+		// 一般情況，直接新增的ItemID
 		else
 			baseLineItemID = _guiItem.size();
 	}
@@ -456,13 +473,7 @@ bool ERDiagramScene::getTargetAttributeIsPrimaryKey( int erModelID )
 	return isPK;
 }
 
-void ERDiagramScene::testPos()
-{
-	_guiItem[0]->setPosition(QPointF(200,200));
-	update();
-}
-
-void ERDiagramScene::movedItemPosition( QVector<int> beSelectedErModelIDSet, QPointF newPosition )
+void ERDiagramScene::moveGroupItemPositionByCmd( QVector<int> beSelectedErModelIDSet, QPointF newPosition )
 {
 	_gui->movedItemPosition(beSelectedErModelIDSet, newPosition);
 }
@@ -472,4 +483,9 @@ void ERDiagramScene::updateItemPosition( int erModelID, QPointF newPosition )
 	int itemID = searchItemIDByERModelID(erModelID);
 	_guiItem[itemID]->setPosition(newPosition);
 	update();
+}
+
+void ERDiagramScene::setInitialItemPosition( int erModelID, QPointF newPosition, bool isFromLoadFile )
+{
+	_gui->setInitialItemPosition(erModelID, newPosition);
 }
