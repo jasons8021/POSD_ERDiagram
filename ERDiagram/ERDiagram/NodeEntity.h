@@ -10,6 +10,9 @@
 #define PARAMETER_ENTITY "E"
 #define PARAMETER_RELATIONSHIP "R"
 
+#define PARAMETER_TRUE 1
+#define PARAMETER_FALSE 0
+
 #include <vector>
 #include <gtest/gtest_prod.h>
 #include "Node.h"
@@ -30,11 +33,11 @@ class NodeEntity : public Node
 public:
 	NodeEntity(int, string, int, int);
 	virtual ~NodeEntity();
-	bool getIsShowForeignKeyinERTable();
 	void setPrimaryKey(int);
 	void setForeignKey(int);
 	void setIsShowForeignKeyinERTable(bool);
 	void deleteKeys(int);
+	vector<int> getIsShowForeignKeyinERTable();
 	vector<int> getPrimaryKey();
 	vector<int> getForeignKey();
 	virtual void deleteConnectedComponent(int);
@@ -44,7 +47,7 @@ public:
 	virtual Component* deepClone();
 	virtual void accept(ComponentVisitor*);
 private:
-	bool _isShowForeignKeyinERTable;
+	vector<int> _isShowForeignKeyinERTable;
 	vector<int> _primaryKeySet;
 	vector<int> _foreignKeySet;
 };

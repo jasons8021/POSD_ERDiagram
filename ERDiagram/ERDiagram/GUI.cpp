@@ -25,14 +25,26 @@ GUI::GUI(PresentationModel* presentationModel)
 	_tableViewModel = new TableViewModel();
 	_tableView = new ComponentTableView(this, _tableViewModel);
 
-	QTableView* tabelView = new QTableView();
-	tabelView->horizontalHeader()->setStretchLastSection(true);
+	QVBoxLayout* layout_vr = new QVBoxLayout;
+
+	//³]¸m°±¾aµ¡¤f
+	_dock = new QDockWidget(tr("Table View"),this);
+	_dock->setFeatures(QDockWidget::DockWidgetClosable);
+	_dock->setMinimumHeight(DOCK_MINHEIGHT);
+	_textEditor = new QTextEdit();
+	_textEditor->setText(tr("Window1,The dock widget can be moved between docks by the user"));
+	_dock->setWidget(_textEditor);
+	addDockWidget(Qt::BottomDockWidgetArea,_dock);
 
 	layout_v->addWidget(label);
 	layout_v->addWidget(_tableView);
-	layout_h->addWidget(_view);
+	layout_vr->addWidget(_view);
+	layout_vr->addWidget(_dock);
+	layout_h->addLayout(layout_vr);
 	layout_h->addLayout(layout_v);
 	
+	// _dock->setVisible(false);
+
 	QWidget *widget = new QWidget;
 	widget->setLayout(layout_h);
 

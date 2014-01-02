@@ -3,7 +3,7 @@
 
 NodeEntity::NodeEntity( int id, string text, int sx, int sy ) : Node( id, PARAMETER_ENTITY, text, sx, sy )
 {
-	_isShowForeignKeyinERTable = false;
+	_isShowForeignKeyinERTable.clear();
 	_foreignKeySet.clear();
 }
 
@@ -100,14 +100,17 @@ void NodeEntity::deleteKeys( int delComponentID )
 	}
 }
 
-bool NodeEntity::getIsShowForeignKeyinERTable()
+vector<int> NodeEntity::getIsShowForeignKeyinERTable()
 {
 	return _isShowForeignKeyinERTable;
 }
 
 void NodeEntity::setIsShowForeignKeyinERTable( bool isShowForeignKey )
 {
-	_isShowForeignKeyinERTable = isShowForeignKey;
+	if (isShowForeignKey)
+		_isShowForeignKeyinERTable.push_back(PARAMETER_TRUE);
+	else
+		_isShowForeignKeyinERTable.push_back(PARAMETER_FALSE);
 }
 
 Component* NodeEntity::deepClone()
@@ -118,7 +121,7 @@ Component* NodeEntity::deepClone()
 void NodeEntity::deleteAllRelatedInfo()
 {
 	Component::deleteAllRelatedInfo();
-	_isShowForeignKeyinERTable = false;
+	_isShowForeignKeyinERTable.clear();
 	_primaryKeySet.clear();
 	_foreignKeySet.clear();
 }

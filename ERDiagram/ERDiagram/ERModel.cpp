@@ -241,7 +241,7 @@ string ERModel::getERDiagramTable()
 		
 		for(int j = 0; j < static_cast<NodeEntity*>(entitySet[i])->getForeignKey().size(); j++)
 		{
-			if (static_cast<NodeEntity*>(entitySet[i])->getIsShowForeignKeyinERTable())
+			if (static_cast<NodeEntity*>(entitySet[i])->getIsShowForeignKeyinERTable()[j] == PARAMETER_TRUE)
 				erDiagramRowString += searchForeignKey(static_cast<NodeEntity*>(entitySet[i])->getForeignKey()[j]);
 		}
 		erDiagramRowString += TEXT_ENDLINE;
@@ -362,7 +362,6 @@ string ERModel::searchForeignKey( int foreignKeyEntityID )
 		isFKString = isFKString.substr(PARAMETER_STRINGBEGIN, isFKString.size() - PARAMETER_ADJUSTSTRINGSIZE);
 		isFKString = TEXT_GETERDIAGRAM_FK + isFKString + TEXT_GETERDIAGRAM_ENDKEY;
 	}
-
 	return isFKString;
 }
 
@@ -1245,4 +1244,9 @@ vector<int> ERModel::getTargetPosition( int targetNodeID )
 	positionSet.push_back(targetNode->getSy());
 
 	return positionSet;
+}
+
+std::string ERModel::getHTMLERDiagramTable()
+{
+
 }

@@ -73,6 +73,9 @@
 #define PARAMETER_POSITIONFILEX 0
 #define PARAMETER_POSITIONFILEY 1
 
+#define PARAMETER_TRUE 1
+#define PARAMETER_FALSE 0
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -276,6 +279,7 @@ public:
 	string saveConnectionTable();
 	string savePrimaryKeyTable();
 	string removeExtension( string fileName );
+	string getHTMLERDiagramTable();
 	Component* searchComponent(int);
 	vector<int> oneToOne(NodeRelationship*);
 	vector<int> arrangeConnectorFirst(vector<int>);

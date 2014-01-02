@@ -5,6 +5,7 @@
 #define SCENE_WIDTH 1200
 #define VIEW_MINWIDTH 1200
 #define VIEW_MAXWIDTH 1300
+#define DOCK_MINHEIGHT 150
 
 #define POSITIONX 0
 #define POSITIONY 1
@@ -129,6 +130,9 @@ private:
 
 	TableViewModel* _tableViewModel;
 	ComponentTableView* _tableView;
+
+	QDockWidget* _dock;
+	QTextEdit* _textEditor;
 
 	PresentationModel* _presentationModel;
 };
