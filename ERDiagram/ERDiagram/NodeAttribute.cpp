@@ -48,6 +48,7 @@ void NodeAttribute::deleteConnectedComponent( int delComponentID )
 {
 	Component::deleteConnectedComponent(delComponentID);
 	_connectedEntity = false;
+	_isPrimaryKey = false;
 }
 
 bool NodeAttribute::getIsConnectedEntity()
@@ -64,6 +65,7 @@ void NodeAttribute::deleteAllRelatedInfo()
 {
 	Component::deleteAllRelatedInfo();
 	_connectedEntity = false;
+	_isPrimaryKey = false;
 }
 
 void NodeAttribute::setIsConnectedEntity( bool isConnectedEntity )

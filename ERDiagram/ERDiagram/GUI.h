@@ -63,8 +63,7 @@ public:
 	void changeUnRedoActionEnable();
 	// 向Scene發出要求
 	void updateAddNewNode(int, string, string, int, int);
-	void updateConnection(int, int, int, string);
-	void updateDeleteNode(int);
+	void updateConnection(int, int, int, string, vector<pair<int, bool>>);
 	void updatePrimaryKeyChanged(int, bool);
 	void updateTextChanged(int, string);
 	void updateDeleteComplete(string);
@@ -91,6 +90,10 @@ public:
 		void pasteComponent();
 		void saveAsComponent();
 		void saveAsXml();
+		void getHTMLERDiagramTable();
+
+		void updateERDiagramTable();
+
 private:
 	void createActions();
 	void createMenus();
@@ -117,6 +120,7 @@ private:
 	QAction* _aboutAction;
 	QAction* _saveAsComponentAction;
 	QAction* _saveAsXmlAction;
+	QAction* _erDiagramAction;
 
 	QLabel* _informationLabel;
 

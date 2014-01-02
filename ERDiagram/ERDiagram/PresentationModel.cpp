@@ -513,3 +513,16 @@ vector<int> PresentationModel::getTargetPosition( int targetNodeID )
 {
 	return _erModel->getTargetPosition(targetNodeID);
 }
+
+string PresentationModel::getHTMLERDiagramTable()
+{
+	if (_erModel->checkOneToOne())
+		return _erModel->getHTMLERDiagramTable();
+	else
+		return TEXT_ERDIAGRAM_NOTABLE;
+}
+
+bool PresentationModel::checkOneToOne()
+{
+	return _erModel->checkOneToOne();
+}

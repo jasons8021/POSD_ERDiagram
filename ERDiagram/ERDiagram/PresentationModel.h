@@ -157,12 +157,14 @@ public:
 	void moveItemCmd(vector<int>, int, int);
 	bool undoCmd();
 	bool redoCmd();
+	bool checkOneToOne();
 	int getUndoCmdsSize();
 	int getRedoCmdsSize();
 	// GUI Function
 	string getComponent_GUI();
 	string getConnection_GUI();
 	string getPrimaryKeySet_GUI();
+	string getHTMLERDiagramTable();
 	bool addConnectionCmd_GUI(int, int, string);
 	bool getPosFileExist();
 	int getComponentID();

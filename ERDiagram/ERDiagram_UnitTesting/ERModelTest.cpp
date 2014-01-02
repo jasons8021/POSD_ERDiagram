@@ -534,6 +534,12 @@ TEST_F(ERModelTest, checkOneToOne)
 	// E-R with Cardinality = 1,1
 	EXPECT_EQ(22, _erModel->addConnection(22, 1, 2, "1"));
 	EXPECT_EQ(23, _erModel->addConnection(23, 6, 2, "1"));
+	vector<int> pkSet;
+	pkSet.push_back(5);
+	_erModel->setPrimaryKey(1, pkSet);
+	pkSet.pop_back();
+	pkSet.push_back(0);
+	_erModel->setPrimaryKey(6, pkSet);
 	EXPECT_TRUE(_erModel->checkOneToOne());
 
 	// E-R with Cardinality = N,N
@@ -1480,7 +1486,7 @@ TEST_F(ERModelTest, retrieveNewCloneID)
 }
 
 // 測試將Connector排到前面
-TEST_F(ERModelTest, arrangeConnectorFirst)
+TEST_F(ERModelTest, arrangeAdvanceDelete)
 {
 	_erModel->addConnection(10, 0, 1, PARAMETER_NULL);
 	_erModel->_componentID++;
@@ -1497,12 +1503,12 @@ TEST_F(ERModelTest, arrangeConnectorFirst)
 	vector<int> testArrangeIDSet;
 	testArrangeIDSet.push_back(10);
 	testArrangeIDSet.push_back(0);
-	testArrangeIDSet.push_back(1);
-	testArrangeIDSet.push_back(7);
 	testArrangeIDSet.push_back(4);
 	testArrangeIDSet.push_back(5);
+	testArrangeIDSet.push_back(1);
+	testArrangeIDSet.push_back(7);
 
-	EXPECT_EQ(testArrangeIDSet, _erModel->arrangeConnectorFirst(testIDSet));
+	EXPECT_EQ(testArrangeIDSet, _erModel->arrangeAdvanceDelete(testIDSet));
 }
 
 // 測試加入一組新的原本ID跟CloneID的pair

@@ -15,6 +15,7 @@ ConnectComponentsCmd::~ConnectComponentsCmd()
 
 void ConnectComponentsCmd::execute()
 {
+	vector<pair<int, bool>> noChangePK;
 	//	執行connect後，取得加入進去的componentID
 	if (_componentID == PARAMETER_NOVALUE)						// 不是Redo的情況
 		_componentID = _erModel->addConnection(_sourceNodeID, _destinationNodeID, _text);
@@ -26,7 +27,7 @@ void ConnectComponentsCmd::execute()
 	}
 
 	// NotifyNewConnection
-	_erModel->notifyNewConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
+	_erModel->notifyNewConnection(_componentID, _sourceNodeID, _destinationNodeID, _text, noChangePK);
 }
 
 void ConnectComponentsCmd::unexecute()

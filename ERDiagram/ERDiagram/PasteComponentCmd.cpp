@@ -32,7 +32,7 @@ void PasteComponentCmd::execute()
 	}
 	if (!_isRedo)
 	{
-		_pasteComponentID = _erModel->arrangeConnectorFirst(_pasteComponentID);
+		_pasteComponentID = _erModel->arrangeAdvanceDelete(_pasteComponentID);
 		_erModel->notifyPasteComponent(_pasteComponentID);
 	}
 	

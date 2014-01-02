@@ -113,6 +113,12 @@
     <Filter Include="Header Files\ComponentFactory\Item Factory">
       <UniqueIdentifier>{f846f937-91ad-4aef-a9ef-6be372d46c98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Visitor Pattern">
+      <UniqueIdentifier>{a80c63b8-c1fa-42c1-87cd-da39cfc468c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Visitor Pattern">
+      <UniqueIdentifier>{68d2439f-6190-41e1-ab07-3d3415ff0f77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -271,14 +277,14 @@
     <ClCompile Include="MoveComponentCmd.cpp">
       <Filter>Source Files\CommandPattern</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentVisitor.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="SaveXmlComponentVisitor.cpp">
+      <Filter>Source Files\Visitor Pattern</Filter>
     </ClCompile>
     <ClCompile Include="SaveComponentVisitor.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Visitor Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="SaveXmlComponentVisitor.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ComponentVisitor.cpp">
+      <Filter>Source Files\Visitor Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -396,14 +402,14 @@
     <ClInclude Include="MoveComponentCmd.h">
       <Filter>Header Files\CommandPattern</Filter>
     </ClInclude>
+    <ClInclude Include="SaveXmlComponentVisitor.h">
+      <Filter>Header Files\Visitor Pattern</Filter>
+    </ClInclude>
     <ClInclude Include="ComponentVisitor.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Visitor Pattern</Filter>
     </ClInclude>
     <ClInclude Include="SaveComponentVisitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SaveXmlComponentVisitor.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Visitor Pattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

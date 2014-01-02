@@ -43,9 +43,10 @@ void DeleteComponentCmd::unexecute()
 	}
 	else	//	Connector
 	{
+		vector<pair<int, bool>> noChangePK;
 		_componentID = _erModel->addConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
 		// NotifyNewConnection
-		_erModel->notifyNewConnection(_componentID, _sourceNodeID, _destinationNodeID, _text);
+		_erModel->notifyNewConnection(_componentID, _sourceNodeID, _destinationNodeID, _text, noChangePK);
 	}
 	_erModel->setIsModify(false);
 	_erModel->sortCompoentsAndConnection();

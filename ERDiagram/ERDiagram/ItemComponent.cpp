@@ -161,9 +161,6 @@ void ItemComponent::mousePressEvent( QGraphicsSceneMouseEvent* event )
 	QGraphicsItem::mousePressEvent(event);
  	_scene->changeEditActionEnable(true);
 	mousePressPoint = this->mapToParent(this->mapFromScene(event->scenePos()));
-
-	qDebug()<<"ERModel ID = "<<_erModelID;
-	qDebug()<<"Item ID = "<<_itemID;
 }
 
 void ItemComponent::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )

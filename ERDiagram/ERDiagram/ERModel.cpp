@@ -330,6 +330,8 @@ vector<int> ERModel::oneToOne( NodeRelationship* relationshipNode )
 
 bool ERModel::checkOneToOne()
 {
+	NodeEntity* sourceEntity;
+	NodeEntity* destinationEntity;
 	vector<Component*> relationshipNode = searchSpecificTypeComponentSet(PARAMETER_RELATIONSHIP, _components);
 
 	// entityCardinalitySet是透過relationship相連的兩個entity的集合，格式為(entity, cardinality).
@@ -339,7 +341,12 @@ bool ERModel::checkOneToOne()
 		entityCardinalitySet = static_cast<NodeRelationship*>(relationshipNode[i])->getEntityCardinality();
 		if (entityCardinalitySet.size() >= PARAMETER_RELATIONSHIPLOWERBOUND)								// 檢查relationship至少連到兩個entity.
 			if (entityCardinalitySet[PARAMETER_FIRSTENTITY].second == "1" && entityCardinalitySet[PARAMETER_SECONDENTITY].second == "1")				// One to one
-				return true;
+			{
+				sourceEntity = static_cast<NodeEntity*>(searchComponent(entityCardinalitySet[PARAMETER_FIRSTENTITY].first));
+				destinationEntity = static_cast<NodeEntity*>(searchComponent(entityCardinalitySet[PARAMETER_SECONDENTITY].first));
+				if (sourceEntity->getPrimaryKey().size() != 0 && destinationEntity->getPrimaryKey().size() != 0 )
+					return true;
+			}
 	}
 	return false;
 }
@@ -773,22 +780,27 @@ void ERModel::deleteTableSet( int delID, vector<Component*> targetTableSet, int 
 }
 
 // 提供deleteGroup將componentIDSet的Connector抽出來，放到最前面
-vector<int> ERModel::arrangeConnectorFirst( vector<int> componentIDSet )
+vector<int> ERModel::arrangeAdvanceDelete( vector<int> componentIDSet )
 {
 	vector<int> resultSet;
 	vector<int> nodeIDSet;
+	vector<int> attributeNodeIDSet;
 
 	// 區分Connector與其他Node(Attribute, Entity, Relationship)
 	for (int i = 0; i < componentIDSet.size(); i++)
 	{
 		Component* targetComponent = searchComponent(componentIDSet[i]);
-		if (targetComponent->getType() != PARAMETER_CONNECTOR)	// 把Attribute, Entity, Relationship與Connector分離
-			nodeIDSet.push_back(componentIDSet[i]);
-		else													// 先放入Connector
+		if (targetComponent->getType() == PARAMETER_CONNECTOR)					// 先放入Connector
 			resultSet.push_back(componentIDSet[i]);
+		else if(targetComponent->getType() == PARAMETER_ATTRIBUTE)				// 再放入Attribute
+			attributeNodeIDSet.push_back(componentIDSet[i]);
+		else																	// 把Entity, Relationship與Attribute跟Connector分離
+			nodeIDSet.push_back(componentIDSet[i]);
 	}
 
 	// 合併
+	for (int i = 0; i < attributeNodeIDSet.size(); i++)
+		resultSet.push_back(attributeNodeIDSet[i]);
 	for (int i = 0; i < nodeIDSet.size(); i++)
 		resultSet.push_back(nodeIDSet[i]);
 
@@ -1143,10 +1155,18 @@ int ERModel::addCloneConnection( Component* cloneConnector )
 	int newSourceID = retrieveNewCloneID(tempCloneConnector->getSourceNodeID());
 	int newDestinationID = retrieveNewCloneID(tempCloneConnector->getDestinationNodeID());
 
+	vector<pair<int, bool>> changePrimaryKey;
+
 	if (newSourceID != PARAMETER_NOTFINDID && newDestinationID != PARAMETER_NOTFINDID)
 	{
 		Component* newSourceNode = searchComponent(newSourceID);
 		Component* newDestinationNode = searchComponent(newDestinationID);
+
+		// 如果以前的Attribute是PK的話，對Entity及Attribute進行修正
+		if (newSourceNode->getType() == PARAMETER_ATTRIBUTE)
+			changePrimaryKey = reBuildPrimaryKey(searchComponent(tempCloneConnector->getSourceNodeID()), newDestinationID, newSourceID);
+		else if (newDestinationNode->getType() == PARAMETER_ATTRIBUTE)
+			changePrimaryKey = reBuildPrimaryKey(searchComponent(tempCloneConnector->getDestinationNodeID()), newSourceID, newDestinationID);
 
 		// 對clone的ComponentID做修正
 		tempCloneConnector->setID(_componentID);
@@ -1161,12 +1181,27 @@ int ERModel::addCloneConnection( Component* cloneConnector )
 		_components.push_back(cloneConnector);
 		_connections.push_back(tempCloneConnector);
 
-		notifyNewConnection(tempCloneConnector->getID(), tempCloneConnector->getSourceNodeID(), tempCloneConnector->getDestinationNodeID(), tempCloneConnector->getText());
+		notifyNewConnection(tempCloneConnector->getID(), tempCloneConnector->getSourceNodeID(), tempCloneConnector->getDestinationNodeID(), tempCloneConnector->getText(), changePrimaryKey);
 
 		return cloneConnector->getID();
 	}
 
 	return PARAMETER_ISERROR;
+}
+
+vector<pair<int, bool>> ERModel::reBuildPrimaryKey( Component* oldAttributeNode, int newEntityNodeID, int newAttributeNodeID )
+{
+	vector<pair<int, bool>> reBuildPrimaryKeySet;
+	vector<int> primaryKey;
+	NodeAttribute* tempOldAttributeNode = static_cast<NodeAttribute*>(oldAttributeNode);
+	if (tempOldAttributeNode->getIsPrimaryKey())
+	{
+		primaryKey.push_back(newAttributeNodeID);
+		setPrimaryKey(newEntityNodeID, primaryKey);
+		reBuildPrimaryKeySet.push_back(make_pair(newAttributeNodeID, true));
+		return reBuildPrimaryKeySet;
+	}
+	return reBuildPrimaryKeySet;
 }
 
 // 儲存CloneComponent的ID變化
@@ -1246,7 +1281,66 @@ vector<int> ERModel::getTargetPosition( int targetNodeID )
 	return positionSet;
 }
 
-std::string ERModel::getHTMLERDiagramTable()
+string ERModel::getHTMLERDiagramTable()
 {
+	string htmlString;
 
+	// Entity的名字，在方格上面要先寫該Entity是那個
+	vector<Component*> entitySet = searchSpecificTypeComponentSet(PARAMETER_ENTITY, _components);
+	// 找出與Entity有相連的Attribute
+	vector<Component*> attributeInEntitySet;
+
+	// 設定FK
+	setForeignKey();
+
+	for(int i = 0; i < entitySet.size(); i++)
+	{
+		// 取得Entity名字
+		htmlString += "<h><b>" + entitySet[i]->getText() + "</b></h>";
+		htmlString += "<table border=\"1\">";
+		htmlString += "<tr>";
+
+		// 取得此Entity的PK
+		attributeInEntitySet = searchSpecificTypeComponentSet(PARAMETER_ATTRIBUTE, entitySet[i]->getConnections());
+		for(int j = 0; j < attributeInEntitySet.size(); j++)
+		{
+			if (static_cast<NodeAttribute*>(attributeInEntitySet[j])->getIsPrimaryKey())
+				htmlString += "<td  align=\"center\"><img src=\"./images/pk.png\"></img>" + attributeInEntitySet[j]->getText() + "</td>";
+			else
+				htmlString += "<td align=\"center\">" + attributeInEntitySet[j]->getText() + "</td>";
+		}
+
+		// 取得Entity的FK
+		htmlString += getForeignKeyHtml(entitySet[i]);
+
+		htmlString += "</tr>";
+		htmlString += "</table>";
+	}
+
+	return htmlString;
+}
+
+string ERModel::getForeignKeyHtml( Component* targetEntity )
+{
+	vector<string> foreignKeySet;
+	string htmlFKString;
+	NodeEntity* entity = static_cast<NodeEntity*>(targetEntity);
+
+	for(int i = 0; i < entity->getForeignKey().size(); i++)
+	{
+		if (entity->getIsShowForeignKeyinERTable()[i] == PARAMETER_TRUE)
+		{
+			string isFKString = searchForeignKey(entity->getForeignKey()[i]);
+			if (isFKString.size() > 1)
+			{
+				isFKString = isFKString.substr(0, isFKString.size() + PARAMETER_ADJUSTSTRING);
+				isFKString = isFKString.substr(5, isFKString.size() + PARAMETER_ADJUSTSTRING);
+				foreignKeySet = Toolkit::splitFunction(isFKString, TEXT_COMMASPACE);
+				for (int j = 0; j < foreignKeySet.size(); j++)
+					htmlFKString += "<td align=\"center\"><img height=\"20\" alt=\"HTML\" src=\"./images/fk.png\"></img>" + foreignKeySet[j] + "</td>";
+			}
+		}
+		foreignKeySet.clear();
+	}	
+	return htmlFKString;
 }

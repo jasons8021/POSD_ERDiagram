@@ -136,7 +136,7 @@ class ERModel : public Subject
  	FRIEND_TEST(ERModelTest, connectionSetting);
 	FRIEND_TEST(ERModelTest, resetClipboard);
 	FRIEND_TEST(ERModelTest, getTargetAttributeIsPrimaryKey);
-	FRIEND_TEST(ERModelTest, arrangeConnectorFirst);
+	FRIEND_TEST(ERModelTest, arrangeAdvanceDelete);
 	FRIEND_TEST(ERModelTest, recordNewCloneComponentID);
 	FRIEND_TEST(ERModelTest, movedComponentPosition);
 	FRIEND_TEST(ERModelTest, addClone);
@@ -280,9 +280,10 @@ public:
 	string savePrimaryKeyTable();
 	string removeExtension( string fileName );
 	string getHTMLERDiagramTable();
+	string getForeignKeyHtml(Component*);
 	Component* searchComponent(int);
 	vector<int> oneToOne(NodeRelationship*);
-	vector<int> arrangeConnectorFirst(vector<int>);
+	vector<int> arrangeAdvanceDelete(vector<int>);
 	vector<int> getTargetPosition(int);
 	vector<Component*> searchSpecificTypeComponentSet(string, vector<Component*>);
 	vector<Component*> searchConnection(int);
@@ -290,6 +291,7 @@ public:
 	vector<Component*> getClipboard();
 	vector<pair<int,int>> loadPosition();
 	vector<vector<string>> classifyInputFile(string);
+	vector<pair<int, bool>> reBuildPrimaryKey(Component*, int, int);
 	pair<string,vector<string>> splitter(string);
 
 	// GUI function

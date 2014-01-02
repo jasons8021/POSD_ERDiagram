@@ -17,7 +17,7 @@ public:
 	void notifyTextChanged(int, string);
 	void notifyPrimaryKeyChanged(int, bool);
 	void notifyAddNewNode(int, string, string, int, int);
-	void notifyNewConnection(int, int, int, string);
+	void notifyNewConnection(int, int, int, string, vector<pair<int, bool>>);
 	void notifyDeleteComplete(string);
 	void notifyReBuildConnection(string);
 	void notifyPasteComponent(vector<int>);

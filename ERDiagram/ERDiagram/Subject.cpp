@@ -51,11 +51,11 @@ void Subject::notifyAddNewNode( int componentID, string type, string text, int s
 	}
 }
 
-void Subject::notifyNewConnection( int componentID, int sourceNodeID, int destinationNodeID, string cardinality )
+void Subject::notifyNewConnection( int componentID, int sourceNodeID, int destinationNodeID, string cardinality, vector<pair<int, bool>> changePK )
 {
 	for (int i = 0; i < _observerList.size(); i++)
 	{
-		_observerList[i]->updateConnection(componentID, sourceNodeID, destinationNodeID, cardinality);
+		_observerList[i]->updateConnection(componentID, sourceNodeID, destinationNodeID, cardinality, changePK);
 	}
 }
 

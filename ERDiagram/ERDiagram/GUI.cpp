@@ -32,7 +32,7 @@ GUI::GUI(PresentationModel* presentationModel)
 	_dock->setFeatures(QDockWidget::DockWidgetClosable);
 	_dock->setMinimumHeight(DOCK_MINHEIGHT);
 	_textEditor = new QTextEdit();
-	_textEditor->setText(tr("Window1,The dock widget can be moved between docks by the user"));
+	_textEditor->setReadOnly(true);
 	_dock->setWidget(_textEditor);
 	addDockWidget(Qt::BottomDockWidgetArea,_dock);
 
@@ -43,7 +43,7 @@ GUI::GUI(PresentationModel* presentationModel)
 	layout_h->addLayout(layout_vr);
 	layout_h->addLayout(layout_v);
 	
-	// _dock->setVisible(false);
+	_dock->setVisible(false);
 
 	QWidget *widget = new QWidget;
 	widget->setLayout(layout_h);
@@ -126,6 +126,10 @@ void GUI::createActions()
 
 	_saveAsXmlAction = new QAction(QIcon("images/saveXml.png"), tr("Save as xml"), this);
 	connect(_saveAsXmlAction, SIGNAL(triggered()), this, SLOT(saveAsXml()));
+
+	_erDiagramAction = new QAction(QIcon("images/erdiagram.png"), tr("Show ERDiagram"), this);
+	connect(_erDiagramAction, SIGNAL(triggered()), this, SLOT(getHTMLERDiagramTable()));
+	_erDiagramAction->setCheckable(true);
 }
 
 void GUI::createMenus()
@@ -133,6 +137,8 @@ void GUI::createMenus()
 	// 開啟檔案 & 離開
 	_menu = menuBar()->addMenu(tr("File"));
 	_menu->addAction(_openAction);
+	_menu->addSeparator();
+	_menu->addAction(_erDiagramAction);
 	_menu->addSeparator();
 	_menu->addAction(_saveAsComponentAction);
 	_menu->addAction(_saveAsXmlAction);
@@ -234,6 +240,10 @@ void GUI::createToolbars()
 
 	_toolBar->addSeparator();
 	_toolBar->addWidget(_setPrimaryKeyButton);
+
+	// ERDiagram
+	_toolBar->addSeparator();
+	_toolBar->addAction(_erDiagramAction);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -345,48 +355,64 @@ void GUI::loadFile()
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+//						Observer Pattern (Observer)						//
+//////////////////////////////////////////////////////////////////////////
+
 // Subject(ERModel)的TEXT有變動時，會呼叫Notify通知GUI的updateTextChanged進行GUI的修改
 void GUI::updateTextChanged( int targetNodeID, string editedText )
 {
 	int itemID = _scene->searchItemIDByERModelID(targetNodeID);
 	_scene->changeItemText(targetNodeID, stringConvertQString(editedText));
-
 	_tableViewModel->changeTargetRowText(itemID, _scene->getTargetItemType(itemID), stringConvertQString(editedText));
-
 	_tableView->updateModel(_tableViewModel);
+	updateERDiagramTable();
 }
 
 // 向Scene發出PK更改的訊息
 void GUI::updatePrimaryKeyChanged( int targetNodeID, bool isPrimaryKey )
 {
 	_scene->changePrimaryKey(targetNodeID, isPrimaryKey);
+	updateERDiagramTable();
 }
 
 void GUI::updateAddNewNode( int componentID, string type, string text, int sx, int sy )
 {
 	_scene->updateAddNewItem(componentID, stringConvertQString(type), stringConvertQString(text), QPointF(sx, sy));
+	updateERDiagramTable();
 }
 
-void GUI::updateConnection( int componentID, int sourceNodeID, int destinationNodeID, string text )
+void GUI::updateConnection( int componentID, int sourceNodeID, int destinationNodeID, string text, vector<pair<int, bool>> changePK )
 {
 	_scene->updateConnection(componentID, sourceNodeID, destinationNodeID, stringConvertQString(text));
+	if (changePK.size() > 0)
+		updatePrimaryKeyChanged(changePK[0].first, changePK[0].second);
+	updateERDiagramTable();
 }
 
 void GUI::updateDeleteComplete( string deleteComponentIDSet )
 {
 	_scene->updateDeleteItem(stringConvertQString(deleteComponentIDSet));
+	updateERDiagramTable();
 }
 
 void GUI::updateReBuildConnection( string relatedConnectionSet )
 {
 	_scene->updateReBuildConnection(stringConvertQString(relatedConnectionSet));
+	updateERDiagramTable();
 }
 
 void GUI::updateItemPosition( int componentID, int moveDistance_x, int moveDistance_y )
 {
 	_scene->updateItemPosition(componentID, QPointF(moveDistance_x, moveDistance_y));
+	updateERDiagramTable();
 }
 
+void GUI::updatePasteComponent( vector<int> pasteComponentIDSet )
+{
+	_scene->setSelectedItem(QVector<int>::fromStdVector(pasteComponentIDSet));
+	updateERDiagramTable();
+}
 //////////////////////////////////////////////////////////////////////////
 //								跟PM溝通的Function						//
 //////////////////////////////////////////////////////////////////////////
@@ -517,11 +543,6 @@ void GUI::redo()
 	changeUnRedoActionEnable();
 }
 
-void GUI::updatePasteComponent( vector<int> pasteComponentIDSet )
-{
-	_scene->setSelectedItem(QVector<int>::fromStdVector(pasteComponentIDSet));
-}
-
 // 取得目標是否為PK
 bool GUI::getTargetAttributeIsPrimaryKey( int erModelID )
 {
@@ -556,4 +577,22 @@ QPointF GUI::getTargetNodePosition( int erModelID )
 {
 	vector<int> positionSet = _presentationModel->getTargetPosition(erModelID);
 	return QPointF(positionSet[POSITIONX], positionSet[POSITIONY]);
+}
+
+void GUI::getHTMLERDiagramTable()
+{
+	// 如果被隱藏起來，點了ERD圖後會顯示ERD出來，所以在false抓資料，並將Table顯示出來
+	if (!_dock->isVisible())
+	{
+		updateERDiagramTable();
+		_dock->setVisible(true);
+	}
+	else
+		_dock->setVisible(false);
+}
+
+void GUI::updateERDiagramTable()
+{
+	QString qMessage = stringConvertQString(_presentationModel->getHTMLERDiagramTable());
+	_textEditor->setHtml(qMessage);
 }
